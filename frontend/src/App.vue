@@ -1,36 +1,40 @@
 <template>
-  <v-app id="app" style="background:#e52d27;background:linear-gradient(to right,#b31217,#e52d27);">
+  <v-app id="trunfo">
+    <app-navigation v-model="drawer" />
+    <app-header v-model="drawer" />
+
     <v-content>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <centered-panel :title="panelTitle" />
+      <v-container fill-height>
+        <v-row justify="center" align="center">
+          <v-col class="shrink">
+            <router-view />
           </v-col>
         </v-row>
       </v-container>
     </v-content>
+
+    <app-footer />
   </v-app>
 </template>
 
 <script>
-import CenteredPanel from './components/centered-panel'
+import AppNavigation from './components/layout/Navigation'
+import AppHeader from './components/layout/Header'
+import AppFooter from './components/layout/Footer'
 
 export default {
 
   components: {
-    CenteredPanel,
+    AppNavigation,
+    AppHeader,
+    AppFooter,
   },
 
   data: () => ({
-    panelTitle: 'Formulário Centralizado',
+    drawer: false,
   }),
 }
 </script>
 
 <style>
-.v-application {
-  background: #e52d27;
-  background: -webkit-linear-gradient(to right, #b31217, #e52d27);
-  background: linear-gradient(to right, #b31217, #e52d27);
-}
 </style>
