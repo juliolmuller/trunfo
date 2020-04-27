@@ -1,6 +1,8 @@
 {
   "name": "trunfo",
   "version": "1.0.0",
+  "description": "Front-end part of project Trunfo",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build --dest ../docs",
@@ -8,6 +10,7 @@
     "lint": "vue-cli-service lint"
   },
   "devDependencies": {
+    "@lacussoft/eslint-config-standard": "^1.0.0",
     "@vue/cli-plugin-babel": "^4.3.0",
     "@vue/cli-plugin-eslint": "^4.3.0",
     "@vue/cli-plugin-router": "^4.3.0",
@@ -42,19 +45,13 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "@vue/standard"
+      "@vue/standard",
+      "@lacussoft/standard"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {
-      "comma-dangle": [
-        "error",
-        "always-multiline"
-      ],
-      "no-console": "warn",
-      "space-before-function-paren": "off"
-    },
+    "rules": {},
     "overrides": [
       {
         "files": [
