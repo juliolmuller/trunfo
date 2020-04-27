@@ -67,6 +67,11 @@
       }
     ]
   },
+  "babel": {
+    "presets": [
+      "@vue/cli-plugin-babel/preset"
+    ]
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
