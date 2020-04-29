@@ -6,9 +6,7 @@
     <v-content>
       <v-container fill-height>
         <v-row justify="center" align="center">
-          <v-col class="shrink">
-            <router-view />
-          </v-col>
+          <router-view />
         </v-row>
       </v-container>
     </v-content>
