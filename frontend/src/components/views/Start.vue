@@ -12,19 +12,19 @@
           label="Identificador do Jogo"
           class="enterGameInput mb-2"
           rounded filled single-line
-          color="red"
+          color="success"
           type="tel"
           v-model="gameId"
           v-show="inputVisible"
           @focusout="inputVisible = false"
           @keyup.enter="grantAccess"
         />
-        <v-btn x-large block rounded color="red" dark class="mb-4" @click="enterGame">
+        <v-btn x-large block rounded color="success" class="mb-4" @click="enterGame">
           <v-icon class="mr-3">mdi-location-enter</v-icon>
           <span v-if="inputVisible">Entrar</span>
           <span v-else>Entrar em um Jogo</span>
         </v-btn>
-        <v-btn x-large block rounded color="success" class="mb-4" :to="{ name: 'create' }">
+        <v-btn x-large block rounded color="error" class="mb-4" :to="{ name: 'create' }">
           <v-icon class="mr-3">mdi-plus-thick</v-icon>
           <span>Criar um Novo Jogo</span>
         </v-btn>
