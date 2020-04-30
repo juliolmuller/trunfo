@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Demo from '@/components/views/Demo'
 import Start from '@/components/views/Start'
+import Create from '@/components/views/Create'
+import Invite from '@/components/views/Invite'
+import Demo from '@/components/views/Demo'
 
 Vue.use(VueRouter)
 
@@ -9,16 +11,29 @@ export default new VueRouter({
   mode: 'hash',
   routes: [
     {
-      path: '/',
       name: 'start',
+      path: '/',
       component: Start,
-    },
-    {
-      path: '/criar',
+    }, {
       name: 'create',
+      path: '/criar',
+      component: Create,
+    }, {
+      name: 'game',
+      path: '/jogo-:game',
+      props: true,
       component: Demo,
-    },
-    {
+    }, {
+      name: 'invite',
+      path: '/jogo-:game/convidar',
+      props: true,
+      component: Invite,
+    }, {
+      name: 'register',
+      path: '/jogo-:game/registrar',
+      props: true,
+      component: Demo,
+    }, {
       path: '*',
       redirect: '/',
     },
