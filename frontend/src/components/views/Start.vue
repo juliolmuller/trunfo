@@ -8,12 +8,11 @@
       </v-card-title>
       <v-card-text>
         <v-text-field
-          ref="enterGameInput"
+          ref="centeredInput"
           label="Identificador do Jogo"
-          class="enterGameInput mb-2"
+          class="centeredInput mb-2"
           rounded filled single-line
           color="success"
-          type="tel"
           v-model="gameId"
           v-show="inputVisible"
           @focusout="inputVisible = false"
@@ -47,7 +46,7 @@ export default {
         this.grantAccess()
       } else {
         this.inputVisible = true
-        this.$nextTick(() => this.$refs.enterGameInput.focus())
+        this.$nextTick(() => this.$refs.centeredInput.focus())
       }
     },
     grantAccess() {
@@ -58,13 +57,13 @@ export default {
 </script>
 
 <style scoped>
-.enterGameInput >>> .v-text-field__slot label {
+.centeredInput >>> .v-text-field__slot label {
   width: 100%;
   margin-left: 5%;
   text-align: center;
 }
 
-.enterGameInput >>> .v-text-field__slot input {
+.centeredInput >>> .v-text-field__slot input {
   height: 3em;
   color: #333;
   text-align: center;
@@ -73,12 +72,12 @@ export default {
   font-size: 2.6em;
 }
 
-.enterGameInput >>> .v-text-field__slot input::selection {
+.centeredInput >>> .v-text-field__slot input::selection {
   background-color: #f44336;
   color: white;;
 }
 
-.enterGameInput >>> .v-text-field__details {
+.centeredInput >>> .v-text-field__details {
   display: none;
 }
 </style>
