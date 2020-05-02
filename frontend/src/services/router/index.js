@@ -4,7 +4,7 @@ import Start from '@/components/views/Start'
 import Create from '@/components/views/Create'
 import Invite from '@/components/views/Invite'
 import Register from '@/components/views/Register'
-import Demo from '@/components/views/Demo'
+import Game from '@/components/views/Game'
 
 Vue.use(VueRouter)
 
@@ -23,7 +23,7 @@ export default new VueRouter({
       name: 'game',
       path: '/jogo-:game',
       props: true,
-      component: Demo,
+      component: Game,
     }, {
       name: 'invite',
       path: '/jogo-:game/convidar',
