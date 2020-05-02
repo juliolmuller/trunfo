@@ -38,14 +38,32 @@
                   <span class="body-2 grey--text">Aguardando jogadores...</span>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="font-weight-bold" v-for="player in players" :key="player">
-                <v-list-item-content>
-                <div class="d-flex justify-space-between">
-                  <span>{{ player }}</span>
-                  <v-icon small @click.stop="removePlayer(player)">mdi-close-circle</v-icon>
-                </div>
-                </v-list-item-content>
-              </v-list-item>
+              <draggable
+                class="list-group"
+                v-model="players"
+                handle=".mdi-drag"
+                v-bind="dragOptions"
+                @start="drag = true"
+                @end="drag = false"
+              >
+                <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+                  <v-list-item
+                    class="font-weight-bold list-group-item"
+                    v-for="player in players"
+                    :key="player"
+                  >
+                    <v-list-item-content>
+                    <div class="d-flex justify-space-between">
+                      <span>
+                        <v-icon>mdi-drag</v-icon>
+                        {{ player }}
+                      </span>
+                      <v-icon small @click.stop="removePlayer(player)">mdi-close-circle</v-icon>
+                    </div>
+                    </v-list-item-content>
+                  </v-list-item>
+                </transition-group>
+              </draggable>
             </v-list-item-group>
           </v-list>
         </v-col>
@@ -64,7 +82,13 @@
 </template>
 
 <script>
+import Draggable from 'vuedraggable'
+
 export default {
+
+  components: {
+    Draggable,
+  },
 
   data: () => ({
     playerName: '',
@@ -74,6 +98,7 @@ export default {
       'Elisa', 'Renato', 'Texa',
       'Tina', 'Acácio', 'Ramon',
     ],
+    drag: false,
   }),
 
   props: {
@@ -89,6 +114,14 @@ export default {
       const api = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=`
       const url = `${window.location.origin + window.location.pathname}#/jogo-${this.game}`
       return api + url
+    },
+    dragOptions() {
+      return {
+        animation: 200,
+        group: 'description',
+        disabled: false,
+        ghostClass: 'ghost',
+      }
     },
   },
 
@@ -135,5 +168,32 @@ export default {
 
 .centeredInput >>> .v-text-field__details {
   display: none;
+}
+
+.list-group-item {
+  cursor: auto;
+}
+
+.list-group-item .mdi-drag {
+  cursor: move;
+}
+
+.list-group-item .mdi-close-circle {
+  cursor: pointer;
+}
+
+/* draggable animation */
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 20px;
 }
 </style>
