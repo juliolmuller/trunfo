@@ -11,7 +11,7 @@
         </v-col>
         <v-col cols="12" md="6">
           <v-text-field
-            label="Identificador do Jogo"
+            label="Nome do jogador"
             class="centeredInput"
             rounded filled single-line
             color="error"

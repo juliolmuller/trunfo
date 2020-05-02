@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Start from '@/components/views/Start'
 import Create from '@/components/views/Create'
 import Invite from '@/components/views/Invite'
+import Register from '@/components/views/Register'
 import Demo from '@/components/views/Demo'
 
 Vue.use(VueRouter)
@@ -32,7 +33,7 @@ export default new VueRouter({
       name: 'register',
       path: '/jogo-:game/registrar',
       props: true,
-      component: Demo,
+      component: Register,
     }, {
       path: '*',
       redirect: '/',
