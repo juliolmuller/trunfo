@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Start from '@/components/views/Start'
-import Create from '@/components/views/Create'
-import Invite from '@/components/views/Invite'
-import Register from '@/components/views/Register'
-import Game from '@/components/views/Game'
+import Start from '@/components/start/Start'
+import Create from '@/components/creation/Create'
+import Invite from '@/components/invitation/Invite'
+import Register from '@/components/game/Register'
+import Game from '@/components/game/Game'
 
 Vue.use(VueRouter)
 
