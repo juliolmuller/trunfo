@@ -10,24 +10,26 @@
           </div>
         </v-col>
         <v-col cols="12" md="6">
-          <v-text-field
-            label="Nome do jogador"
-            class="centeredInput"
-            rounded filled single-line
-            color="error"
-            v-model.trim="playerName"
-            v-if="inputVisible"
-            @keyup.enter="addPlayer"
-            autofocus
-          />
-          <v-btn block rounded color="error" @click="addPlayer" v-if="inputVisible">
-            <v-icon class="mr-3">mdi-checkbox-marked-circle</v-icon>
-            Adicionar
-          </v-btn>
-          <v-btn block rounded text @click="inputVisible = true" v-else>
-            <v-icon class="mr-3">mdi-plus-circle-outline</v-icon>
-            Adicionar Jogador
-          </v-btn>
+          <div class="pa-2">
+            <v-text-field
+              label="Nome do jogador"
+              class="centeredInput"
+              rounded filled single-line
+              color="error"
+              v-model.trim="playerName"
+              v-if="inputVisible"
+              @keyup.enter="addPlayer"
+              autofocus
+            />
+            <v-btn block rounded color="error" @click="addPlayer" v-if="inputVisible">
+              <v-icon class="mr-3">mdi-checkbox-marked-circle</v-icon>
+              Adicionar
+            </v-btn>
+            <v-btn block rounded text @click="inputVisible = true" v-else>
+              <v-icon class="mr-3">mdi-plus-circle-outline</v-icon>
+              Adicionar Jogador
+            </v-btn>
+          </div>
           <v-list rounded dense>
             <v-list-item-group>
               <v-list-item inactive class="text-center">
@@ -148,26 +150,6 @@ export default {
   text-align: center;
   font-size: 3.5em;
   font-weight: bolder;
-}
-
-.centeredInput >>> .v-text-field__slot label {
-  width: 100%;
-  margin-left: 5%;
-  text-align: center;
-}
-
-.centeredInput >>> .v-text-field__slot input {
-  color: #333;
-  text-align: center;
-}
-
-.centeredInput >>> .v-text-field__slot input::selection {
-  background-color: #f44336;
-  color: white;;
-}
-
-.centeredInput >>> .v-text-field__details {
-  display: none;
 }
 
 .list-group-item {

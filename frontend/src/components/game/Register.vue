@@ -7,7 +7,7 @@
       <v-card-text>
         <v-text-field
           label="Nome do jogador"
-          class="centeredInput"
+          class="centeredInput large"
           rounded filled single-line
           color="error"
           v-model.trim="playerName"
@@ -42,25 +42,4 @@ export default {
 </script>
 
 <style scoped>
-.centeredInput >>> .v-text-field__slot label {
-  width: 100%;
-  margin-left: 5%;
-  text-align: center;
-}
-
-.centeredInput >>> .v-text-field__slot input {
-  height: 3em;
-  color: #333;
-  text-align: center;
-  font-size: 2.6em;
-}
-
-.centeredInput >>> .v-text-field__slot input::selection {
-  background-color: #f44336;
-  color: white;;
-}
-
-.centeredInput >>> .v-text-field__details {
-  display: none;
-}
 </style>

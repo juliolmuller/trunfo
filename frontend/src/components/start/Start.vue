@@ -8,14 +8,12 @@
       </v-card-title>
       <v-card-text>
         <v-text-field
-          ref="centeredInput"
           label="Identificador do Jogo"
-          class="centeredInput mb-2"
-          rounded filled single-line
+          class="centeredInput large mono upper mb-2"
+          rounded filled single-line autofocus
           color="success"
           v-model="gameId"
           v-show="inputVisible"
-          @focusout="inputVisible = false"
           @keyup.enter="grantAccess"
         />
         <v-btn x-large block rounded color="success" class="mb-4" @click="enterGame">
@@ -57,27 +55,4 @@ export default {
 </script>
 
 <style scoped>
-.centeredInput >>> .v-text-field__slot label {
-  width: 100%;
-  margin-left: 5%;
-  text-align: center;
-}
-
-.centeredInput >>> .v-text-field__slot input {
-  height: 3em;
-  color: #333;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: monospace;
-  font-size: 2.6em;
-}
-
-.centeredInput >>> .v-text-field__slot input::selection {
-  background-color: #f44336;
-  color: white;;
-}
-
-.centeredInput >>> .v-text-field__details {
-  display: none;
-}
 </style>
