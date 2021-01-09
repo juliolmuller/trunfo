@@ -1,41 +1,30 @@
 {
   "name": "trunfo-server",
   "version": "1.0.0",
-  "description": "Server-side application for project Trunfo",
-  "author": "Julio L. Muller",
+  "private": true,
   "license": "MIT",
-  "homepage": "https://juliolmuller.github.io/trunfo",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/juliolmuller/trunfo.git"
-  },
-  "bugs": {
-    "url": "https://github.com/juliolmuller/trunfo/issues"
-  },
+  "author": "Julio L. Muller",
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
-    "development": "nodemon .",
-    "dev": "npm run development"
+    "watch": "nodemon ."
   },
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^3.0.5"
   },
   "devDependencies": {
-    "@lacussoft/eslint-config-standard": "^1.0.7",
-    "eslint": "^7.9.0",
-    "nodemon": "^2.0.4"
+    "@lacussoft/eslint-config": "^1.0.1",
+    "eslint": "^7.17.0",
+    "nodemon": "^2.0.7"
   },
   "eslintConfig": {
     "root": true,
-    "extends": "@lacussoft/standard",
+    "extends": "@lacussoft",
     "env": {
-      "node": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2018
+      "node": true,
+      "es6": true
     },
     "rules": {
       "no-console": "off"
