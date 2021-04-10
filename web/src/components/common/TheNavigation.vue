@@ -9,6 +9,7 @@
           <v-list-item-title>Configurações</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
       <v-list-item @click="$vuetify.theme.dark = !$vuetify.theme.dark">
         <v-list-item-action>
           <v-icon>mdi-brightness-6</v-icon>
@@ -33,6 +34,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-</style>

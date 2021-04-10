@@ -3,7 +3,9 @@
     <v-toolbar-title class="mr-12 align-center">
       <span class="title">Trunfo</span>
     </v-toolbar-title>
+
     <v-spacer />
+
     <v-app-bar-nav-icon @click.stop="$emit('input', !value)" />
   </v-app-bar>
 </template>
@@ -20,6 +22,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-</style>
