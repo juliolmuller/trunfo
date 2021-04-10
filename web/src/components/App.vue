@@ -12,6 +12,15 @@
     </v-main>
 
     <AppFooter />
+
+    <v-snackbar
+      :value="$store.getters.isNotifying"
+      :color="$store.getters.notification.color"
+      elevation="24"
+      absolute top
+    >
+      {{ $store.getters.notification.message }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -67,5 +76,11 @@ export default {
 
 .centeredInput .v-text-field__details {
   display: none;
+}
+
+.v-snack.v-snack--absolute {
+  margin-top: 3.5rem;
+  position: fixed;
+  z-index: 100;
 }
 </style>
