@@ -16,12 +16,14 @@
     "@feathersjs/feathers": "^4.5.11",
     "@feathersjs/socketio": "^4.5.11",
     "@feathersjs/transport-commons": "^4.5.11",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "http-status-codes": "^2.1.4",
     "winston": "^3.3.3"
   },
   "devDependencies": {
     "@lacussoft/eslint-config": "^1.1.0",
+    "@types/cors": "^2.8.10",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
