@@ -3,13 +3,13 @@
     <AppNavigation v-model="drawer" />
     <AppHeader v-model="drawer" />
 
-    <v-content>
+    <v-main>
       <v-container fill-height>
         <v-row justify="center" align="center">
           <router-view />
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
 
     <AppFooter />
   </v-app>
