@@ -1,5 +1,5 @@
 <template>
-  <v-col md="6">
+  <v-col md="6" v-if="$store.getters.isLoading">
     <div class="text-center">
       <v-img src="@/assets/loading.svg" aspect-ratio="6" contain />
       <div class="headline font-weight-bold mt-6 mt-md-4">
@@ -10,7 +10,17 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'GameScreen',
+
+  beforeCreate() {
+    this.$store.commit('setLoading', true)
+  },
+
+  destroyed() {
+    this.$store.commit('setLoading', false)
+  },
+}
 </script>
 
 <style scoped>

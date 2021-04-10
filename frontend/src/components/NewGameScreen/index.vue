@@ -10,12 +10,14 @@
           type="text"
           color="error"
           outlined
-          v-model.trim="game.name"
+          :disabled="isLoading"
+          v-model.trim="$store.state.game.name"
         />
         <v-radio-group
           label="Modo de Pontuação"
           class="mt-0 pt-0"
-          v-model="game.scoringMode"
+          :disabled="isLoading"
+          v-model="$store.state.game.scoringMode"
         >
           <v-radio
             color="error"
@@ -31,35 +33,37 @@
         <v-switch
           color="error"
           label="Pontuar em acertos com nenhuma aposta"
-          v-model="game.scoreOnZeroBets"
+          :disabled="isLoading"
+          v-model="$store.state.game.scoreOnZeroBets"
         />
         <v-switch
           color="error"
           label="Número de apostas sempre diferente do número de rodadas"
-          :disabled="game.forceUnequalBets"
-          v-model="game.forceEqualBets"
+          :disabled="isLoading || $store.state.game.forceUnequalBets"
+          v-model="$store.state.game.forceEqualBets"
         />
         <v-switch
           color="error"
           label="Número de apostas sempre igual do número de rodadas"
-          :disabled="game.forceEqualBets"
-          v-model="game.forceUnequalBets"
+          :disabled="isLoading || $store.state.game.forceEqualBets"
+          v-model="$store.state.game.forceUnequalBets"
         />
         <hr class="d-none d-md-block mb-2" />
         <v-row justify="space-around" no-gutters>
           <v-col cols="12" sm="5" lg="4" order-sm="2" class="mt-2">
             <v-btn
               color="error"
-              block rounded large
+              large block rounded
+              :disabled="isLoading"
               :loading="isLoading"
               @click="createGame"
             >Próximo</v-btn>
           </v-col>
           <v-col cols="12" sm="5" lg="4" order-sm="1" class="mt-2">
             <v-btn
-              :to="{ name: 'start' }"
               color="secondary"
               block rounded text large
+              :to="{ name: 'start' }"
             >Cancelar</v-btn>
           </v-col>
         </v-row>
@@ -69,29 +73,22 @@
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex'
 
-  data: () => ({
-    isLoading: false,
-    game: {
-      name: '',
-      scoringMode: 'byBetsCount',
-      scoreOnZeroBets: false,
-      forceEqualBets: false,
-      forceUnequalBets: false,
-    },
-  }),
+export default {
+  name: 'NewGameScreen',
+
+  computed: {
+    ...mapGetters(['isLoading']),
+  },
 
   methods: {
-    createGame() {
-      // Generate random ID for this game
-      // eslint-disable-next-line no-magic-numbers
-      const id = Math.random().toString(36).substr(2, 6).toUpperCase()
-      this.isLoading = true
-      console.log({ id, ...this.game })
-      setTimeout(() => {
-        this.$router.push({ name: 'invite', params: { game: id } })
-      }, 1200)
+    async createGame() {
+      await this.$store.dispatch('createGame')
+      this.$router.push({
+        name: 'invite',
+        params: { game: this.$store.state.game.id },
+      })
     },
   },
 }

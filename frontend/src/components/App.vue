@@ -16,11 +16,12 @@
 </template>
 
 <script>
-import AppNavigation from './components/layout/Navigation'
-import AppHeader from './components/layout/Header'
-import AppFooter from './components/layout/Footer'
+import AppNavigation from './common/Navigation'
+import AppHeader from './common/Header'
+import AppFooter from './common/Footer'
 
 export default {
+  name: 'App',
 
   components: {
     AppNavigation,

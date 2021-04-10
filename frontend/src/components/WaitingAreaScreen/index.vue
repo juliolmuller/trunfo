@@ -14,12 +14,11 @@
             <v-text-field
               label="Nome do jogador"
               class="centeredInput"
-              rounded filled single-line
+              rounded filled single-line autofocus
               color="error"
               v-model.trim="playerName"
               v-if="inputVisible"
               @keyup.enter="addPlayer"
-              autofocus
             />
             <v-btn block rounded color="error" @click="addPlayer" v-if="inputVisible">
               <v-icon class="mr-3">mdi-checkbox-marked-circle</v-icon>
@@ -51,7 +50,7 @@
                 <transition-group type="transition" :name="!drag ? 'flip-list' : null">
                   <v-list-item
                     class="font-weight-bold list-group-item"
-                    v-for="player in players"
+                    v-for="player in game.players"
                     :key="player"
                   >
                     <v-list-item-content>
@@ -84,9 +83,11 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import Draggable from 'vuedraggable'
 
 export default {
+  name: 'WaitingAreaScreen',
 
   components: {
     Draggable,
@@ -95,11 +96,6 @@ export default {
   data: () => ({
     playerName: '',
     inputVisible: false,
-    players: [
-      'Julio, o bão!', 'Jordana',
-      'Elisa', 'Renato', 'Texa',
-      'Tina', 'Acácio', 'Ramon',
-    ],
     drag: false,
   }),
 
@@ -111,10 +107,12 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['isLoading', 'game']),
     qrCode() {
       const size = 480
       const api = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=`
-      const url = `${window.location.origin + window.location.pathname}#/jogo-${this.game}`
+      const url = `${window.location.origin + window.location.pathname}#/jogo-${this.game}/registrar`
+
       return api + url
     },
     dragOptions() {
@@ -128,16 +126,11 @@ export default {
   },
 
   methods: {
-    addPlayer() {
-      if (this.playerName) {
-        console.log(`New player submitted: ${this.playerName}`)
-        this.players.unshift(this.playerName)
-      }
+    ...mapActions(['removePlayer']),
+    async addPlayer() {
+      await this.$store.dispatch('addPlayer')
       this.inputVisible = false
       this.playerName = ''
-    },
-    removePlayer(name) {
-      this.players = this.players.filter((player) => player !== name)
     },
   },
 }
