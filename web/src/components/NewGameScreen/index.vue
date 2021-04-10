@@ -4,6 +4,7 @@
       <v-card-title class="d-block text-center">
         Novo Jogo
       </v-card-title>
+
       <v-card-text>
         <v-text-field
           label="Nome do Jogo (opcional)"
@@ -13,6 +14,7 @@
           :disabled="isLoading"
           v-model.trim="$store.state.game.name"
         />
+
         <v-radio-group
           label="Modo de Pontuação"
           class="mt-0 pt-0"
@@ -21,34 +23,40 @@
         >
           <v-radio
             color="error"
-            label="Considerar número de apostas"
+            label="Multiplicação pelo número de apostas"
             value="byBetsCount"
           />
           <v-radio
             color="error"
-            label="Pontuação simples em Acertos/Erros"
-            value="single"
+            label="Simplificada (acertos vs erros)"
+            value="simplified"
           />
         </v-radio-group>
+
         <v-switch
           color="error"
           label="Pontuar em acertos com nenhuma aposta"
           :disabled="isLoading"
           v-model="$store.state.game.scoreOnZeroBets"
         />
+
         <v-switch
           color="error"
-          label="Número de apostas sempre diferente do número de rodadas"
+          label="Quantidade total de apostas sempre diferente do número de rodadas"
           :disabled="isLoading || $store.state.game.forceUnequalBets"
           v-model="$store.state.game.forceEqualBets"
         />
+
         <v-switch
           color="error"
-          label="Número de apostas sempre igual do número de rodadas"
+          label="Quantidade total de apostas sempre igual ao número de rodadas"
           :disabled="isLoading || $store.state.game.forceEqualBets"
           v-model="$store.state.game.forceUnequalBets"
         />
+
+        <br />
         <hr class="d-none d-md-block mb-2" />
+
         <v-row justify="space-around" no-gutters>
           <v-col cols="12" sm="5" lg="4" order-sm="2" class="mt-2">
             <v-btn
@@ -73,26 +81,33 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'NewGameScreen',
 
-  computed: {
-    ...mapGetters(['isLoading']),
-  },
+  data: () => ({
+    isLoading: false,
+  }),
 
   methods: {
     async createGame() {
-      await this.$store.dispatch('createGame')
-      this.$router.push({
-        name: 'invite',
-        params: { game: this.$store.state.game.id },
-      })
+      try {
+        this.isLoading = true
+        await this.$store.dispatch('createGameMatch')
+        this.$router.replace({
+          name: 'invite',
+          params: { game: this.$store.state.game.id },
+        })
+      } catch (error) {
+        this.$store.dispatch('notify', error)
+        this.isLoading = false
+      }
     },
   },
 }
 </script>
 
-<style scoped>
+<style>
+.v-btn.secondary--text.theme--dark > .v-btn__content:not(:disabled) {
+  color: white;
+}
 </style>
