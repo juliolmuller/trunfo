@@ -4,5 +4,8 @@ module.exports = {
     host: 'localhost',
   },
   publicPath: './',
-  transpileDependencies: ['vuetify'],
+  transpileDependencies: [
+    'feathers-vuex',
+    'vuetify',
+  ],
 }
