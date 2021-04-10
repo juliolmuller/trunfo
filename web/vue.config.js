@@ -3,7 +3,7 @@ module.exports = {
   devServer: {
     host: 'localhost',
   },
-  publicPath: './',
+  publicPath: '/trunfo',
   transpileDependencies: [
     'feathers-vuex',
     'vuetify',
