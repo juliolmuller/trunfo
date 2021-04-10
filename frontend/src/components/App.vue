@@ -1,7 +1,7 @@
 <template>
   <v-app id="trunfo">
-    <app-navigation v-model="drawer" />
-    <app-header v-model="drawer" />
+    <AppNavigation v-model="drawer" />
+    <AppHeader v-model="drawer" />
 
     <v-content>
       <v-container fill-height>
@@ -11,14 +11,14 @@
       </v-container>
     </v-content>
 
-    <app-footer />
+    <AppFooter />
   </v-app>
 </template>
 
 <script>
-import AppNavigation from './common/Navigation'
-import AppHeader from './common/Header'
-import AppFooter from './common/Footer'
+import AppNavigation from './common/TheNavigation'
+import AppHeader from './common/TheHeader'
+import AppFooter from './common/TheFooter'
 
 export default {
   name: 'App',
