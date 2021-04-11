@@ -28,7 +28,7 @@
           />
           <v-radio
             color="error"
-            label="Simplificada (acertos vs erros)"
+            label="Simplificada (+10 para acertos e -10 para erros)"
             value="simplified"
           />
         </v-radio-group>
