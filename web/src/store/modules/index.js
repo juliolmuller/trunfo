@@ -1,15 +1,12 @@
 
+const requireModule = require.context('.', false, /^\.\/(.+)\.store\.[j|t]s$/)
 const modules = {}
-const requireModule = require.context('.', false, /\.js$/)
 
 requireModule.keys().forEach((fileName) => {
+  const moduleName = fileName.replace(/^\.\/(.+)\.store\.[j|t]s$/, '$1')
+  const moduleConfig = requireModule(fileName).default ?? requireModule(fileName)
 
-  if (fileName !== './index.js') {
-    const moduleName = fileName.replace(/^\.\//, '').replace(/\.js$/, '')
-    const moduleConfig = requireModule(fileName).default || requireModule(fileName)
-
-    modules[moduleName] = moduleConfig
-  }
+  modules[moduleName] = moduleConfig
 })
 
 export default modules
