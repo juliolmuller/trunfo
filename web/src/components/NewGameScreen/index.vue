@@ -92,10 +92,10 @@ export default {
     async createGame() {
       try {
         this.isLoading = true
-        await this.$store.dispatch('createGameMatch')
+        await this.$store.dispatch('game/create')
         this.$router.replace({
           name: 'invite',
-          params: { game: this.$store.state.game.id },
+          params: { gameKay: this.$store.state.game.key },
         })
       } catch (error) {
         this.$store.dispatch('notify', error)

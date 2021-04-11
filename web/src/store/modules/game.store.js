@@ -1,5 +1,5 @@
 
-function generateId() {
+function generateKey() {
   const NUMERIC_BASE = 36
   const AFTER_DOT = 2
   const ID_SIZE = 6
@@ -14,7 +14,8 @@ export default {
   namespaced: true,
 
   state: () => ({
-    id: '',
+    _id: '',
+    key: '',
     name: '',
     scoringMode: 'byBetsCount',
     scoreOnZeroBets: false,
@@ -29,51 +30,47 @@ export default {
 
   getters: {
     game: (state) => state,
+    players: (state) => state.players,
   },
 
   mutations: {
     configGame(state, options) {
       Object.assign(state, options)
     },
+    addPlayer(state, playerName) {
+      state.players.push(playerName)
+    },
+    removePlayer(state, playerName) {
+      const playerIndex = state.players.indexOf(playerName)
+
+      state.players.splice(playerIndex, 1)
+    },
   },
 
   actions: {
     async create({ commit, getters }) {
-      const gameId = generateId()
-      const gameName = getters.game.name || gameId
+      const gameKey = generateKey()
 
-      // TODO: send a POST request to create a match
+      // TODO: check if key is unique
+
+      // TODO: send info to server
       const game = await new Promise((resolve) => {
         setTimeout(() => {
           resolve({
             ...getters.game,
-            name: gameName,
-            id: gameId,
+            name: getters.game.name || gameKey,
+            id: gameKey,
           })
         }, 1000)
       })
 
       commit('configGame', game)
     },
-
-    // TODO: sned a GET request to retrieve match data
-    async fetchGame({ commit }, gameId) {
+    async fetch({ commit }, gameKey) {
+      // TODO: send info to server
       const game = await new Promise((resolve) => {
         setTimeout(() => {
-          resolve({ id: gameId })
-        }, 1000)
-      })
-
-      commit('configGame', game)
-    },
-
-    async joinGame({ commit, state }, playerName) {
-      const game = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            id: state.id,
-            players: [playerName],
-          })
+          resolve({ key: gameKey })
         }, 1000)
       })
 
