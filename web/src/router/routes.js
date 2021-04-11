@@ -17,19 +17,19 @@ export default [
   },
   {
     name: 'game',
-    path: '/jogo-:game',
+    path: '/jogo-:gameKey',
     props: true,
     component: GameScreen,
   },
   {
     name: 'invite',
-    path: '/jogo-:game/convidar',
+    path: '/jogo-:gameKey/convidar',
     props: true,
     component: WaitingAreaScreen,
   },
   {
     name: 'register',
-    path: '/jogo-:game/registrar',
+    path: '/jogo-:gameKey/registrar',
     props: true,
     component: NewPlayerScreen,
   },
