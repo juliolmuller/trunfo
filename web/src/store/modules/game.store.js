@@ -76,5 +76,29 @@ export default {
 
       commit('configGame', game)
     },
+    resume() {
+      // TODO: send info to server
+      throw new Error('Action pending implementation.')
+    },
+    async addPlayer({ commit, getters }, playerName) {
+      if (getters.players.includes(playerName)) {
+        throw new Error('Já existe um jogador com este nome.')
+      }
+
+      // TODO: send info to server
+      await new Promise((resolve) => {
+        setTimeout(() => resolve(), 1000)
+      })
+
+      commit('addPlayer', playerName)
+    },
+    async removePlayer({ commit }, playerName) {
+      // TODO: send info to server
+      await new Promise((resolve) => {
+        setTimeout(() => resolve(), 1000)
+      })
+
+      commit('removePlayer', playerName)
+    },
   },
 }

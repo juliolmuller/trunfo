@@ -1,15 +1,16 @@
 <template>
-  <v-col md="6">
-    <v-card outlined elevation="8" max-width="960px">
+  <v-col sm="8" md="6">
+    <v-card outlined elevation="8" max-width="960px" class="py-6">
       <v-row>
-        <v-col cols="12" md="6" class="d-flex align-center justify-center">
+        <v-col cols="12" lg="6" class="d-flex align-center justify-center">
           <div>
-            <v-img :src="qrCode" aspect-ratio="1.5" contain class="mt-4" />
-            <div class="text-center title mt-2">Identificador:</div>
-            <div id="gameId"><code>{{ game }}</code></div>
+            <v-img :src="qrCode" aspect-ratio="1.2" contain class="mt-4" />
+            <div class="text-center title my-2">Chave do Jogo:</div>
+            <div id="gameKey"><code>{{ gameKey }}</code></div>
           </div>
         </v-col>
-        <v-col cols="12" md="6">
+
+        <v-col cols="12" lg="6">
           <div class="pa-2">
             <v-text-field
               label="Nome do jogador"
@@ -19,16 +20,32 @@
               v-model.trim="playerName"
               v-if="inputVisible"
               @keyup.enter="addPlayer"
+              @blur="inputVisible = false"
             />
-            <v-btn block rounded color="error" @click="addPlayer" v-if="inputVisible">
+
+            <v-btn
+              v-if="inputVisible"
+              @click="addPlayer"
+              color="error"
+              rounded
+              block
+            >
               <v-icon class="mr-3">mdi-checkbox-marked-circle</v-icon>
               Adicionar
             </v-btn>
-            <v-btn block rounded text @click="inputVisible = true" v-else>
+
+            <v-btn
+              v-else
+              @click="inputVisible = true"
+              rounded
+              block
+              text
+            >
               <v-icon class="mr-3">mdi-plus-circle-outline</v-icon>
               Adicionar Jogador
             </v-btn>
           </div>
+
           <v-list rounded dense>
             <v-list-item-group>
               <v-list-item inactive class="text-center">
@@ -41,8 +58,8 @@
               </v-list-item>
               <draggable
                 class="list-group"
-                v-model="players"
                 handle=".mdi-drag"
+                v-model="players"
                 v-bind="dragOptions"
                 @start="drag = true"
                 @end="drag = false"
@@ -50,7 +67,7 @@
                 <transition-group type="transition" :name="!drag ? 'flip-list' : null">
                   <v-list-item
                     class="font-weight-bold list-group-item"
-                    v-for="player in game.players"
+                    v-for="player in players"
                     :key="player"
                   >
                     <v-list-item-content>
@@ -59,7 +76,11 @@
                         <v-icon>mdi-drag</v-icon>
                         {{ player }}
                       </span>
-                      <v-icon small @click.stop="removePlayer(player)">mdi-close-circle</v-icon>
+                      <v-icon
+                        small
+                        @click.stop="removePlayer(player)"
+                        title="Expulsar"
+                      >mdi-close-circle</v-icon>
                     </div>
                     </v-list-item-content>
                   </v-list-item>
@@ -68,13 +89,15 @@
             </v-list-item-group>
           </v-list>
         </v-col>
-        <v-col cols="8" offset="2" md="4" offset-md="4">
+
+        <v-col cols="8" offset="2" md="4" offset-md="4" class="mb-2">
           <v-btn
             color="success"
             class="mx-auto"
             rounded block large
+            :loading="isLoading"
             :disabled="players.length < 2"
-            :to="{ name: 'game', params: { game } }"
+            @click.prevent="resumeGame"
           >Pronto</v-btn>
         </v-col>
       </v-row>
@@ -83,7 +106,6 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import Draggable from 'vuedraggable'
 
 export default {
@@ -93,27 +115,35 @@ export default {
     Draggable,
   },
 
-  data: () => ({
-    playerName: '',
-    inputVisible: false,
-    drag: false,
-  }),
-
   props: {
-    game: {
+    gameKey: {
       type: String,
       required: true,
     },
   },
 
+  data: () => ({
+    playerName: '',
+    inputVisible: false,
+    isLoading: false,
+    drag: false,
+  }),
+
   computed: {
-    ...mapGetters(['isLoading', 'game']),
     qrCode() {
       const size = 480
-      const api = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=`
-      const url = `${window.location.origin + window.location.pathname}#/jogo-${this.game}/registrar`
+      const { origin, pathname } = window.location
+      const url = `${origin}${pathname}#/jogo-${this.gameKey}/registrar`
 
-      return api + url
+      return `https://api.qrserver.com/v1/create-qr-code?size=${size}x${size}&data=${url}`
+    },
+    players: {
+      set(value) {
+        this.$store.state.game.players = value
+      },
+      get() {
+        return this.$store.state.game.players
+      },
     },
     dragOptions() {
       return {
@@ -126,18 +156,35 @@ export default {
   },
 
   methods: {
-    ...mapActions(['removePlayer']),
     async addPlayer() {
-      await this.$store.dispatch('addPlayer')
+      await this.$store.dispatch('game/addPlayer', this.playerName)
       this.inputVisible = false
       this.playerName = ''
+    },
+    async removePlayer(playerName) {
+      if (confirm(`Tem certeza de que deseja expulsar o jogador "${playerName}"?`)) {
+        await this.$store.dispatch('game/removePlayer', playerName)
+      }
+    },
+    async resumeGame() {
+      try {
+        this.isLoading = true
+        await this.$store.dispatch('game/resume')
+        this.$router.replace({
+          name: 'game',
+          params: { gameKey: this.gameKey },
+        })
+      } catch (error) {
+        this.$store.dispatch('notify', error)
+        this.isLoading = false
+      }
     },
   },
 }
 </script>
 
 <style scoped>
-#gameId {
+#gameKey {
   margin-bottom: 0.5em;
   line-height: 80%;
   text-align: center;
