@@ -59,7 +59,7 @@ export default {
           resolve({
             ...getters.game,
             name: getters.game.name || gameKey,
-            id: gameKey,
+            key: gameKey,
           })
         }, 1000)
       })

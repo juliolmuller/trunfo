@@ -95,7 +95,7 @@ export default {
         await this.$store.dispatch('game/create')
         this.$router.replace({
           name: 'invite',
-          params: { gameKay: this.$store.state.game.key },
+          params: { gameKey: this.$store.state.game.key },
         })
       } catch (error) {
         this.$store.dispatch('notify', error)
