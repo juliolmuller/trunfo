@@ -1,7 +1,6 @@
 import feathers, { HookContext as FeathersHookContext } from '@feathersjs/feathers'
 import socketio from '@feathersjs/socketio'
 import express from '@feathersjs/express'
-import cors from 'cors'
 
 import { Application } from './@types'
 import logger from './logger'
@@ -22,9 +21,6 @@ app.configure(middleware)
 app.configure(services)
 app.configure(channels)
 
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 app.use(express.notFound())
 app.use(express.errorHandler({ logger } as any))
 
