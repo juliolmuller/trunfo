@@ -5,7 +5,7 @@ module.exports = {
   },
   publicPath: '/trunfo',
   transpileDependencies: [
-    'feathers-vuex',
+    '@feathers/*',
     'vuetify',
   ],
 }
