@@ -10,10 +10,10 @@
 export default {
   name: 'TheFooter',
 
-  computed: {
-    currentYear() {
-      return new Date().getFullYear()
-    },
+  setup() {
+    return {
+      currentYear: new Date().getFullYear(),
+    }
   },
 }
 </script>

@@ -14,17 +14,19 @@
     <AppFooter />
 
     <v-snackbar
-      :value="$store.getters.isNotifying"
-      :color="$store.getters.notification.color"
+      :value="isNotifying"
+      :color="notification.color"
       elevation="24"
       absolute top
     >
-      {{ $store.getters.notification.message }}
+      {{ notification.message }}
     </v-snackbar>
   </v-app>
 </template>
 
 <script>
+import { ref } from '@vue/composition-api'
+import { useNotification } from '@/store'
 import AppNavigation from './common/TheNavigation'
 import AppHeader from './common/TheHeader'
 import AppFooter from './common/TheFooter'
@@ -38,9 +40,16 @@ export default {
     AppFooter,
   },
 
-  data: () => ({
-    drawer: false,
-  }),
+  setup() {
+    const { notification, isNotifying } = useNotification()
+    const drawer = ref(false)
+
+    return {
+      drawer,
+      notification,
+      isNotifying,
+    }
+  },
 }
 </script>
 

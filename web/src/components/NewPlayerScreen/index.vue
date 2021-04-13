@@ -29,18 +29,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'NewPlayerScreen',
 
   data: () => ({
     playerName: '',
+    isLoading: false,
   }),
-
-  computed: {
-    ...mapGetters(['isLoading']),
-  },
 
   methods: {
     async joinGame() {

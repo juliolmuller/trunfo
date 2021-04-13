@@ -5,22 +5,22 @@
         O que deseja fazer?
       </v-card-title>
       <v-card-text>
-        <template v-if="inputVisible">
+        <template v-if="isInputVisible">
           <v-text-field
             label="Identificador do Jogo"
             class="centeredInput large mono upper mb-2"
             rounded filled single-line autofocus
             color="success"
-            v-model="gameId"
-            @keyup.enter="fetchGame"
+            v-model="gameKey"
+            @keyup.enter="handleFindGame"
           />
           <v-btn
             class="mb-4"
             color="success"
             x-large block rounded
-            :disabled="isLoading || fetchGame.length < 6"
+            :disabled="isLoading || gameKey.length < 6"
             :locading="isLoading"
-            @click="fetchGame"
+            @click="handleFindGame"
           >
             <v-icon left>mdi-location-enter</v-icon>
             Entrar
@@ -31,7 +31,7 @@
             class="mb-4"
             color="success"
             x-large block rounded
-            @click="inputVisible = true"
+            @click="isInputVisible = true"
           >
             <v-icon left>mdi-location-enter</v-icon>
             Entrar em um Jogo
@@ -52,32 +52,51 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { ref, watch } from '@vue/composition-api'
+import { useGame, useNotification } from '@/store'
+
+const KEY_MAX_LENGTH = 6
 
 export default {
   name: 'StartScreen',
 
-  data: () => ({
-    gameId: '',
-    inputVisible: false,
-  }),
+  setup(_, { root }) {
+    const { findGame } = useGame()
+    const { notify } = useNotification()
+    const isInputVisible = ref(false)
+    const isLoading = ref(false)
+    const gameKey = ref('')
 
-  computed: {
-    ...mapGetters(['isLoading']),
-  },
+    watch(gameKey, (value) => {
+      gameKey.value = value.toUpperCase().substring(0, KEY_MAX_LENGTH)
+    })
 
-  methods: {
-    async fetchGame() {
-      try {
-        await this.$store.dispatch('fetchGame', this.gameId.toUpperCase())
-        this.$router.push({
-          name: 'invite',
-          params: { game: this.$store.state.game.id },
-        })
-      } catch (e) {
-        /* TODO: display error */
+    async function handleFindGame() {
+      if (gameKey.value.length < KEY_MAX_LENGTH) {
+        return
       }
-    },
+
+      try {
+        isLoading.value = true
+        await findGame(gameKey.value.toUpperCase())
+
+        // TODO: define next route
+        root.$router.push({
+          name: 'invite',
+          params: { gameKey: gameKey.value },
+        })
+      } catch (error) {
+        isLoading.value = false
+        notify(error)
+      }
+    }
+
+    return {
+      gameKey,
+      isLoading,
+      isInputVisible,
+      handleFindGame,
+    }
   },
 }
 </script>

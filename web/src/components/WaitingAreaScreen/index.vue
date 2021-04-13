@@ -19,13 +19,13 @@
               color="error"
               v-model.trim="playerName"
               v-if="inputVisible"
-              @keyup.enter="addPlayer"
+              @keyup.enter="handleAddPlayer"
               @blur="inputVisible = false"
             />
 
             <v-btn
               v-if="inputVisible"
-              @click="addPlayer"
+              @click="handleAddPlayer"
               color="error"
               rounded
               block
@@ -56,11 +56,14 @@
                   <span class="body-2 grey--text">Aguardando jogadores...</span>
                 </v-list-item-content>
               </v-list-item>
-              <draggable
-                class="list-group"
-                handle=".mdi-drag"
+              <Draggable
                 v-model="players"
-                v-bind="dragOptions"
+                handle=".mdi-drag"
+                class="list-group"
+                ghostClass="ghost"
+                group="description"
+                :animation="200"
+                :disabled="false"
                 @start="drag = true"
                 @end="drag = false"
               >
@@ -78,14 +81,14 @@
                       </span>
                       <v-icon
                         small
-                        @click.stop="removePlayer(player)"
+                        @click.stop="handleRemovePlayer(player)"
                         title="Expulsar"
                       >mdi-close-circle</v-icon>
                     </div>
                     </v-list-item-content>
                   </v-list-item>
                 </transition-group>
-              </draggable>
+              </Draggable>
             </v-list-item-group>
           </v-list>
         </v-col>
@@ -97,7 +100,7 @@
             rounded block large
             :loading="isLoading"
             :disabled="players.length < 2"
-            @click.prevent="resumeGame"
+            @click.prevent="handleResumeGame"
           >Pronto</v-btn>
         </v-col>
       </v-row>
@@ -107,6 +110,8 @@
 
 <script>
 import Draggable from 'vuedraggable'
+import { computed, onMounted, ref } from '@vue/composition-api'
+import { useGame, useNotification } from '@/store'
 
 export default {
   name: 'WaitingAreaScreen',
@@ -122,63 +127,61 @@ export default {
     },
   },
 
-  data: () => ({
-    playerName: '',
-    inputVisible: false,
-    isLoading: false,
-    drag: false,
-  }),
+  setup({ gameKey }, { root }) {
+    const { addPlayer, removePlayer, findGame, resumeGame, players } = useGame()
+    const { notify } = useNotification()
+    const playerName = ref('')
+    const inputVisible = ref(false)
+    const isLoading = ref(false)
+    const drag = ref(false)
 
-  computed: {
-    qrCode() {
+    const qrCode = computed(() => {
       const size = 480
       const { origin, pathname } = window.location
-      const url = `${origin}${pathname}#/jogo-${this.gameKey}/registrar`
+      const url = `${origin}${pathname}#/jogo-${gameKey}/registrar`
 
       return `https://api.qrserver.com/v1/create-qr-code?size=${size}x${size}&data=${url}`
-    },
-    players: {
-      set(value) {
-        this.$store.state.game.players = value
-      },
-      get() {
-        return this.$store.state.game.players
-      },
-    },
-    dragOptions() {
-      return {
-        animation: 200,
-        group: 'description',
-        disabled: false,
-        ghostClass: 'ghost',
-      }
-    },
-  },
+    })
 
-  methods: {
-    async addPlayer() {
-      await this.$store.dispatch('game/addPlayer', this.playerName)
-      this.inputVisible = false
-      this.playerName = ''
-    },
-    async removePlayer(playerName) {
+    function handleAddPlayer() {
+      addPlayer(playerName.value)
+      inputVisible.value = false
+      playerName.value = ''
+    }
+
+    async function handleRemovePlayer(selectedPlayerName) {
       if (confirm(`Tem certeza de que deseja expulsar o jogador "${playerName}"?`)) {
-        await this.$store.dispatch('game/removePlayer', playerName)
+        await removePlayer(selectedPlayerName)
       }
-    },
-    async resumeGame() {
+    }
+
+    async function handleResumeGame() {
       try {
-        this.isLoading = true
-        await this.$store.dispatch('game/resume')
-        this.$router.replace({
+        isLoading.value = true
+        await resumeGame()
+        root.$router.replace({
           name: 'game',
-          params: { gameKey: this.gameKey },
+          params: { gameKey },
         })
       } catch (error) {
-        this.$store.dispatch('notify', error)
-        this.isLoading = false
+        isLoading.value = false
+        notify(error)
       }
-    },
+    }
+
+    onMounted(() => findGame(gameKey))
+
+    return {
+      drag,
+      qrCode,
+      players,
+      isLoading,
+      playerName,
+      inputVisible,
+      handleAddPlayer,
+      handleRemovePlayer,
+      handleResumeGame,
+    }
   },
 }
 </script>

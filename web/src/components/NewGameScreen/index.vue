@@ -12,14 +12,14 @@
           color="error"
           outlined
           :disabled="isLoading"
-          v-model.trim="$store.state.game.name"
+          v-model.trim="game.name"
         />
 
         <v-radio-group
           label="Modo de Pontuação"
           class="mt-0 pt-0"
           :disabled="isLoading"
-          v-model="$store.state.game.scoringMode"
+          v-model="game.scoringMode"
         >
           <v-radio
             color="error"
@@ -37,21 +37,21 @@
           color="error"
           label="Pontuar em acertos com nenhuma aposta"
           :disabled="isLoading"
-          v-model="$store.state.game.scoreOnZeroBets"
+          v-model="game.scoreOnZeroBets"
         />
 
         <v-switch
           color="error"
           label="Quantidade total de apostas sempre diferente do número de rodadas"
-          :disabled="isLoading || $store.state.game.forceUnequalBets"
-          v-model="$store.state.game.forceEqualBets"
+          :disabled="isLoading || game.forceUnequalBets"
+          v-model="game.forceEqualBets"
         />
 
         <v-switch
           color="error"
           label="Quantidade total de apostas sempre igual ao número de rodadas"
-          :disabled="isLoading || $store.state.game.forceEqualBets"
-          v-model="$store.state.game.forceUnequalBets"
+          :disabled="isLoading || game.forceEqualBets"
+          v-model="game.forceUnequalBets"
         />
 
         <br />
@@ -64,14 +64,14 @@
               large block rounded
               :disabled="isLoading"
               :loading="isLoading"
-              @click="createGame"
+              @click="handleCreateGame"
             >Próximo</v-btn>
           </v-col>
           <v-col cols="12" sm="5" lg="4" order-sm="1" class="mt-2">
             <v-btn
               color="secondary"
               block rounded text large
-              :to="{ name: 'start' }"
+              @click="$router.go(-1)"
             >Cancelar</v-btn>
           </v-col>
         </v-row>
@@ -81,27 +81,37 @@
 </template>
 
 <script>
+import { reactive, ref, toRaw } from '@vue/composition-api'
+import { useGame, useNotification } from '@/store'
+
 export default {
   name: 'NewGameScreen',
 
-  data: () => ({
-    isLoading: false,
-  }),
+  setup(_, { root }) {
+    const { createGame, game } = useGame()
+    const { notify } = useNotification()
+    const localGame = reactive(toRaw(game))
+    const isLoading = ref(false)
 
-  methods: {
-    async createGame() {
+    async function handleCreateGame() {
       try {
-        this.isLoading = true
-        await this.$store.dispatch('game/create')
-        this.$router.replace({
+        isLoading.value = true
+        await createGame(localGame)
+        root.$router.replace({
           name: 'invite',
-          params: { gameKey: this.$store.state.game.key },
+          params: { gameKey: game.key },
         })
       } catch (error) {
-        this.$store.dispatch('notify', error)
-        this.isLoading = false
+        isLoading.value = false
+        notify(error)
       }
-    },
+    }
+
+    return {
+      isLoading,
+      game: localGame,
+      handleCreateGame,
+    }
   },
 }
 </script>
