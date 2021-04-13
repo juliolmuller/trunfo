@@ -1,7 +1,7 @@
 {
   "name": "trunfo",
   "version": "1.0.0",
-  "description": "Web application for project Trunfo",
+  "private": true,
   "license": "MIT",
   "author": "Julio L. Muller",
   "homepage": "https://juliolmuller.github.io/trunfo",
@@ -16,15 +16,14 @@
     "@feathersjs/feathers": "^4.5.11",
     "@feathersjs/socketio-client": "^4.5.11",
     "@vue/composition-api": "^1.0.0-rc.6",
+    "@vueuse/core": "^4.8.1",
     "core-js": "^3.10.1",
-    "feathers-vuex": "^3.16.0",
     "register-service-worker": "^1.7.2",
     "socket.io-client": "^4.0.1",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.4.9",
-    "vuex": "^3.6.2"
+    "vuetify": "^2.4.9"
   },
   "devDependencies": {
     "@lacussoft/eslint-config": "^1.1.0",
@@ -34,7 +33,6 @@
     "@vue/cli-plugin-pwa": "~4.5.12",
     "@vue/cli-plugin-router": "^4.5.12",
     "@vue/cli-plugin-unit-jest": "~4.5.12",
-    "@vue/cli-plugin-vuex": "^4.5.12",
     "@vue/cli-service": "^4.5.12",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.23.0",
