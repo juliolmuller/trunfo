@@ -1,8 +1,6 @@
-import dotenv from 'dotenv'
+import 'dotenv/config' // eslint-disable-line import/no-internal-modules
 import logger from './logger'
 import app from './app'
-
-dotenv.config()
 
 const port = process.env.PORT
 const server = app.listen(port)
