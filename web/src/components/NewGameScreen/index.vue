@@ -98,7 +98,7 @@ export default {
         isLoading.value = true
         await createGame(localGame)
         root.$router.replace({
-          name: 'invite',
+          name: 'game',
           params: { gameKey: game.key },
         })
       } catch (error) {

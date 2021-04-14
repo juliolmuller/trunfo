@@ -1,5 +1,5 @@
 <template>
-  <v-col md="6" v-if="$store.getters.isLoading">
+  <v-col md="6" v-if="isLoading">
     <div class="text-center">
       <v-img src="@/assets/loading.svg" aspect-ratio="6" contain />
       <div class="headline font-weight-bold mt-6 mt-md-4">
@@ -7,21 +7,30 @@
       </div>
     </div>
   </v-col>
+  <component :is="activeScreen" v-else />
 </template>
 
 <script>
+import { ref } from '@vue/composition-api'
+import NewPlayerScreen from './NewPlayerScreen'
+import WaitingAreaScreen from './WaitingAreaScreen'
+
 export default {
   name: 'GameScreen',
 
-  beforeCreate() {
-    this.$store.commit('setLoading', true)
+  components: {
+    NewPlayerScreen,
+    WaitingAreaScreen,
   },
 
-  destroyed() {
-    this.$store.commit('setLoading', false)
+  setup() {
+    const isLoading = ref(true)
+    const activeScreen = ref('WaitingAreaScreen')
+
+    return {
+      isLoading,
+      activeScreen,
+    }
   },
 }
 </script>
-
-<style scoped>
-</style>
