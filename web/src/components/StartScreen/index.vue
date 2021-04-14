@@ -1,15 +1,18 @@
 <template>
   <v-col md="6">
     <v-card outlined elevation="8" max-width="780px">
-      <v-card-title class="d-block text-center">
+      <v-card-title class="d-block text-center" v-if="isInputVisible">
+        Chave do Jogo:
+      </v-card-title>
+      <v-card-title class="d-block text-center" v-else>
         O que deseja fazer?
       </v-card-title>
       <v-card-text>
         <template v-if="isInputVisible">
           <v-text-field
-            label="Identificador do Jogo"
             class="centeredInput large mono upper mb-2"
             rounded filled single-line autofocus
+            :maxlength="KEY_MAX_LENGTH"
             color="success"
             v-model="gameKey"
             @keyup.enter="handleFindGame"
@@ -52,24 +55,20 @@
 </template>
 
 <script>
-import { ref, watch } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 import { useGame, useNotification } from '@/store'
 
-const KEY_MAX_LENGTH = 6
 
 export default {
   name: 'StartScreen',
 
   setup(_, { root }) {
+    const KEY_MAX_LENGTH = 6
     const { findGame } = useGame()
     const { notify } = useNotification()
     const isInputVisible = ref(false)
     const isLoading = ref(false)
     const gameKey = ref('')
-
-    watch(gameKey, (value) => {
-      gameKey.value = value.toUpperCase().substring(0, KEY_MAX_LENGTH)
-    })
 
     async function handleFindGame() {
       if (gameKey.value.length < KEY_MAX_LENGTH) {
@@ -79,10 +78,8 @@ export default {
       try {
         isLoading.value = true
         await findGame(gameKey.value.toUpperCase())
-
-        // TODO: define next route
         root.$router.push({
-          name: 'invite',
+          name: 'game',
           params: { gameKey: gameKey.value },
         })
       } catch (error) {
@@ -92,6 +89,7 @@ export default {
     }
 
     return {
+      KEY_MAX_LENGTH,
       gameKey,
       isLoading,
       isInputVisible,

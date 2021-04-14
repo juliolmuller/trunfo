@@ -5,7 +5,6 @@ import io from 'socket.io-client'
 
 const socket = io(process.env.VUE_APP_SERVER_URL)
 const client = feathers().configure(socketio(socket))
-// eslint-disable-next-line no-unused-vars
 const service = client.service(process.env.VUE_APP_SERVICE_NAME)
 
 const state = reactive({
@@ -58,12 +57,7 @@ async function createGame({ name, scoringMode, scoreOnZeroBets, forceEqualBets, 
 }
 
 async function findGame(gameKey) {
-  // TODO: send info to server
-  const game = await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ key: gameKey })
-    }, 1000)
-  })
+  const game = await service.get(gameKey)
 
   Object.assign(state, game)
 }
