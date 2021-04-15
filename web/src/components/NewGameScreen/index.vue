@@ -11,6 +11,7 @@
           type="text"
           color="error"
           outlined
+          autofocus
           :disabled="isLoading"
           v-model.trim="game.name"
         />

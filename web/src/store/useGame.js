@@ -15,42 +15,18 @@ const state = reactive({
   scoreOnZeroBets: false,
   forceEqualBets: false,
   forceUnequalBets: false,
-  isRegisteringPlayers: false,
-  arePlayersBetting: true,
+  arePlayersRegistering: true,
+  arePlayersBetting: false,
   isActive: true,
+  isOwner: false,
   players: [],
   rounds: [],
 })
 
-function generateKey() {
-  const NUMERIC_BASE = 36
-  const AFTER_DOT = 2
-  const ID_SIZE = 6
-
-  return Math.random()
-    .toString(NUMERIC_BASE)
-    .substr(AFTER_DOT, ID_SIZE)
-    .toUpperCase()
-}
-
-async function createGame({ name, scoringMode, scoreOnZeroBets, forceEqualBets, forceUnequalBets }) {
-  const gameKey = generateKey()
-
-  // TODO: check if key is unique
-
-  // TODO: send info to server
-  const game = await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        ...state.game,
-        key: gameKey,
-        name: name || gameKey,
-        scoringMode,
-        scoreOnZeroBets,
-        forceEqualBets,
-        forceUnequalBets,
-      })
-    }, 1000)
+async function createGame(data) {
+  const game = await service.create({
+    ...data,
+    arePlayersRegistering: true, // this will make the game start on the WaitingArea
   })
 
   Object.assign(state, game)
