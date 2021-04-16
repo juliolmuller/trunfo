@@ -11,14 +11,11 @@ const state = reactive({
   _id: '',
   key: '',
   name: '',
-  scoringMode: 'byBetsCount',
-  scoreOnZeroBets: false,
   forceEqualBets: false,
   forceUnequalBets: false,
-  arePlayersRegistering: true,
-  arePlayersBetting: false,
-  isActive: true,
-  isOwner: false,
+  scoreOnZeroBets: false,
+  scoringMode: 'MultiplyingBets',
+  status: 'ConfiguringPlay',
   players: [],
   rounds: [],
 })
@@ -26,7 +23,7 @@ const state = reactive({
 async function createGame(data) {
   const game = await service.create({
     ...data,
-    arePlayersRegistering: true, // this will make the game start on the WaitingArea
+    status: 'RegisteringPlayers',
   })
 
   Object.assign(state, game)

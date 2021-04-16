@@ -25,12 +25,12 @@
           <v-radio
             color="error"
             label="Multiplicação pelo número de apostas"
-            value="byBetsCount"
+            value="MultiplyingBets"
           />
           <v-radio
             color="error"
             label="Simplificada (+10 para acertos e -10 para erros)"
-            value="simplified"
+            value="Simplified"
           />
         </v-radio-group>
 

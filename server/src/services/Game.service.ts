@@ -8,10 +8,13 @@ interface Game {
   forceEqualBets: boolean
   scoreOnZeroBets: boolean
   forceUnequalBets: boolean,
-  scoringMode: 'byBetsCount' | 'simplified'
-  arePlayersRegistering: boolean
-  arePlayersBetting: boolean
-  isActive: boolean
+  scoringMode: 'MultiplyingBets'
+    | 'Simplified'
+  status: 'RegisteringPlayers'
+    | 'ConfiguringPlay'
+    | 'PlayersBetting'
+    | 'CountingHits'
+    | 'Finished'
   players: string[]
   rounds: Array<{
     player: string
@@ -32,10 +35,8 @@ class GameService {
       forceEqualBets: false,
       scoreOnZeroBets: false,
       forceUnequalBets: false,
-      scoringMode: 'byBetsCount',
-      arePlayersRegistering: false,
-      arePlayersBetting: false,
-      isActive: true,
+      scoringMode: 'MultiplyingBets',
+      status: 'Finished',
       players: ['Júlio', 'Jordana', 'Elisa', 'Lídia', 'Danilo'],
       rounds: [],
     })
@@ -56,7 +57,6 @@ class GameService {
       : newKey
   }
 
-  // eslint-disable-next-line class-methods-use-this
   mergeDefaultValues({ key, name, ...data }: Partial<Game>): Game {
     key ||= this.generateKey() // eslint-disable-line no-param-reassign
     name ||= key // eslint-disable-line no-param-reassign
@@ -65,13 +65,11 @@ class GameService {
       _id: '',
       key,
       name,
-      scoringMode: 'byBetsCount',
       scoreOnZeroBets: false,
       forceEqualBets: false,
       forceUnequalBets: false,
-      arePlayersRegistering: false,
-      arePlayersBetting: false,
-      isActive: true,
+      scoringMode: 'MultiplyingBets',
+      status: 'ConfiguringPlay',
       players: [],
       rounds: [],
       ...data,
