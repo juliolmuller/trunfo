@@ -15,6 +15,7 @@ interface Game {
     | 'PlayersBetting'
     | 'CountingHits'
     | 'Finished'
+    | 'Playing'
   players: string[]
   rounds: Array<{
     player: string
