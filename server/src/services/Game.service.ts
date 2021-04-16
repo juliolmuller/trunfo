@@ -1,7 +1,18 @@
 /* eslint-disable require-await */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 
-interface Game {
+type Player = {
+  name: string
+  score: number
+}
+
+type Play = Array<{
+  playerHash: string
+  betsCount: number
+  wonCount: number
+}>
+
+type Game = {
   _id?: string
   key: string
   name: string
@@ -16,12 +27,8 @@ interface Game {
     | 'CountingHits'
     | 'Finished'
     | 'Playing'
-  players: string[]
-  rounds: Array<{
-    player: string
-    betsCount: number
-    wonCount: number
-  }>
+  players: Player[]
+  plays: Play[]
 }
 
 class GameService {
@@ -38,8 +45,29 @@ class GameService {
       forceUnequalBets: false,
       scoringMode: 'MultiplyingBets',
       status: 'Finished',
-      players: ['Júlio', 'Jordana', 'Elisa', 'Lídia', 'Danilo'],
-      rounds: [],
+      plays: [],
+      players: [
+        {
+          name: 'Júlio',
+          score: 0,
+        },
+        {
+          name: 'Jordana',
+          score: 0,
+        },
+        {
+          name: 'Elisa',
+          score: 0,
+        },
+        {
+          name: 'Lídia',
+          score: 0,
+        },
+        {
+          name: 'Danilo',
+          score: 0,
+        },
+      ],
     })
   }
 
@@ -72,16 +100,16 @@ class GameService {
       scoringMode: 'MultiplyingBets',
       status: 'ConfiguringPlay',
       players: [],
-      rounds: [],
+      plays: [],
       ...data,
     }
   }
 
-  async get(id: string) {
-    const game = this.games.find(({ key }) => key === id) as Game
+  async get(gameKey: string) {
+    const game = this.games.find(({ key }) => key === gameKey)
 
     if (!game) {
-      throw new Error(`Jogo com chave "${id}" não encontrado.`)
+      throw new Error(`Jogo com chave "${gameKey}" não encontrado.`)
     }
 
     return new Promise<Game>((resolve) => {
@@ -101,13 +129,37 @@ class GameService {
     })
   }
 
-  async update(id: string, data: Partial<Game>) {
+  async patch(gameKey: string, userName: string) {
+    const game = this.games.find(({ key }) => key === gameKey)
+    const duplicatePlayer = game?.players.find(({ name }) => name === userName)
+    const player: Player = {
+      name: userName,
+      score: 0,
+    }
+
+    if (!game) {
+      throw new Error(`Jogo com chave "${gameKey}" não encontrado.`)
+    }
+    if (duplicatePlayer) {
+      throw new Error(`Jogador com nome "${gameKey}" já cadastrado.`)
+    }
+
+    return new Promise<Player>((resolve) => {
+      setTimeout(() => {
+        game.players.push(player)
+        resolve(player)
+      }, 1000)
+    })
+  }
+
+  async update(gameKey: string, data: Partial<Game>) {
     return new Promise<Game>((resolve) => {
       setTimeout(async () => {
-        const { _id, ...oldGame } = await this.get(id)
-        const newGame = {
+        const { _id, key, ...oldGame } = await this.get(gameKey)
+        const newGame: Game = {
           ...oldGame,
           ...data,
+          key,
           _id,
         }
 

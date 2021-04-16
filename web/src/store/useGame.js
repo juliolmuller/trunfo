@@ -15,9 +15,9 @@ const state = reactive({
   forceUnequalBets: false,
   scoreOnZeroBets: false,
   scoringMode: 'MultiplyingBets',
-  status: 'ConfiguringPlay',
+  status: 'Loading',
   players: [],
-  rounds: [],
+  plays: [],
 })
 
 async function createGame(data) {
