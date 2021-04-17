@@ -31,6 +31,13 @@ type Game = {
   plays: Play[]
 }
 
+type PatchAction = 'ADD' | 'REMOVE'
+
+type PatchParams = {
+  action: PatchAction
+  player: string
+}
+
 class GameService {
   private games: Array<Game> = []
 
@@ -129,25 +136,57 @@ class GameService {
     })
   }
 
-  async patch(gameKey: string, userName: string) {
-    const game = this.games.find(({ key }) => key === gameKey)
-    const duplicatePlayer = game?.players.find(({ name }) => name === userName)
+  // eslint-disable-next-line class-methods-use-this
+  async addPlayer(game: Game, playerName: string) {
+    const playerIndex = game.players.findIndex(({ name }) => name === playerName)
     const player: Player = {
-      name: userName,
+      name: playerName,
       score: 0,
     }
+
+    if (playerIndex > -1) {
+      throw new Error(`Jogador com nome "${playerName}" já cadastrado.`)
+    }
+
+    game.players.push(player)
+
+    return player
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async removePlayer(game: Game, playerName: string) {
+    const playerIndex = game.players.findIndex(({ name }) => name === playerName)
+
+    if (playerIndex === -1) {
+      throw new Error(`Jogador com nome "${playerName}" não encontrado.`)
+    }
+
+    const player = game.players[playerIndex]
+    game.players.splice(playerIndex, 1)
+
+    return player
+  }
+
+  async patch(gameKey: string, { action, player: playerName }: PatchParams) {
+    const game = this.games.find(({ key }) => key === gameKey)
 
     if (!game) {
       throw new Error(`Jogo com chave "${gameKey}" não encontrado.`)
     }
-    if (duplicatePlayer) {
-      throw new Error(`Jogador com nome "${gameKey}" já cadastrado.`)
-    }
 
-    return new Promise<Player>((resolve) => {
-      setTimeout(() => {
-        game.players.push(player)
-        resolve(player)
+    return new Promise<Player & { action: PatchAction }>((resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          const player = action?.match(/REMOVE/i)
+            ? await this.removePlayer(game, playerName)
+            : await this.addPlayer(game, playerName)
+          resolve({
+            ...player,
+            action: action?.match(/REMOVE/i) ? 'REMOVE' : 'ADD',
+          })
+        } catch (error) {
+          reject(error)
+        }
       }, 1000)
     })
   }
