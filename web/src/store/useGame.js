@@ -1,11 +1,5 @@
-import { reactive, readonly } from '@vue/composition-api'
-import feathers from '@feathersjs/feathers'
-import socketio from '@feathersjs/socketio-client'
-import io from 'socket.io-client'
-
-const socket = io(process.env.VUE_APP_SERVER_URL)
-const client = feathers().configure(socketio(socket))
-const service = client.service(process.env.VUE_APP_SERVICE_NAME)
+import { onMounted, onUnmounted, reactive, readonly } from '@vue/composition-api'
+import { gameService } from '@/services/feathers'
 
 const state = reactive({
   _id: '',
@@ -21,7 +15,7 @@ const state = reactive({
 })
 
 async function createGame(data) {
-  const game = await service.create({
+  const game = await gameService.create({
     ...data,
     status: 'RegisteringPlayers',
   })
@@ -30,7 +24,7 @@ async function createGame(data) {
 }
 
 async function findGame(gameKey) {
-  const game = await service.get(gameKey)
+  const game = await gameService.get(gameKey)
 
   Object.assign(state, game)
 }
@@ -41,31 +35,44 @@ function resumeGame() {
 }
 
 async function addPlayer(playerName) {
-  if (state.players.includes(playerName)) {
-    throw new Error('Já existe um jogador com este nome.')
-  }
-
-  // TODO: send info to server
-  await new Promise((resolve) => {
-    setTimeout(() => resolve(), 1000)
+  await gameService.patch(state.key, {
+    player: playerName,
+    action: 'ADD',
   })
-
-  state.players.push(playerName)
 }
 
 async function removePlayer(playerName) {
-  // TODO: send info to server
-  await new Promise((resolve) => {
-    setTimeout(() => resolve(), 1000)
+  await gameService.patch(state.key, {
+    player: playerName,
+    action: 'REMOVE',
+  })
+}
+
+function onChangePlayer() {
+  const EVENT_NAME = 'patched'
+
+  onMounted(() => {
+    gameService.on(EVENT_NAME, ({ action, ...player }) => {
+      switch (action) {
+        case 'ADD':
+          state.players.push(player)
+          break
+        case 'REMOVE':
+          // eslint-disable-next-line no-case-declarations
+          const index = state.players.findIndex(({ name }) => name === player.name)
+          index > -1 && state.players.splice(index, 1)
+          break
+        default:
+          /* do nothing */
+      }
+
+    })
   })
 
-  const playerIndex = state.players.indexOf(playerName)
-
-  if (playerIndex === -1) {
-    throw new Error(`Jogador "${playerName}" não encontrado.`)
-  }
-
-  state.players.splice(playerIndex, 1)
+  onUnmounted(() => {
+    console.log('onUnmounted')
+    gameService.removeListener(EVENT_NAME)
+  })
 }
 
 function useGame() {
@@ -77,6 +84,7 @@ function useGame() {
     resumeGame,
     addPlayer,
     removePlayer,
+    onChangePlayer,
   }
 }
 
