@@ -1,5 +1,7 @@
 import { onMounted, onUnmounted, reactive, readonly } from '@vue/composition-api'
+import { adminGames, playerGames } from '@/services/storage'
 import { gameService } from '@/services/feathers'
+
 
 const state = reactive({
   _id: '',
@@ -12,6 +14,12 @@ const state = reactive({
   status: 'Loading',
   players: [],
   plays: [],
+  get isAdmin() {
+    return Boolean(adminGames.find(this.key))
+  },
+  get isPlayer() {
+    return Boolean(playerGames.find(this.key))
+  },
 })
 
 async function createGame(data) {
@@ -21,6 +29,7 @@ async function createGame(data) {
   })
 
   Object.assign(state, game)
+  adminGames.add(game.key) && playerGames()
 }
 
 async function findGame(gameKey) {
@@ -29,8 +38,8 @@ async function findGame(gameKey) {
   Object.assign(state, game)
 }
 
+// TODO: send info to server
 function resumeGame() {
-  // TODO: send info to server
   throw new Error('Action pending implementation.')
 }
 
@@ -77,14 +86,14 @@ function onChangePlayer() {
 
 function useGame() {
   return {
-    game: readonly(state),
-    players: state.players,
     createGame,
     findGame,
     resumeGame,
     addPlayer,
     removePlayer,
     onChangePlayer,
+    game: readonly(state),
+    players: state.players,
   }
 }
 
