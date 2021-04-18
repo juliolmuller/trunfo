@@ -29,7 +29,7 @@ async function createGame(data) {
   })
 
   Object.assign(state, game)
-  adminGames.add(game.key) && playerGames()
+  adminGames.add(game.key)
 }
 
 async function findGame(gameKey) {
@@ -48,6 +48,10 @@ async function addPlayer(playerName) {
     player: playerName,
     action: 'ADD',
   })
+
+  if (!state.isAdmin) {
+    playerGames.add(state.key, playerName)
+  }
 }
 
 async function removePlayer(playerName) {
@@ -62,24 +66,18 @@ function onChangePlayer() {
 
   onMounted(() => {
     gameService.on(EVENT_NAME, ({ action, ...player }) => {
-      switch (action) {
-        case 'ADD':
-          state.players.push(player)
-          break
-        case 'REMOVE':
-          // eslint-disable-next-line no-case-declarations
-          const index = state.players.findIndex(({ name }) => name === player.name)
-          index > -1 && state.players.splice(index, 1)
-          break
-        default:
-          /* do nothing */
+      if (action === 'ADD' && state.isAdmin) {
+        state.players.push(player)
+      } else if (action === 'REMOVE' && state.isAdmin) {
+        const index = state.players.findIndex(({ name }) => name === player.name)
+        index > -1 && state.players.splice(index, 1)
+      } else if (action === 'REMOVE' && state.isPlayer) {
+        playerGames.remove(state.key)
       }
-
     })
   })
 
   onUnmounted(() => {
-    console.log('onUnmounted')
     gameService.removeListener(EVENT_NAME)
   })
 }
