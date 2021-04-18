@@ -30,14 +30,13 @@ export default {
     const isLoading = ref(true)
 
     const activeScreen = computed(() => {
-      switch (game.status) {
-        case 'RegisteringPlayers':
-          return WaitingAreaScreen.name
-        case '':
-          return NewPlayerScreen.name
-        default:
-          return LoadingScreen.name
+      if (game.status === 'RegisteringPlayers') {
+        return game.isAdmin
+          ? WaitingAreaScreen.name
+          : NewPlayerScreen.name
       }
+
+      return LoadingScreen.name
     })
 
     onMounted(() => findGame(gameKey))
