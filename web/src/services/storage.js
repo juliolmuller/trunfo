@@ -45,7 +45,7 @@ function useGameStorage(storageKey) {
 }
 
 const adminGames = useGameStorage(`${STORAGE_KEY_PREFIX}admin-games`)
-const playerGames = useGameStorage(`${STORAGE_KEY_PREFIX}admin-games`)
+const playerGames = useGameStorage(`${STORAGE_KEY_PREFIX}player-games`)
 
 export {
   adminGames,
