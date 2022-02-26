@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom'
 
 import '~/config'
 import '~/global.scss'
+import App from '~/App'
 
 ReactDOM.render(
   <StrictMode>
-    <h1>Trunfo</h1>
+    <App />
   </StrictMode>,
   document.querySelector('#root'),
 )
