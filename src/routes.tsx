@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
-import { useAuth } from '~/hooks'
+import { useAuth, useTheme } from '~/hooks'
 
 function PublicRouter() {
   return (
@@ -21,10 +21,12 @@ function AuthRoutes() {
 
 function Router() {
   const { isAuthenticated } = useAuth()
+  const { toggleThemeMode } = useTheme()
 
   return (
     <BrowserRouter>
       {isAuthenticated ? <AuthRoutes /> : <PublicRouter />}
+      <button type="button" onClick={toggleThemeMode}>Toggle theme</button>
     </BrowserRouter>
   )
 }

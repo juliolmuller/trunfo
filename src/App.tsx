@@ -1,17 +1,13 @@
-import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
-
-import { theme } from '~/config'
+import { darkTheme, lightTheme } from '~/config'
+import { ThemeProvider } from '~/contexts'
 import Routes from '~/routes'
 
 function App() {
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <CssBaseline /> {/* <== kickstart a simple and consistent baseline to build upon. */}
-        <Routes />
-      </ThemeProvider>
-    </StyledEngineProvider>)
+    <ThemeProvider dark={darkTheme} light={lightTheme}>
+      <Routes />
+    </ThemeProvider>
+  )
 }
 
 export default App
