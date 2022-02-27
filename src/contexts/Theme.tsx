@@ -21,7 +21,7 @@ export interface ThemeProviderProps {
 export const ThemeContext = createContext({} as ThemeContextProps)
 
 export function ThemeProvider({ children, dark, light }: ThemeProviderProps) {
-  const [mode, setMode] = useLocalStorage<PaletteMode>('TRUNFP::theme', 'light')
+  const [mode, setMode] = useLocalStorage<PaletteMode>('TRUNFO::theme', 'light')
   const isLight = mode === 'light'
   const isDark = mode === 'dark'
   const actualTheme = isLight ? light : dark
