@@ -1,9 +1,9 @@
-function useAuth() {
-  const booleans = [true, false]
-  const randomIndex = Math.floor(Math.random() * booleans.length)
-  const isAuthenticated = booleans[randomIndex]
+import { useContext } from 'react'
 
-  return { isAuthenticated }
+import { AuthContext } from '~/contexts'
+
+function useAuth() {
+  return useContext(AuthContext)
 }
 
 export default useAuth
