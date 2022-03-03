@@ -3,7 +3,7 @@ import EnterIcon from '@mui/icons-material/Login'
 import Collapse from '@mui/material/Collapse'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Button from '~/components/Button'
@@ -11,24 +11,19 @@ import Button from '~/components/Button'
 function HomePage() {
   const GAME_KEY_LENGTH = 6
   const navigate = useNavigate()
-  const inputRef = useRef<HTMLInputElement>(null)
   const [inputVisible, setInputVisible] = useState(false)
   const [inputValue, setInputValue] = useState('')
 
   function handleChangeInputValue(event: ChangeEvent<HTMLInputElement>) {
     const newValue = event.target.value
     const transformedValue = newValue.trim().toUpperCase()
-    transformedValue.length < GAME_KEY_LENGTH && setInputValue(transformedValue)
+    transformedValue.length <= GAME_KEY_LENGTH && setInputValue(transformedValue)
   }
 
   function handleSearchGame() {
     // TODO: use firebase search method and navigate
-    console.log(`Searching game ${inputRef.current?.value}...`)
+    console.log(`Searching game ${inputValue}...`)
   }
-
-  useEffect(() => {
-    inputVisible && inputRef.current?.focus()
-  }, [inputVisible])
 
   return (
     <Paper
@@ -44,9 +39,9 @@ function HomePage() {
         p: 3,
       }}
     >
-      <Collapse in={inputVisible}>
+      <Collapse in={inputVisible} unmountOnExit>
         <TextField
-          ref={inputRef}
+          autoFocus
           hiddenLabel
           size="medium"
           value={inputValue}
