@@ -2,11 +2,11 @@ import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import { AppBar } from './AppBar'
-import { Drawer } from './Drawer'
-import { DrawerHeader } from './DrawerHeader'
+import AppBar from './AppBar'
+import Drawer from './Drawer'
+import DrawerHeader from './DrawerHeader'
 
-export function AppLayout() {
+function AppLayout() {
   const [isDrawerOpen, setDrawerOpen] = useState(false)
 
   function handleDrawerOpen() {
@@ -39,3 +39,5 @@ export function AppLayout() {
     </Box>
   )
 }
+
+export default AppLayout

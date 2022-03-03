@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import { styled } from '@mui/material/styles'
 
-export const DrawerHeader = styled('div')(({ theme }) => ({
+const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
@@ -9,3 +9,5 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: 'flex-start',
 }))
+
+export default DrawerHeader

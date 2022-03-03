@@ -9,7 +9,7 @@ export interface AppBarProps {
   onOpenDrawer: () => void
 }
 
-export function AppBar({ onOpenDrawer }: AppBarProps) {
+function AppBar({ onOpenDrawer }: AppBarProps) {
   return (
     <MuiAppBar position="fixed" sx={{ bgcolor: 'error.main' }}>
       <Toolbar component={Container}>
@@ -34,3 +34,5 @@ export function AppBar({ onOpenDrawer }: AppBarProps) {
     </MuiAppBar>
   )
 }
+
+export default AppBar

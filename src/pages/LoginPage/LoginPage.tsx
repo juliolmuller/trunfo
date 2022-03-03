@@ -1,9 +1,9 @@
 import Paper from '@mui/material/Paper'
 
-import { Button } from '~/components/Button'
+import Button from '~/components/Button'
 import { useAuth } from '~/hooks'
 
-export function LoginPage() {
+function LoginPage() {
   const { signInWithGoogle, signInWithFacebook } = useAuth()
 
   function handleFacebookSignIn() {
@@ -23,7 +23,8 @@ export function LoginPage() {
         alignItems: 'center',
         gap: 2,
         width: '100%',
-        maxWidth: 400,
+        maxWidth: 600,
+        m: 2,
         p: 3,
       }}
     >
@@ -32,12 +33,7 @@ export function LoginPage() {
         startIcon={<img src="/img/google-logo.svg" alt="Google" height="20" />}
         variant="contained"
         onClick={handleGoogleSignIn}
-        sx={{
-          color: 'white',
-          '&:hover': {
-            filter: 'brightness(0.9)',
-          },
-        }}
+        sx={{ color: 'white' }}
       >
         Entrar com conta Google
       </Button>
@@ -47,15 +43,12 @@ export function LoginPage() {
         startIcon={<img src="/img/facebook-logo.svg" alt="Facebook" height="20" />}
         variant="contained"
         onClick={handleFacebookSignIn}
-        sx={{
-          color: 'white',
-          '&:hover': {
-            filter: 'brightness(0.9)',
-          },
-        }}
+        sx={{ color: 'white' }}
       >
         Entrar com Facebook
       </Button>
     </Paper>
   )
 }
+
+export default LoginPage

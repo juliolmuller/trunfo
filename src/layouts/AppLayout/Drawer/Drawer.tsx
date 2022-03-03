@@ -13,14 +13,14 @@ import ListItemText from '@mui/material/ListItemText'
 
 import { useAuth, useTheme } from '~/hooks'
 
-import { DrawerHeader } from '../DrawerHeader'
+import DrawerHeader from '../DrawerHeader'
 
 export interface DrawerProps {
   open: boolean
   onClose: () => void
 }
 
-export function Drawer({ open, onClose }: DrawerProps) {
+function Drawer({ open, onClose }: DrawerProps) {
   const { isAuthenticated, signOut } = useAuth()
   const theme = useTheme()
 
@@ -57,3 +57,5 @@ export function Drawer({ open, onClose }: DrawerProps) {
     </MuiDrawer>
   )
 }
+
+export default Drawer

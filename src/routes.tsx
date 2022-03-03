@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import { useAuth } from '~/hooks'
-import { AppLayout } from '~/layouts'
-import { LoginPage } from '~/pages/LoginPage'
+import AppLayout from '~/layouts/AppLayout'
+import LoginPage from '~/pages/LoginPage'
 
 function PublicRouter() {
   return (

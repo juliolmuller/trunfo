@@ -2,7 +2,7 @@ import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button'
 
 export type ButtonProps = MuiButtonProps
 
-export function Button({
+function Button({
   color = 'error',
   size = 'large',
   style = {},
@@ -22,3 +22,5 @@ export function Button({
     />
   )
 }
+
+export default Button
