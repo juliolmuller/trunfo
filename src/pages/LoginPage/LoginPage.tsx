@@ -1,6 +1,7 @@
-import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
 
 import Button from '~/components/Button'
+import Paper from '~/components/Paper'
 import { useAuth } from '~/hooks'
 
 function LoginPage() {
@@ -15,38 +16,29 @@ function LoginPage() {
   }
 
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 2,
-        width: '100%',
-        maxWidth: 600,
-        m: 2,
-        p: 3,
-      }}
-    >
-      <Button
-        fullWidth
-        startIcon={<img src="/img/google-logo.svg" alt="Google" height="20" />}
-        variant="contained"
-        onClick={handleGoogleSignIn}
-        sx={{ color: 'white' }}
-      >
-        Entrar com conta Google
-      </Button>
-      <Button
-        color="info"
-        fullWidth
-        startIcon={<img src="/img/facebook-logo.svg" alt="Facebook" height="20" />}
-        variant="contained"
-        onClick={handleFacebookSignIn}
-        sx={{ color: 'white' }}
-      >
-        Entrar com Facebook
-      </Button>
+    <Paper fullWidth maxWidth="sm">
+      <Stack alignItems="center" gap={3}>
+        <Button
+          fullWidth
+          startIcon={<img src="/img/google-logo.svg" alt="Google" height="20" />}
+          variant="contained"
+          onClick={handleGoogleSignIn}
+          sx={{ color: 'white' }}
+        >
+          Entrar com conta Google
+        </Button>
+
+        <Button
+          color="info"
+          fullWidth
+          startIcon={<img src="/img/facebook-logo.svg" alt="Facebook" height="20" />}
+          variant="contained"
+          onClick={handleFacebookSignIn}
+          sx={{ color: 'white' }}
+        >
+          Entrar com Facebook
+        </Button>
+      </Stack>
     </Paper>
   )
 }
