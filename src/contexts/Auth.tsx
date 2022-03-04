@@ -6,6 +6,7 @@ import firebase, { auth } from '~/services/firebase'
 
 export type AuthContextProps = {
   isAuthenticated: boolean
+  isLoading: boolean
   user: User | undefined
   signInWithFacebook: () => Promise<boolean>
   signInWithGoogle: () => Promise<boolean>
@@ -19,6 +20,7 @@ export type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextProps)
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const [isLoading, setLoading] = useState(true)
   const [user, setUser] = useState<User>()
   const isAuthenticated = Boolean(user)
 
@@ -42,6 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     try {
+      setLoading(true)
       const response = await auth.signInWithPopup(provider)
       console.log(response.user) // DEBUG:
 
@@ -55,8 +58,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (error.code === 'auth/popup-closed-by-user') {
         return false
       }
-
       throw error
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -73,14 +77,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
+    setLoading(true)
     await auth.signOut()
     setUser(undefined)
+    setLoading(false)
   }
 
   useEffect(() => {
     // Return of function ("unregister") will be called when component unmounts
+    setLoading(true)
     return auth.onAuthStateChanged((rawUser) => {
       rawUser && setUserFromRaw(rawUser)
+      setLoading(false)
     })
   }, [])
 
@@ -88,6 +96,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        isLoading,
         user,
         signInWithGoogle,
         signInWithFacebook,

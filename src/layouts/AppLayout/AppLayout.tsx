@@ -2,11 +2,15 @@ import Box from '@mui/material/Box'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import Loading from '~/components/Loading'
+import { useAuth } from '~/hooks'
+
 import AppBar from './AppBar'
 import Drawer from './Drawer'
 import DrawerHeader from './DrawerHeader'
 
 function AppLayout() {
+  const { isLoading } = useAuth()
   const [isDrawerOpen, setDrawerOpen] = useState(false)
 
   function handleDrawerOpen() {
@@ -34,7 +38,7 @@ function AppLayout() {
         }}
       >
         <DrawerHeader />
-        <Outlet />
+        {isLoading ? <Loading /> : <Outlet />}
       </Box>
     </Box>
   )
