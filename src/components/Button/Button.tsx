@@ -1,11 +1,13 @@
 import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button'
 
+import { mergeSx } from '~/utils'
+
 export type ButtonProps = MuiButtonProps
 
 function Button({
   color = 'error',
   size = 'large',
-  style = {},
+  sx = {},
   variant = 'contained',
   ...props
 }: ButtonProps) {
@@ -14,10 +16,7 @@ function Button({
       color={color}
       variant={variant}
       size={size}
-      style={{
-        borderRadius: '1.5rem',
-        ...style,
-      }}
+      sx={mergeSx({ borderRadius: '1.5rem' }, sx)}
       {...props}
     />
   )
