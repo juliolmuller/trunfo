@@ -2,7 +2,8 @@ import { CssBaseline, PaletteMode, StyledEngineProvider } from '@mui/material'
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { Theme, useTheme as useMuiTheme } from '@mui/system'
 import { createContext, ReactNode, useCallback, useContext } from 'react'
-import { useLocalStorage } from 'react-use'
+
+import { useLocalStorage } from '~/hooks'
 
 export interface ThemeContextProps {
   isDark: boolean
@@ -21,7 +22,7 @@ export interface ThemeProviderProps {
 export const ThemeContext = createContext({} as ThemeContextProps)
 
 export function ThemeProvider({ children, dark, light }: ThemeProviderProps) {
-  const [mode, setMode] = useLocalStorage<PaletteMode>('TRUNFO::theme', 'light')
+  const [mode, setMode] = useLocalStorage<PaletteMode>('theme', 'light')
   const isLight = mode === 'light'
   const isDark = mode === 'dark'
   const actualTheme = isLight ? light : dark
