@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { useAuth } from '~/hooks'
 import AppLayout from '~/layouts/AppLayout'
+import GameFormPage from '~/pages/GameFormPage'
 import HomePage from '~/pages/HomePage'
 import LoginPage from '~/pages/LoginPage'
 
@@ -20,6 +21,7 @@ function AuthRoutes() {
     <Routes>
       <Route path="/" element={<AppLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="new" element={<GameFormPage />} />
       </Route>
     </Routes>
   )
