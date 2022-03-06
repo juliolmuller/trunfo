@@ -20,11 +20,13 @@ export interface Game {
   id?: string
   betsEqualRounds: boolean
   betsUnequalRounds: boolean
+  createdAt: string // ISO date
+  createdBy: User['id']
   key: string
   name: string
   players: User[]
   scoreOnZeroBets: boolean
-  scoringMode: typeof ScoringMode
-  status: typeof GameStatus
+  scoringMode: ScoringMode
+  status: GameStatus
   turns: Turn[]
 }

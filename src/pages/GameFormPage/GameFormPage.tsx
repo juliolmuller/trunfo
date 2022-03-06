@@ -14,31 +14,37 @@ import { useNavigate } from 'react-router-dom'
 
 import Button from '~/components/Button'
 import Paper from '~/components/Paper'
-import { useLocalStorage } from '~/hooks'
+import { useGame, useLocalStorage } from '~/hooks'
 import { ScoringMode } from '~/models'
 
 function GameFormPage() {
   const navigate = useNavigate()
+  const { createGame } = useGame()
   const [name, setName] = useState('')
   const [scoringMode, setScoringMode] = useLocalStorage('scoringMode', ScoringMode.STANDARD)
   const [scoreOnZeroBets, setScoreOnZeroBets] = useLocalStorage('scoreOnZeroBets', false)
   const [betsUnequalRounds, setBetsUnequalRounds] = useLocalStorage('betsUnequalRounds', false)
   const [betsEqualRounds, setBetsEqualRounds] = useLocalStorage('betsEqualRounds', false)
+  const [isSubmitting, setSubmitting] = useState(false)
 
   function handleCancel() {
     navigate('/', { replace: true })
   }
 
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault()
-    // TODO: implement form submission
-    console.log({
-      name,
-      scoringMode,
-      scoreOnZeroBets,
-      betsUnequalRounds,
-      betsEqualRounds,
-    })
+  async function handleSubmit(event: FormEvent) {
+    try {
+      event.preventDefault()
+      setSubmitting(true)
+      await createGame({
+        name,
+        scoringMode,
+        scoreOnZeroBets,
+        betsUnequalRounds,
+        betsEqualRounds,
+      })
+    } catch {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -129,7 +135,11 @@ function GameFormPage() {
             })}
           >
             <Button type="submit">Próximo</Button>
-            <Button variant="text" onClick={handleCancel}>Cancelar</Button>
+            <Button
+              disabled={isSubmitting}
+              variant="text"
+              onClick={handleCancel}
+            >Cancelar</Button>
           </Box>
         </Stack>
       </form>

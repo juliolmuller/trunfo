@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+import { GameProvider } from '~/contexts'
 import { useAuth } from '~/hooks'
 import AppLayout from '~/layouts/AppLayout'
 import GameFormPage from '~/pages/GameFormPage'
@@ -18,12 +19,14 @@ function PublicRouter() {
 
 function AuthRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<AppLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path="new" element={<GameFormPage />} />
-      </Route>
-    </Routes>
+    <GameProvider>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="new" element={<GameFormPage />} />
+        </Route>
+      </Routes>
+    </GameProvider>
   )
 }
 
