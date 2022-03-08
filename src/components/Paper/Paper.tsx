@@ -22,7 +22,7 @@ function Paper({
         maxWidth: typeof maxWidth === 'string'
           ? theme.breakpoints.values[maxWidth]
           : maxWidth ?? 'auto',
-        m: 3,
+        my: 3,
         px: 3,
         py: 4,
       }), sx)}
