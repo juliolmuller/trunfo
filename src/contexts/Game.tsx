@@ -12,6 +12,7 @@ export type GameContextProps = {
   recentGames: Game[]
   userGames: Game[]
   createGame: (game: Partial<Game>) => Promise<void>
+  connectToGame: (gameId: string) => (/* unsubscribe fn */) => void
 }
 
 export type GameProviderProps = {
@@ -23,7 +24,7 @@ export const GameContext = createContext({} as GameContextProps)
 export function GameProvider({ children }: GameProviderProps) {
   const navigate = useNavigate()
   const [isLoading] = useState(true)
-  const [activeGame] = useState<Game>()
+  const [activeGame, setActiveGame] = useState<Game>()
   const [recentGames] = useState<Game[]>([])
   const [userGames] = useState<Game[]>([])
   const { user } = useAuth()
@@ -49,6 +50,26 @@ export function GameProvider({ children }: GameProviderProps) {
     navigate(`/game/${newGame.key}`, { replace: true })
   }
 
+  function connectToGame(gameId: string) {
+    const gameRef = database.ref(`games/${gameId}`)
+
+    gameRef.on('value', (event) => {
+      if (!event.val()) {
+        return
+      }
+
+      setActiveGame({
+        ...event.val(),
+        id: gameId,
+        turns: [],
+        players: [],
+        createdAt: new Date(event.val().createdAt),
+      } as Game)
+    })
+
+    return () => gameRef.off('value')
+  }
+
   return (
     <GameContext.Provider
       value={{
@@ -57,6 +78,7 @@ export function GameProvider({ children }: GameProviderProps) {
         recentGames,
         userGames,
         createGame,
+        connectToGame,
       }}
     >
       {children}
