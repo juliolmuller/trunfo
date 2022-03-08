@@ -5,7 +5,7 @@ import { mergeSx } from '~/utils'
 
 export interface PaperProps extends MuiPaperProps {
   fullWidth?: boolean
-  maxWidth?: Breakpoint | number
+  maxWidth?: Breakpoint | 'inherit' | number
 }
 
 function Paper({
@@ -19,7 +19,7 @@ function Paper({
       elevation={6}
       sx={mergeSx((theme) => ({
         width: fullWidth ? '100%' : 'auto',
-        maxWidth: typeof maxWidth === 'string'
+        maxWidth: typeof maxWidth === 'string' && maxWidth !== 'inherit'
           ? theme.breakpoints.values[maxWidth]
           : maxWidth ?? 'auto',
         my: 3,
