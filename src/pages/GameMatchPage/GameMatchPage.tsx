@@ -1,8 +1,13 @@
-import { FC, useEffect, useMemo } from 'react'
+import Container from '@mui/material/Container'
+import MenuItem from '@mui/material/MenuItem'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { ChangeEvent, FC, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Loading from '~/components/Loading'
-import { useGame } from '~/hooks'
+import { useAuth, useGame } from '~/hooks'
 import { GameStatus } from '~/models'
 
 import ClosedView from './ClosedView'
@@ -22,11 +27,17 @@ const viewByStatusMap: Record<GameStatus, FC> = {
 }
 
 function GameMatchPage() {
+  const { user } = useAuth()
   const { gameId } = useParams()
-  const { activeGame, connectToGame } = useGame()
+  const { activeGame, connectToGame, updateGame } = useGame()
   const ActiveView = useMemo(() => {
     return activeGame ? viewByStatusMap[activeGame.status] : Loading
   }, [activeGame?.status]) // eslint-disable-line react-hooks/exhaustive-deps
+  const smallViews = [GameStatus.CLOSED]
+
+  function handleChangeStatus(event: ChangeEvent<HTMLInputElement>) {
+    updateGame({ status: event.target.value as GameStatus })
+  }
 
   useEffect(() => { // eslint-disable-line consistent-return
     if (gameId) {
@@ -35,7 +46,33 @@ function GameMatchPage() {
     }
   }, [gameId]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <ActiveView />
+  return (
+    <Container maxWidth={smallViews.includes(activeGame?.status as GameStatus) ? 'sm' : 'md'}>
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Typography variant="h4" fontWeight={700}>{activeGame?.name}</Typography>
+
+        {user?.id === activeGame?.createdBy && (
+          <TextField
+            color="error"
+            label="Status do jogo"
+            select
+            size="small"
+            value={activeGame?.status}
+            onChange={handleChangeStatus}
+          >
+            <MenuItem value={GameStatus.PLAYERS_JOINING}>Adicionar jogadores</MenuItem>
+            <MenuItem value={GameStatus.SETTING_UP_TURN}>Preparar jogada</MenuItem>
+            <MenuItem value={GameStatus.PLAYERS_BETTING}>Registrar apostas</MenuItem>
+            <MenuItem value={GameStatus.PLAYING}>Em jogo</MenuItem>
+            <MenuItem value={GameStatus.REPORTING_HITS}>Registrar resultados</MenuItem>
+            <MenuItem value={GameStatus.CLOSED}>Encerrado</MenuItem>
+          </TextField>
+        )}
+      </Stack>
+
+      <ActiveView />
+    </Container>
+  )
 }
 
 export default GameMatchPage

@@ -13,6 +13,7 @@ export type GameContextProps = {
   userGames: Game[]
   createGame: (game: Partial<Game>) => Promise<void>
   connectToGame: (gameId: string) => (/* unsubscribe fn */) => void
+  updateGame: (data: Partial<Game>) => Promise<void>
 }
 
 export type GameProviderProps = {
@@ -70,6 +71,12 @@ export function GameProvider({ children }: GameProviderProps) {
     return () => gameRef.off('value')
   }
 
+  async function updateGame(data: Partial<Game>) {
+    if (activeGame?.id) {
+      await database.ref(`games/${activeGame.id}`).update({ ...data })
+    }
+  }
+
   return (
     <GameContext.Provider
       value={{
@@ -79,6 +86,7 @@ export function GameProvider({ children }: GameProviderProps) {
         userGames,
         createGame,
         connectToGame,
+        updateGame,
       }}
     >
       {children}
