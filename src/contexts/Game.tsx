@@ -38,11 +38,11 @@ export function GameProvider({ children }: GameProviderProps) {
       createdBy: user?.id as string,
       key: gameKey,
       name: name || `Jogo ${gameKey}`,
-      players: [],
+      players: [], // ignored by firebase
       scoreOnZeroBets: false,
       scoringMode: ScoringMode.STANDARD,
-      status: GameStatus.CLOSED,
-      turns: [],
+      status: GameStatus.PLAYERS_JOINING,
+      turns: [], // ignored by firebase
       ...rest,
     }
     const gamesRef = database.ref('games')
