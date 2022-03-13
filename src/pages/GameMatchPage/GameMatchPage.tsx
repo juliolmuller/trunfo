@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom'
 
 import Loading from '~/components/Loading'
 import { useAuth, useGame } from '~/hooks'
-import { GameStatus } from '~/models'
+import { Game, GameStatus } from '~/models'
 
 import ClosedView from './ClosedView'
 import PlayersBettingView from './PlayersBettingView'
@@ -17,7 +17,7 @@ import PlayingView from './PlayingView'
 import ReportingHitsView from './ReportingHitsView'
 import SettingUpTurnView from './SettingUpTurnView'
 
-const viewByStatusMap: Record<GameStatus, FC> = {
+const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.CLOSED]: ClosedView,
   [GameStatus.PLAYERS_BETTING]: PlayersBettingView,
   [GameStatus.PLAYERS_JOINING]: PlayersJoiningView,
@@ -31,7 +31,7 @@ function GameMatchPage() {
   const { gameId } = useParams()
   const { activeGame, connectToGame, updateGame } = useGame()
   const ActiveView = useMemo(() => {
-    return activeGame ? viewByStatusMap[activeGame.status] : Loading
+    return activeGame ? viewByStatusMap[activeGame.status] : () => null
   }, [activeGame?.status]) // eslint-disable-line react-hooks/exhaustive-deps
   const smallViews = [GameStatus.CLOSED]
 
@@ -70,7 +70,11 @@ function GameMatchPage() {
         )}
       </Stack>
 
-      <ActiveView />
+      {activeGame ? (
+        <ActiveView game={activeGame} />
+      ) : (
+        <Loading />
+      )}
     </Container>
   )
 }

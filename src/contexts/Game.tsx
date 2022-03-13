@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '~/hooks'
-import { Game, GameStatus, ScoringMode } from '~/models'
+import { Game, GameStatus, Player, ScoringMode } from '~/models'
 import { database } from '~/services/firebase'
 import { generateKey } from '~/utils'
 
@@ -12,8 +12,10 @@ export type GameContextProps = {
   recentGames: Game[]
   userGames: Game[]
   createGame: (game: Partial<Game>) => Promise<void>
-  connectToGame: (gameId: string) => (/* unsubscribe fn */) => void
+  connectToGame: (gameId: Game['id']) => (/* unsubscribe fn */) => void
   updateGame: (data: Partial<Game>) => Promise<void>
+  addOfflinePlayer: (playerName: string) => Promise<void>
+  removePlayer: (playerId: Player['id']) => Promise<void>
 }
 
 export type GameProviderProps = {
@@ -51,20 +53,28 @@ export function GameProvider({ children }: GameProviderProps) {
     navigate(`/game/${newGame.key}`, { replace: true })
   }
 
-  function connectToGame(gameId: string) {
+  function connectToGame(gameId: Game['id']) {
     const gameRef = database.ref(`games/${gameId}`)
 
     gameRef.on('value', (event) => {
-      if (!event.val()) {
+      const rawValue = event.val()
+
+      if (!rawValue) {
         return
       }
 
       setActiveGame({
-        ...event.val(),
+        ...rawValue,
         id: gameId,
-        turns: [],
-        players: [],
         createdAt: new Date(event.val().createdAt),
+        turns: Object.keys(rawValue.turns ?? {}).map((turnId) => ({
+          ...rawValue.turns[turnId],
+          id: turnId,
+        })),
+        players: Object.keys(rawValue.players ?? {}).map((playerId) => ({
+          ...rawValue.players[playerId],
+          id: playerId,
+        })),
       } as Game)
     })
 
@@ -74,6 +84,22 @@ export function GameProvider({ children }: GameProviderProps) {
   async function updateGame(data: Partial<Game>) {
     if (activeGame?.id) {
       await database.ref(`games/${activeGame.id}`).update({ ...data })
+    }
+  }
+
+  async function addOfflinePlayer(playerName: string) {
+    if (activeGame?.id) {
+      await database.ref(`games/${activeGame.id}/players`).push({
+        name: playerName,
+        order: 0,
+        score: 0,
+      })
+    }
+  }
+
+  async function removePlayer(playerId: Player['id']) {
+    if (activeGame?.id) {
+      await database.ref(`games/${activeGame.id}/players/${playerId}`).remove()
     }
   }
 
@@ -87,6 +113,8 @@ export function GameProvider({ children }: GameProviderProps) {
         createGame,
         connectToGame,
         updateGame,
+        addOfflinePlayer,
+        removePlayer,
       }}
     >
       {children}

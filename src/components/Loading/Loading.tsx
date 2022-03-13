@@ -4,9 +4,15 @@ import { useTheme } from '~/hooks'
 
 export interface LoadingProps {
   color?: keyof Theme['palette'] | string
+  margin?: 'none' | 'auto'
+  size?: number
 }
 
-function Loading({ color = 'error' }: LoadingProps) {
+function Loading({
+  color = 'error',
+  margin = 'auto',
+  size = 156,
+}: LoadingProps) {
   const { palette } = useTheme()
   const actualColor = color in palette ? palette[color].main : color
 
@@ -16,11 +22,11 @@ function Loading({ color = 'error' }: LoadingProps) {
       style={{
         display: 'block',
         shapeRendering: 'auto',
-        margin: 'auto',
+        margin: margin === 'none' ? 0 : 'auto',
         background: 'none',
       }}
-      height="156px"
-      width="156px"
+      height={`${size}px`}
+      width={`${size}px`}
       preserveAspectRatio="xMidYMid"
       viewBox="0 0 100 100"
       xmlns="http://www.w3.org/2000/svg"
