@@ -2,6 +2,7 @@ import CopyIcon from '@mui/icons-material/ContentCopy'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { useEffect, useState } from 'react'
 
@@ -65,7 +66,9 @@ function QRCode({ gameKey }: QRCodeProps) {
           {isCopying ? (
             <CircularProgress color="inherit" size={24} />
           ) : (
-            <CopyIcon />
+            <Tooltip arrow placement="right" title="Copiar URL">
+              <CopyIcon />
+            </Tooltip>
           )}
         </IconButton>
       </Typography>

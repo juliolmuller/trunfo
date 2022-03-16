@@ -16,6 +16,7 @@ export type GameContextProps = {
   updateGame: (data: Partial<Game>) => Promise<void>
   addOfflinePlayer: (playerName: string) => Promise<void>
   removePlayer: (playerId: Player['id']) => Promise<void>
+  reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
 }
 
 export type GameProviderProps = {
@@ -66,15 +67,18 @@ export function GameProvider({ children }: GameProviderProps) {
       setActiveGame({
         ...rawValue,
         id: gameId,
-        createdAt: new Date(event.val().createdAt),
+        createdAt: new Date(rawValue.createdAt),
         turns: Object.keys(rawValue.turns ?? {}).map((turnId) => ({
           ...rawValue.turns[turnId],
           id: turnId,
         })),
         players: Object.keys(rawValue.players ?? {}).map((playerId) => ({
           ...rawValue.players[playerId],
+          addedAt: new Date(rawValue.players[playerId].createdAt),
           id: playerId,
-        })),
+        } as Player)).sort((p1, p2) => (p1.order === p2.order
+          ? Number(p1.addedAt) - Number(p2.addedAt)
+          : p1.order - p2.order)),
       } as Game)
     })
 
@@ -92,7 +96,7 @@ export function GameProvider({ children }: GameProviderProps) {
       const playerData: Player = {
         addedAt: new Date().toISOString(),
         name: playerName,
-        order: 0,
+        order: 9999,
         score: 0,
       }
       await database.ref(`games/${activeGame.id}/players`).push(playerData)
@@ -102,6 +106,17 @@ export function GameProvider({ children }: GameProviderProps) {
   async function removePlayer(playerId: Player['id']) {
     if (activeGame?.id) {
       await database.ref(`games/${activeGame.id}/players/${playerId}`).remove()
+    }
+  }
+
+  async function reorderPlayers(playersIds: Player['id'][]) {
+    if (activeGame?.id) {
+      const playersRef = database.ref(`games/${activeGame.id}/players`)
+
+      await Promise.all(playersIds.map(async (id, index) => {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        await playersRef.child(id!).update({ order: index + 1 })
+      }))
     }
   }
 
@@ -117,6 +132,7 @@ export function GameProvider({ children }: GameProviderProps) {
         updateGame,
         addOfflinePlayer,
         removePlayer,
+        reorderPlayers,
       }}
     >
       {children}
