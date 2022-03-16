@@ -89,11 +89,13 @@ export function GameProvider({ children }: GameProviderProps) {
 
   async function addOfflinePlayer(playerName: string) {
     if (activeGame?.id) {
-      await database.ref(`games/${activeGame.id}/players`).push({
+      const playerData: Player = {
+        addedAt: new Date().toISOString(),
         name: playerName,
         order: 0,
         score: 0,
-      })
+      }
+      await database.ref(`games/${activeGame.id}/players`).push(playerData)
     }
   }
 

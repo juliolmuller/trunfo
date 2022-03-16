@@ -2,9 +2,10 @@ import { User } from '~/models'
 
 export interface Player {
   id?: string
-  userId?: User['id']
+  addedAt: string // ISO date
   name: string
-  avatar?: string
   order: number
   score: number
+  avatar?: string
+  userId?: User['id']
 }
