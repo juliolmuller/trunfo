@@ -119,7 +119,7 @@ function GameFormPage() {
             />
           </FormControl>
 
-          <Divider sx={{ width: '100%' }} />
+          <Divider sx={{ width: 1 }} />
 
           <Box
             sx={(theme) => ({
@@ -128,7 +128,7 @@ function GameFormPage() {
               alignItems: 'center',
               justifyContent: 'space-evenly',
               gap: 2,
-              width: '100%',
+              width: 1,
               [theme.breakpoints.up('sm')]: {
                 flexDirection: 'row-reverse',
               },

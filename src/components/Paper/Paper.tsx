@@ -17,15 +17,13 @@ function Paper({
   return (
     <MuiPaper
       elevation={6}
-      sx={mergeSx((theme) => ({
-        width: fullWidth ? '100%' : 'auto',
-        maxWidth: typeof maxWidth === 'string' && maxWidth !== 'inherit'
-          ? theme.breakpoints.values[maxWidth]
-          : maxWidth ?? 'auto',
+      sx={mergeSx({
+        width: fullWidth ? 1 : 'auto',
+        maxWidth,
         my: 3,
         px: 3,
         py: 4,
-      }), sx)}
+      }, sx)}
       {...props}
     />
   )

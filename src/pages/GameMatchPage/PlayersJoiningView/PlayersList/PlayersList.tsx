@@ -20,7 +20,7 @@ function PlayersList({
   const { user } = useAuth()
 
   return (
-    <Box sx={{ height: '100%' }}>
+    <Box sx={{ height: 1 }}>
       <Box
         sx={{
           display: 'flex',

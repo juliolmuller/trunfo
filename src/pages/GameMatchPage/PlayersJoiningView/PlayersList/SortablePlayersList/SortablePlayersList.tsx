@@ -64,7 +64,7 @@ function SortablePlayersList({
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
-                          }
+                    }
                     sx={(theme) => ({
                       boxShadow: snapshot.isDragging ? 10 : 0,
                       borderRadius: 2,
@@ -83,7 +83,12 @@ function SortablePlayersList({
                     {...draggableProvider.draggableProps}
                   >
                     <ListItemIcon
-                      sx={{ minWidth: 32 }}
+                      sx={{
+                        transition: 'opacity 150ms',
+                        opacity: 0.5,
+                        minWidth: 32,
+                        '&:hover': { opacity: 1 },
+                      }}
                       {...draggableProvider.dragHandleProps}
                     >
                       <DraggableIcon />

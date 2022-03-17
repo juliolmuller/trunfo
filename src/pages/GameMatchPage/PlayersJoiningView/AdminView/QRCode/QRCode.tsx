@@ -36,7 +36,7 @@ function QRCode({ gameKey }: QRCodeProps) {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%',
+        height: 1,
       }}
     >
       <img src={qrCode} height="200" alt="código QR" />

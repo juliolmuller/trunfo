@@ -34,7 +34,7 @@ function AppLayout() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '100%',
+          width: 1,
           p: 3,
         }}
       >
