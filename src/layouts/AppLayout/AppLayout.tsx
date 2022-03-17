@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
@@ -22,7 +23,7 @@ function AppLayout() {
   }
 
   return (
-    <Box sx={{ display: 'flex', height: 'inherit' }}>
+    <Stack height="inherit">
       <AppBar onOpenDrawer={handleDrawerOpen} />
       <Drawer open={isDrawerOpen} onClose={handleDrawerClose} />
 
@@ -40,7 +41,7 @@ function AppLayout() {
         <DrawerHeader />
         {isLoading ? <Loading /> : <Outlet />}
       </Box>
-    </Box>
+    </Stack>
   )
 }
 
