@@ -4,21 +4,18 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
 import Loading from '~/components/Loading'
-import { useAuth } from '~/hooks'
-import { Game } from '~/models'
+import { Player } from '~/models'
 
-import AddNewPlayerControl from './AddNewPlayerControl'
+import ActionControls from './ActionControls'
 import SortablePlayersList from './SortablePlayersList'
 
 export interface PlayersListProps {
-  game: Game
+  players: Player[]
 }
 
 function PlayersList({
-  game: { createdBy, players },
+  players,
 }: PlayersListProps) {
-  const { user } = useAuth()
-
   return (
     <Box sx={{ height: 1 }}>
       <Box
@@ -48,9 +45,7 @@ function PlayersList({
         </Stack>
       )}
 
-      {user?.id === createdBy && (
-        <AddNewPlayerControl />
-      )}
+      <ActionControls />
     </Box>
   )
 }

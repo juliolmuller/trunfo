@@ -10,7 +10,7 @@ export interface PaperProps extends MuiPaperProps {
 
 function Paper({
   fullWidth,
-  maxWidth,
+  maxWidth = 'auto',
   sx = {},
   ...props
 }: PaperProps) {
