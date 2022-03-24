@@ -5,7 +5,7 @@ import { mergeSx } from '~/utils'
 
 export interface PaperProps extends MuiPaperProps {
   fullWidth?: boolean
-  maxWidth?: Breakpoint | 'inherit' | number
+  maxWidth?: Breakpoint | 'inherit' | 'auto' | number
 }
 
 function Paper({
