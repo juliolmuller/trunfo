@@ -41,7 +41,7 @@ function ActionControls() {
   }
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box sx={{ mt: 'auto', pt: 2 }}>
       {isAddingPlayer ? (
         <Box component="form" onSubmit={handleSubmit}>
           <TextField

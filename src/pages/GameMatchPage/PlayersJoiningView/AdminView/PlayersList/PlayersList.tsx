@@ -17,7 +17,7 @@ function PlayersList({
   players,
 }: PlayersListProps) {
   return (
-    <Box sx={{ height: 1 }}>
+    <Stack sx={{ height: 1 }}>
       <Box
         sx={{
           display: 'flex',
@@ -46,7 +46,7 @@ function PlayersList({
       )}
 
       <ActionControls />
-    </Box>
+    </Stack>
   )
 }
 
