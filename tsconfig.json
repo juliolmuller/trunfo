@@ -1,0 +1,31 @@
+// 20220127235024
+// https://raw.githubusercontent.com/FarmaAlg/frontend/main/tsconfig.json?token=GHSAT0AAAAAABIJUP2EGM5M2A2UHLBDVYCWYPTLIWA
+
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "baseUrl": "src/",
+    "paths": {
+      "~/*": ["*"]
+    }
+  },
+  "include": [
+    "src/"
+  ]
+}
