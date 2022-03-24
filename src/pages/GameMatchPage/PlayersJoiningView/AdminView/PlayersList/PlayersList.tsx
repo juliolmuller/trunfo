@@ -34,7 +34,7 @@ function PlayersList({
       </Box>
 
       {players.length > 0 && (
-        <Stack>
+        <Box>
           <Divider>
             <Typography component="h6" variant='caption' sx={{ textTransform: 'uppercase' }}>
               Jogadores cadastrados
@@ -42,7 +42,7 @@ function PlayersList({
           </Divider>
 
           <SortablePlayersList players={players} />
-        </Stack>
+        </Box>
       )}
 
       <ActionControls />

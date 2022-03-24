@@ -6,6 +6,6 @@ export interface Player {
   name: string
   order: number
   score: number
-  avatar?: string
+  avatar: string
   userId?: User['id']
 }

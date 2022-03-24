@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '~/hooks'
 import { Game, GameStatus, Player, ScoringMode } from '~/models'
 import { database } from '~/services/firebase'
-import { generateKey } from '~/utils'
+import { generateAvatar, generateKey } from '~/utils'
 
 export type GameContextProps = {
   isLoading: boolean
@@ -95,6 +95,7 @@ export function GameProvider({ children }: GameProviderProps) {
     if (activeGame?.id) {
       const playerData: Player = {
         addedAt: new Date().toISOString(),
+        avatar: generateAvatar(playerName),
         name: playerName,
         order: 9999,
         score: 0,
