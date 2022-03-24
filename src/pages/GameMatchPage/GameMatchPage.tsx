@@ -10,6 +10,7 @@ import Loading from '~/components/Loading'
 import { useAuth, useGame } from '~/hooks'
 import { Game, GameStatus } from '~/models'
 
+import AwaitingView from './AwaitingView'
 import ClosedView from './ClosedView'
 import PlayersBettingView from './PlayersBettingView'
 import PlayersJoiningView from './PlayersJoiningView'
@@ -18,6 +19,7 @@ import ReportingHitsView from './ReportingHitsView'
 import SettingUpTurnView from './SettingUpTurnView'
 
 const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
+  [GameStatus.AWAITING]: AwaitingView,
   [GameStatus.CLOSED]: ClosedView,
   [GameStatus.PLAYERS_BETTING]: PlayersBettingView,
   [GameStatus.PLAYERS_JOINING]: PlayersJoiningView,
@@ -60,6 +62,7 @@ function GameMatchPage() {
             value={activeGame?.status}
             onChange={handleChangeStatus}
           >
+            <MenuItem value={GameStatus.AWAITING}>Aguardando</MenuItem>
             <MenuItem value={GameStatus.PLAYERS_JOINING}>Adicionar jogadores</MenuItem>
             <MenuItem value={GameStatus.SETTING_UP_TURN}>Preparar jogada</MenuItem>
             <MenuItem value={GameStatus.PLAYERS_BETTING}>Registrar apostas</MenuItem>

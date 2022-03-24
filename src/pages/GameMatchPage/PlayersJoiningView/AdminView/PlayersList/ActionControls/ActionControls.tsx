@@ -11,10 +11,9 @@ import { ChangeEvent, FormEvent, useState } from 'react'
 
 import Button from '~/components/Button'
 import { useGame } from '~/hooks'
-import { GameStatus } from '~/models'
 
 function ActionControls() {
-  const { addOfflinePlayer, updateGame } = useGame()
+  const { addOfflinePlayer, startGame } = useGame()
   const [isAddingPlayer, setAddingPlayer] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
   const [newUserName, setNewUserName] = useState('')
@@ -37,7 +36,7 @@ function ActionControls() {
   }
 
   function handlePlay() {
-    updateGame({ status: GameStatus.SETTING_UP_TURN })
+    startGame()
   }
 
   return (

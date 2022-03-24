@@ -17,6 +17,7 @@ export type GameContextProps = {
   addOfflinePlayer: (playerName: string) => Promise<void>
   removePlayer: (playerId: Player['id']) => Promise<void>
   reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
+  startGame: () => Promise<void>
 }
 
 export type GameProviderProps = {
@@ -121,6 +122,10 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }
 
+  async function startGame() {
+    await updateGame({ status: GameStatus.AWAITING })
+  }
+
   return (
     <GameContext.Provider
       value={{
@@ -134,6 +139,7 @@ export function GameProvider({ children }: GameProviderProps) {
         addOfflinePlayer,
         removePlayer,
         reorderPlayers,
+        startGame,
       }}
     >
       {children}
