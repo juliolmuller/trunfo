@@ -1,9 +1,15 @@
 import Paper from '~/components/Paper'
+import ScoreBoard from '~/components/ScoreBoard'
+import { Game } from '~/models'
 
-function AwaitingView() {
+export interface AwaitingViewProps {
+  game: Game
+}
+
+function AwaitingView({ game }: AwaitingViewProps) {
   return (
     <Paper fullWidth maxWidth="sm">
-      <h1>Awaiting View</h1>
+      <ScoreBoard players={game.players} />
     </Paper>
   )
 }
