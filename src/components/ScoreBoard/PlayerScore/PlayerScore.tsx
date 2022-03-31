@@ -1,24 +1,24 @@
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import ListItem from '@mui/material/ListItem'
 import Typography from '@mui/material/Typography'
 import { forwardRef } from 'react'
 
-import { useTheme } from '~/hooks'
 import { Player } from '~/models'
 
 export type PlayerScoreProps = Player
 
 const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, ref) => {
-  const theme = useTheme()
+  const score = player.score || 0
 
+  /* eslint-disable curly, no-shadow, nonblock-statement-body-position */
   function getColor(score: number) {
-    /* eslint-disable curly, nonblock-statement-body-position */
     if (score > 0)
-      return theme.palette.success.main
+      return 'success'
     if (score < 0)
-      return theme.palette.error.main
-    return theme.palette.info.main
-    /* eslint-enable curly, nonblock-statement-body-position */
+      return 'error'
+    return 'info'
+    /* eslint-enable curly, no-shadow, nonblock-statement-body-position */
   }
 
   return (
@@ -39,14 +39,11 @@ const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, ref) =>
           borderBottom: '1px dotted #999',
         }}
       />
-      <Typography
-        sx={{
-          color: getColor(player.score),
-          fontWeight: 'bold',
-        }}
-      >
-        {player.score > 0 && '+'}{player.score ?? 0}
-      </Typography>
+      <Chip
+        color={getColor(score)}
+        label={score > 0 ? `+${score}` : score}
+        sx={{ fontSize: '1rem' }}
+      />
     </ListItem>
   )
 })
