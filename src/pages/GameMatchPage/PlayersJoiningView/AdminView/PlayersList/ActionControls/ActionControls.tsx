@@ -13,7 +13,7 @@ import Button from '~/components/Button'
 import { useGame } from '~/hooks'
 
 function ActionControls() {
-  const { addOfflinePlayer, startGame } = useGame()
+  const { addOfflinePlayer, startMatch } = useGame()
   const [isAddingPlayer, setAddingPlayer] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
   const [newUserName, setNewUserName] = useState('')
@@ -36,7 +36,7 @@ function ActionControls() {
   }
 
   function handlePlay() {
-    startGame()
+    startMatch()
   }
 
   return (

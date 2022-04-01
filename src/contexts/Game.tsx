@@ -17,7 +17,9 @@ export type GameContextProps = {
   addOfflinePlayer: (playerName: string) => Promise<void>
   removePlayer: (playerId: Player['id']) => Promise<void>
   reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
-  startGame: () => Promise<void>
+  startMatch: () => Promise<void>
+  defineNewTurn: () => Promise<void>
+  endMatch: () => Promise<void>
 }
 
 export type GameProviderProps = {
@@ -122,8 +124,16 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }
 
-  async function startGame() {
+  async function startMatch() {
     await updateGame({ status: GameStatus.AWAITING })
+  }
+
+  async function defineNewTurn() {
+    await updateGame({ status: GameStatus.SETTING_UP_TURN })
+  }
+
+  async function endMatch() {
+    await updateGame({ status: GameStatus.CLOSED })
   }
 
   return (
@@ -139,7 +149,9 @@ export function GameProvider({ children }: GameProviderProps) {
         addOfflinePlayer,
         removePlayer,
         reorderPlayers,
-        startGame,
+        startMatch,
+        defineNewTurn,
+        endMatch,
       }}
     >
       {children}

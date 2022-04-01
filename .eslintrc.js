@@ -13,6 +13,7 @@ module.exports = {
     '@typescript-eslint/no-namespace': 'off',
     'quote-props': ['error', 'as-needed'],
     'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+    'no-magic-numbers': 'off',
     'react/display-name': 'off',
   },
 }
