@@ -1,6 +1,7 @@
 import { useAuth } from '~/hooks'
 import { Game } from '~/models'
 
+import PlayersJoiningGeneralView from '../AwaitingView'
 import PlayersJoiningAdminView from './AdminView'
 
 export interface PlayersJoiningViewProps {
@@ -10,9 +11,9 @@ export interface PlayersJoiningViewProps {
 function PlayersJoiningView({ game }: PlayersJoiningViewProps) {
   const { user } = useAuth()
 
-  return game?.createdBy === user?.id
+  return game.createdBy === user?.id
     ? <PlayersJoiningAdminView game={game} />
-    : null // TODO: implement other element
+    : <PlayersJoiningGeneralView game={game} />
 }
 
 export default PlayersJoiningView
