@@ -2,6 +2,7 @@ import AddIcon from '@mui/icons-material/Add'
 import PlayIcon from '@mui/icons-material/PlayCircle'
 import DoneIcon from '@mui/icons-material/TaskAlt'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Stack from '@mui/material/Stack'
@@ -9,7 +10,6 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
-import Button from '~/components/Button'
 import { useGame } from '~/hooks'
 
 function ActionControls() {
@@ -52,7 +52,7 @@ function ActionControls() {
             InputProps={{
               endAdornment: newUserName.length === 0 ? undefined : (
                 <InputAdornment position="end">
-                  <IconButton color="success" type="submit">
+                  <IconButton color="secondary" type="submit">
                     <DoneIcon />
                   </IconButton>
                 </InputAdornment>
@@ -75,7 +75,7 @@ function ActionControls() {
           >
             Adicionar novo jogador
           </Button>
-          <Tooltip arrow placement="right" title="Iniciar jogo">
+          <Tooltip placement="right" title="Iniciar jogo">
             <PlayIcon
               sx={(theme) => {
                 function getTransform(scale: number) {

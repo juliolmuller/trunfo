@@ -1,8 +1,8 @@
 import AddIcon from '@mui/icons-material/AddCircleOutline'
 import EndIcon from '@mui/icons-material/CancelPresentation'
+import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-import Button from '~/components/Button'
 import Paper from '~/components/Paper'
 import ScoreBoard from '~/components/ScoreBoard'
 import { useAuth, useGame } from '~/hooks'
@@ -32,7 +32,7 @@ function AwaitingView({ game }: AwaitingViewProps) {
       {isGameOwner && (
         <Stack direction="row" justifyContent="space-evenly" mt={3}>
           <Button
-            color="success"
+            color="secondary"
             startIcon={<AddIcon />}
             onClick={handleDefineNewTurn}
             sx={{ color: 'common.white' }}
@@ -40,7 +40,6 @@ function AwaitingView({ game }: AwaitingViewProps) {
             Nova Jogada
           </Button>
           <Button
-            color="error"
             startIcon={<EndIcon />}
             onClick={handleEndMatch}
             sx={{ color: 'common.white' }}

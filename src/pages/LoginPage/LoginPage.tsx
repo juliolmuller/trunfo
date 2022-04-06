@@ -1,6 +1,6 @@
+import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-import Button from '~/components/Button'
 import Paper from '~/components/Paper'
 import { useAuth } from '~/hooks'
 
@@ -21,7 +21,6 @@ function LoginPage() {
         <Button
           fullWidth
           startIcon={<img src="/img/google-logo.svg" alt="Google" height="20" />}
-          variant="contained"
           onClick={handleGoogleSignIn}
           sx={{ color: 'white' }}
         >

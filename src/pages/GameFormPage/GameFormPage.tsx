@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -12,7 +13,6 @@ import Typography from '@mui/material/Typography'
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '~/components/Button'
 import Paper from '~/components/Paper'
 import { useGame, useLocalStorage } from '~/hooks'
 import { ScoringMode } from '~/models'

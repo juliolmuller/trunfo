@@ -59,7 +59,7 @@ function SortablePlayersList({
                   <ListItem
                     ref={draggableProvider.innerRef}
                     secondaryAction={
-                      <Tooltip arrow placement="right" title="Remover jogador">
+                      <Tooltip placement="right" title="Remover jogador">
                         <IconButton color="error" onClick={() => handleDeletePlayer(player)}>
                           <DeleteIcon />
                         </IconButton>
