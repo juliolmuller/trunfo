@@ -55,7 +55,6 @@ function GameMatchPage() {
 
         {user?.id === activeGame?.createdBy && (
           <TextField
-            color="error"
             label="Status do jogo"
             select
             size="small"

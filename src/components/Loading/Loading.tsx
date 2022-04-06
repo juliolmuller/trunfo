@@ -9,7 +9,7 @@ export interface LoadingProps {
 }
 
 function Loading({
-  color = 'error',
+  color = 'primary',
   margin = 'auto',
   size = 156,
 }: LoadingProps) {

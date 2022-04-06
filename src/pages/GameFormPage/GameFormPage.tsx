@@ -57,7 +57,6 @@ function GameFormPage() {
 
           <TextField
             autoFocus
-            color="error"
             fullWidth
             label="Nome do jogo (opcional)"
             size="small"
@@ -71,19 +70,18 @@ function GameFormPage() {
               Modo de Pontuação
             </FormLabel>
             <RadioGroup
-              color="error"
               name="scoringMode"
               value={scoringMode}
               onChange={(event) => setScoringMode(event.target.value as ScoringMode)}
               aria-labelledby="scoring-mode-label"
             >
               <FormControlLabel
-                control={<Radio color="error" />}
+                control={<Radio />}
                 label="Multiplicação pelo número de apostas"
                 value={ScoringMode.STANDARD}
               />
               <FormControlLabel
-                control={<Radio color="error" />}
+                control={<Radio />}
                 label="Simplificada (+10 para acertos e -10 para erros)"
                 value={ScoringMode.SIMPLIFIED}
               />
@@ -93,7 +91,7 @@ function GameFormPage() {
           <FormControl fullWidth>
             <FormControlLabel
               checked={scoreOnZeroBets}
-              control={<Switch color="error" />}
+              control={<Switch />}
               label="Pontuar em acertos com zero apostas"
               onChange={(event) => setScoreOnZeroBets((event.target as any).checked)}
             />
@@ -102,7 +100,7 @@ function GameFormPage() {
           <FormControl fullWidth>
             <FormControlLabel
               checked={betsUnequalRounds}
-              control={<Switch color="error" />}
+              control={<Switch />}
               disabled={betsEqualRounds}
               label="Quantidade total de apostas sempre diferente do número de rodadas"
               onChange={(event) => setBetsUnequalRounds((event.target as any).checked)}
@@ -112,7 +110,7 @@ function GameFormPage() {
           <FormControl fullWidth>
             <FormControlLabel
               checked={betsEqualRounds}
-              control={<Switch color="error" />}
+              control={<Switch />}
               disabled={betsUnequalRounds}
               label="Quantidade total de apostas sempre igual ao número de rodadas"
               onChange={(event) => setBetsEqualRounds((event.target as any).checked)}

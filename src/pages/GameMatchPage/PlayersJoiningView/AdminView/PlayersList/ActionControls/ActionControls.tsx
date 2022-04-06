@@ -45,7 +45,6 @@ function ActionControls() {
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             autoFocus
-            color="error"
             disabled={isSubmitting}
             fullWidth
             label="Nome do jogador"
@@ -83,7 +82,7 @@ function ActionControls() {
                 }
 
                 return {
-                  fill: theme.palette.success.main,
+                  fill: theme.palette.secondary.main,
                   cursor: 'pointer',
                   transition: 'transform 50ms',
                   transform: getTransform(2.2),
