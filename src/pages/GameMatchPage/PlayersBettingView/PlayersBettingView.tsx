@@ -1,10 +1,10 @@
-import Paper from '~/components/Paper'
+import Section from '~/components/Section'
 
 function PlayersBettingView() {
   return (
-    <Paper fullWidth maxWidth="sm">
+    <Section fullWidth maxWidth="sm">
       <h1>Players Betting View</h1>
-    </Paper>
+    </Section>
   )
 }
 

@@ -3,8 +3,8 @@ import EndIcon from '@mui/icons-material/CancelPresentation'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-import Paper from '~/components/Paper'
 import ScoreBoard from '~/components/ScoreBoard'
+import Section from '~/components/Section'
 import { useAuth, useGame } from '~/hooks'
 import { Game } from '~/models'
 
@@ -26,7 +26,7 @@ function AwaitingView({ game }: AwaitingViewProps) {
   }
 
   return (
-    <Paper fullWidth maxWidth="sm">
+    <Section fullWidth maxWidth="sm">
       <ScoreBoard players={game.players} />
 
       {isGameOwner && (
@@ -48,7 +48,7 @@ function AwaitingView({ game }: AwaitingViewProps) {
           </Button>
         </Stack>
       )}
-    </Paper>
+    </Section>
   )
 }
 

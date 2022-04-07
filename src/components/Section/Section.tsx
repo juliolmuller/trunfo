@@ -1,21 +1,21 @@
-import MuiPaper, { PaperProps as MuiPaperProps } from '@mui/material/Paper'
+import Paper, { PaperProps } from '@mui/material/Paper'
 import { Breakpoint } from '@mui/material/styles'
 
 import { mergeSx } from '~/utils'
 
-export interface PaperProps extends MuiPaperProps {
+export interface SectionProps extends PaperProps {
   fullWidth?: boolean
   maxWidth?: Breakpoint | 'inherit' | 'auto' | number
 }
 
-function Paper({
+function Section({
   fullWidth,
   maxWidth = 'auto',
   sx = {},
   ...props
-}: PaperProps) {
+}: SectionProps) {
   return (
-    <MuiPaper
+    <Paper
       elevation={6}
       sx={mergeSx({
         width: fullWidth ? 1 : 'auto',
@@ -29,4 +29,4 @@ function Paper({
   )
 }
 
-export default Paper
+export default Section

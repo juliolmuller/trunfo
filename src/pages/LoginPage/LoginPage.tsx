@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-import Paper from '~/components/Paper'
+import Section from '~/components/Section'
 import { useAuth } from '~/hooks'
 
 function LoginPage() {
@@ -16,7 +16,7 @@ function LoginPage() {
   }
 
   return (
-    <Paper fullWidth maxWidth="sm">
+    <Section fullWidth maxWidth="sm">
       <Stack alignItems="center" gap={3}>
         <Button
           fullWidth
@@ -38,7 +38,7 @@ function LoginPage() {
           Entrar com Facebook
         </Button>
       </Stack>
-    </Paper>
+    </Section>
   )
 }
 

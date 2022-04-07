@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Paper from '~/components/Paper'
+import Section from '~/components/Section'
 import { useGame, useLocalStorage } from '~/hooks'
 import { ScoringMode } from '~/models'
 
@@ -48,7 +48,7 @@ function GameFormPage() {
   }
 
   return (
-    <Paper fullWidth maxWidth="sm">
+    <Section fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit}>
         <Stack alignItems="center" gap={3}>
           <Typography variant="h4" sx={{ mb: 2 }}>
@@ -141,7 +141,7 @@ function GameFormPage() {
           </Box>
         </Stack>
       </form>
-    </Paper>
+    </Section>
   )
 }
 

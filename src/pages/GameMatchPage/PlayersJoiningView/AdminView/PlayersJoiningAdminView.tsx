@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 
-import Paper from '~/components/Paper'
+import Section from '~/components/Section'
 import { Game } from '~/models'
 
 import PlayersList from './PlayersList'
@@ -14,7 +14,7 @@ function PlayersJoiningAdminView({
   game: { key, players },
 }: PlayersJoiningAdminViewProps) {
   return (
-    <Paper fullWidth maxWidth="inherit">
+    <Section fullWidth maxWidth="inherit">
       <Grid container>
         <Grid item xs={12} md={5}>
           <QrCode gameKey={key} />
@@ -23,7 +23,7 @@ function PlayersJoiningAdminView({
           <PlayersList players={players} />
         </Grid>
       </Grid>
-    </Paper>
+    </Section>
   )
 }
 
