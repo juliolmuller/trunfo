@@ -13,7 +13,8 @@ export interface ScoreBoardProps {
 
 function ScoreBoard({ players }: ScoreBoardProps) {
   const orderedPlayers = useMemo(() => {
-    return [...players].sort((p1, p2) => p2.score - p1.score)
+  // TODO: find a way to order players by score
+    return [...players]
   }, [players])
 
   return (

@@ -38,7 +38,7 @@ export function GameProvider({ children }: GameProviderProps) {
 
   async function createGame({ name, ...rest }: Partial<Game>) {
     const gameKey = generateKey()
-    const gameData: Game = {
+    const gameData: Omit<Game, 'id'> = {
       betsEqualRounds: false,
       betsUnequalRounds: false,
       createdAt: new Date().toISOString(),
@@ -79,6 +79,10 @@ export function GameProvider({ children }: GameProviderProps) {
           ...rawValue.players[playerId],
           addedAt: new Date(rawValue.players[playerId].createdAt),
           id: playerId,
+          scoreLogs: Object.keys(rawValue.players[playerId].scoreLogs ?? {}).map((logId) => ({
+            ...rawValue.players[playerId].scoreLogs[logId],
+            turn: rawValue.turns[rawValue.players[playerId].scoreLogs[logId].turnId],
+          })),
         } as Player)).sort((p1, p2) => (p1.order === p2.order
           ? Number(p1.addedAt) - Number(p2.addedAt)
           : p1.order - p2.order)),
@@ -96,12 +100,12 @@ export function GameProvider({ children }: GameProviderProps) {
 
   async function addOfflinePlayer(playerName: string) {
     if (activeGame?.id) {
-      const playerData: Player = {
+      const playerData: Omit<Player, 'id'> = {
         addedAt: new Date().toISOString(),
         avatar: generateAvatar(playerName),
         name: playerName,
+        scoreLogs: [], // ignored by firebase
         order: 9999,
-        score: 0,
       }
       await database.ref(`games/${activeGame.id}/players`).push(playerData)
     }

@@ -11,7 +11,8 @@ import { Player } from '~/models'
 export type PlayerScoreProps = Player
 
 const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, ref) => {
-  const score = player.score || 0
+  // TODO: reduce player.scoreLogs to obtain actual score
+  const score = 0
 
   /* eslint-disable curly, no-shadow, nonblock-statement-body-position */
   function getColor(score: number) {
