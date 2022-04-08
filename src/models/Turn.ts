@@ -1,6 +1,6 @@
 
-export type Turn = Array<{
-  playerId: string
+export interface Turn {
+  id: string
   betsCount: number
-  wonCount: number
-}>
+  roundsCount: number
+}
