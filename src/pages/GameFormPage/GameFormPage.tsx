@@ -14,7 +14,7 @@ import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Section from '~/components/Section'
-import { useGame, useLocalStorage } from '~/hooks'
+import { useGame, useLocalStorage } from '~/helpers'
 import { ScoringMode } from '~/models'
 
 function GameFormPage() {

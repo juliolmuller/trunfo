@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack'
 
 import ScoreBoard from '~/components/ScoreBoard'
 import Section from '~/components/Section'
-import { useAuth, useGame } from '~/hooks'
+import { useAuth, useGame } from '~/helpers'
 import { Game } from '~/models'
 
 export interface AwaitingViewProps {

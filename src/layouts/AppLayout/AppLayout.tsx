@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import Loading from '~/components/Loading'
-import { useAuth } from '~/hooks'
+import { useAuth } from '~/helpers'
 
 import AppBar from './AppBar'
 import Drawer from './Drawer'

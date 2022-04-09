@@ -7,7 +7,7 @@ import { ChangeEvent, FC, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import Loading from '~/components/Loading'
-import { useAuth, useGame } from '~/hooks'
+import { useAuth, useGame } from '~/helpers'
 import { Game, GameStatus } from '~/models'
 
 import AwaitingView from './AwaitingView'

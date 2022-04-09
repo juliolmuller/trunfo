@@ -2,7 +2,7 @@ import List from '@mui/material/List'
 import { Children, useEffect, useLayoutEffect, useState } from 'react'
 import { usePrevious } from 'react-use'
 
-import { calculateBoundingBoxes } from '~/utils'
+import { calculateBoundingBoxes } from '~/helpers'
 
 export interface AnimatedListProps {
   children: any[]

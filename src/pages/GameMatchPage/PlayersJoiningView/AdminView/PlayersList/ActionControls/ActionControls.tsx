@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
-import { useGame } from '~/hooks'
+import { useGame } from '~/helpers'
 
 function ActionControls() {
   const { addOfflinePlayer, startMatch } = useGame()

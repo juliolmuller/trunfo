@@ -11,7 +11,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
-import { useAuth, useTheme } from '~/hooks'
+import { useAuth, useTheme } from '~/helpers'
 
 import DrawerHeader from '../DrawerHeader'
 

@@ -1,7 +1,7 @@
 import Paper, { PaperProps } from '@mui/material/Paper'
 import { Breakpoint } from '@mui/material/styles'
 
-import { mergeSx } from '~/utils'
+import { mergeSx } from '~/helpers'
 
 export interface SectionProps extends PaperProps {
   fullWidth?: boolean

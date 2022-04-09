@@ -2,7 +2,7 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
 import Section from '~/components/Section'
-import { useAuth } from '~/hooks'
+import { useAuth } from '~/helpers'
 
 function LoginPage() {
   const { signInWithGoogle, signInWithFacebook } = useAuth()

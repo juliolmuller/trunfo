@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { GameProvider } from '~/contexts'
-import { useAuth } from '~/hooks'
+import { useAuth } from '~/helpers'
 import AppLayout from '~/layouts/AppLayout'
 import GameFormPage from '~/pages/GameFormPage'
 import GameMatchPage from '~/pages/GameMatchPage'

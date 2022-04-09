@@ -1,10 +1,9 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuth } from '~/hooks'
+import { generateAvatar, generateKey, useAuth } from '~/helpers'
 import { Game, GameStatus, Player, ScoringMode } from '~/models'
 import { database } from '~/services/firebase'
-import { generateAvatar, generateKey } from '~/utils'
 
 export type GameContextProps = {
   isLoading: boolean
