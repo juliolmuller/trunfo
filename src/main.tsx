@@ -1,13 +1,10 @@
-import { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 
 import '~/config'
 import '~/global.scss'
 import App from '~/App'
 
-ReactDOM.render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-  document.querySelector('#root'),
-)
+ReactDOM
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  .createRoot(document.querySelector('#root')!)
+  .render(<App />)

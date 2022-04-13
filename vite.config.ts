@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import tsconfigPaths from 'vite-tsconfig-paths'
 import analyze from 'rollup-plugin-analyzer'
+import { defineConfig } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,7 +16,7 @@ export default defineConfig({
     },
   },
   esbuild: {
-    jsxInject: 'import React from "react"',
+    jsxInject: 'import * as React from "react"',
   },
   plugins: [
     reactRefresh(),
