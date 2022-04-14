@@ -41,11 +41,8 @@ function GameMatchPage() {
     updateGame({ status: event.target.value as GameStatus })
   }
 
-  useEffect(() => { // eslint-disable-line consistent-return
-    if (gameId) {
-      // Returns the unsubscribe function
-      return connectToGame(gameId)
-    }
+  useEffect(() => {
+    gameId && connectToGame(gameId)
   }, [gameId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

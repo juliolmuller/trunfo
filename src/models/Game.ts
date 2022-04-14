@@ -21,7 +21,7 @@ export interface Game {
   id: string
   betsEqualRounds: boolean
   betsUnequalRounds: boolean
-  createdAt: string // ISO date
+  createdAt: Date // stored as ISO date string
   createdBy: User['id']
   key: string
   name: string
