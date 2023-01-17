@@ -1,8 +1,6 @@
-interface ImportMetaEnv {
-  readonly BASE_URL: string
-  readonly MODE: string
-  readonly DEV: boolean
-  readonly PROD: boolean
+/// <reference types="vite/client" />
+
+declare interface CustomImportMetaEnv extends ImportMetaEnv {
   readonly VITE_FIREBASE_API_KEY: string
   readonly VITE_FIREBASE_APP_ID: string
   readonly VITE_FIREBASE_AUTH_DOMAIN: string
@@ -13,6 +11,6 @@ interface ImportMetaEnv {
   readonly VITE_FIREBASE_STORAGE_BUCKET: string
 }
 
-interface ImportMeta {
-  readonly env: ImportMetaEnv
+declare interface ImportMeta {
+  readonly env: CustomImportMetaEnv
 }
