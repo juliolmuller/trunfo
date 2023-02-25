@@ -1,12 +1,14 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Game, GameStatus, Player } from '~/models'
+import { Game, GameStatus, Player, Turn } from '~/models'
 import { gameService } from '~/services'
 
 export type GameContextProps = {
   isLoading: boolean
   activeGame: Game | undefined
+  activeGamePlayers: Player[]
+  activeTurn: Turn | undefined
   recentGames: Game[]
   userGames: Game[]
   createGame: (game: Partial<Game>) => Promise<void>
@@ -18,6 +20,8 @@ export type GameContextProps = {
   startMatch: () => Promise<void>
   defineNewTurn: () => Promise<void>
   endMatch: () => Promise<void>
+  startTurnAndBet: (rounds: number) => Promise<void>
+  cancelTurn: () => Promise<void>
 }
 
 export type GameProviderProps = {
@@ -31,6 +35,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const [isLoading] = useState(true)
   const [activeGameId, setActiveGameId] = useState<Game['id']>()
   const [activeGame, setActiveGame] = useState<Game>()
+  const [activeTurn, setActiveTurn] = useState<Turn>()
   const [recentGames] = useState<Game[]>([])
   const [userGames] = useState<Game[]>([])
 
@@ -79,6 +84,20 @@ export function GameProvider({ children }: GameProviderProps) {
     await updateGame({ status: GameStatus.CLOSED })
   }
 
+  async function startTurnAndBet(rounds: number) {
+    // TODO: create method to save new turn
+    // const activeTurn = await gameService.createTurn(activeGameId, rounds)
+    await updateGame({ status: GameStatus.PLAYERS_BETTING })
+    // setActiveTurn(activeTurn)
+  }
+
+  async function cancelTurn() {
+    if (activeTurn) {
+      // TODO: search for existing turn and delete it
+    }
+    await updateGame({ status: GameStatus.AWAITING })
+  }
+
   useEffect(() => {
     const unsubscribe = activeGameId
       ? gameService.connectToGame(activeGameId, setActiveGame)
@@ -92,6 +111,8 @@ export function GameProvider({ children }: GameProviderProps) {
       value={{
         isLoading,
         activeGame,
+        activeGamePlayers: activeGame?.players ?? [],
+        activeTurn,
         recentGames,
         userGames,
         connectToGame,
@@ -103,6 +124,8 @@ export function GameProvider({ children }: GameProviderProps) {
         startMatch,
         defineNewTurn,
         endMatch,
+        startTurnAndBet,
+        cancelTurn,
       }}
     >
       {children}

@@ -73,9 +73,10 @@ async function updateGame(gameId: Game['id'], props: Partial<Omit<Game, 'id'>>) 
     props.createdAt = new Date().toISOString() as any
   }
 
-  const updatedGame = await database.ref(`games/${gameId}`).update(props)
+  await database.ref(`games/${gameId}`).update(props)
+  const snapshot = await database.ref(`games/${gameId}`).once('value')
 
-  return { ...updatedGame, id: gameId } as Game
+  return { ...snapshot.val(), id: gameId } as Game
 }
 
 async function addOfflinePlayer(gameId: Game['id'], playerName: string) {
@@ -93,17 +94,19 @@ async function addOfflinePlayer(gameId: Game['id'], playerName: string) {
 }
 
 async function removePlayer(gameId: Game['id'], playerId: Player['id']) {
-  const removedPlayer = await database.ref(`games/${gameId}/players/${playerId}`).remove()
+  const snapshot = await database.ref(`games/${gameId}/players/${playerId}`).once('value')
+  await database.ref(`games/${gameId}/players/${playerId}`).remove()
 
-  return { ...removedPlayer, id: playerId } as Player
+  return { ...snapshot.val(), id: playerId } as Player
 }
 
 async function reorderPlayers(gameId: Game['id'], playersIds: Player['id'][]) {
   const playersRef = database.ref(`games/${gameId}/players`)
   const updatedPlayers = await Promise.all(playersIds.map(async (id, index) => {
-    const updatedPlayer = await playersRef.child(id).update({ order: index + 1 })
+    await playersRef.child(id).update({ order: index + 1 })
+    const snapshot = await playersRef.child(id).once('value')
 
-    return { ...updatedPlayer, id } as Player
+    return { ...snapshot.val(), id } as Player
   }))
 
   return updatedPlayers

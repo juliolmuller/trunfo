@@ -35,7 +35,7 @@ function GameMatchPage() {
   const ActiveView = useMemo(() => {
     return activeGame ? viewByStatusMap[activeGame.status] : () => null
   }, [activeGame?.status]) // eslint-disable-line react-hooks/exhaustive-deps
-  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED]
+  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED, GameStatus.SETTING_UP_TURN]
 
   function handleChangeStatus(event: ChangeEvent<HTMLInputElement>) {
     updateGame({ status: event.target.value as GameStatus })
