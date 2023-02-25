@@ -1,31 +1,28 @@
-// 20220127235024
-// https://raw.githubusercontent.com/FarmaAlg/frontend/main/tsconfig.json?token=GHSAT0AAAAAABIJUP2EGM5M2A2UHLBDVYCWYPTLIWA
-
 {
   "compilerOptions": {
-    "target": "es2018",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "strict": true,
     "allowSyntheticDefaultImports": true,
-    "removeComments": true,
-    "noEmit": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
+    "noEmit": true,
+    "removeComments": true,
     "resolveJsonModule": true,
-    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2018",
+    "useDefineForClassFields": true,
     "baseUrl": "src/",
     "paths": {
       "~/*": ["*"]
     }
   },
   "include": [
-    "src/"
+    "src/",
+    "vite.config.ts"
   ]
 }

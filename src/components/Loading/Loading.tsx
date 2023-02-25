@@ -1,6 +1,6 @@
 import { Theme } from '@mui/material/styles'
 
-import { useTheme } from '~/hooks'
+import { useTheme } from '~/helpers'
 
 export interface LoadingProps {
   color?: keyof Theme['palette'] | string
@@ -9,7 +9,7 @@ export interface LoadingProps {
 }
 
 function Loading({
-  color = 'error',
+  color = 'primary',
   margin = 'auto',
   size = 156,
 }: LoadingProps) {

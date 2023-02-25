@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Tooltip from '@mui/material/Tooltip'
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd'
 
-import { useGame } from '~/hooks'
+import { useGame } from '~/helpers'
 import { Player } from '~/models'
 
 export interface SortablePlayersListProps {
@@ -59,7 +59,7 @@ function SortablePlayersList({
                   <ListItem
                     ref={draggableProvider.innerRef}
                     secondaryAction={
-                      <Tooltip arrow placement="right" title="Remover jogador">
+                      <Tooltip placement="right" title="Remover jogador">
                         <IconButton color="error" onClick={() => handleDeletePlayer(player)}>
                           <DeleteIcon />
                         </IconButton>

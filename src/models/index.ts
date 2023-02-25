@@ -1,4 +1,5 @@
 export * from './Game'
 export * from './Player'
+export * from './ScoreLog'
 export * from './Turn'
 export * from './User'

@@ -1,4 +1,4 @@
-import { useAuth } from '~/hooks'
+import { useAuth } from '~/helpers'
 import { Game } from '~/models'
 
 import PlayersJoiningGeneralView from '../AwaitingView'

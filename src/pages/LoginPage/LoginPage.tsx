@@ -1,8 +1,8 @@
+import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-import Button from '~/components/Button'
-import Paper from '~/components/Paper'
-import { useAuth } from '~/hooks'
+import Section from '~/components/Section'
+import { useAuth } from '~/helpers'
 
 function LoginPage() {
   const { signInWithGoogle, signInWithFacebook } = useAuth()
@@ -16,12 +16,11 @@ function LoginPage() {
   }
 
   return (
-    <Paper fullWidth maxWidth="sm">
+    <Section fullWidth maxWidth="sm">
       <Stack alignItems="center" gap={3}>
         <Button
           fullWidth
           startIcon={<img src="/img/google-logo.svg" alt="Google" height="20" />}
-          variant="contained"
           onClick={handleGoogleSignIn}
           sx={{ color: 'white' }}
         >
@@ -39,7 +38,7 @@ function LoginPage() {
           Entrar com Facebook
         </Button>
       </Stack>
-    </Paper>
+    </Section>
   )
 }
 

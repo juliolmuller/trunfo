@@ -46,7 +46,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       setLoading(true)
       const response = await auth.signInWithPopup(provider)
-      console.log(response.user) // DEBUG:
 
       if (!response.user) {
         throw new Error('Failed to get data from Google Account.')

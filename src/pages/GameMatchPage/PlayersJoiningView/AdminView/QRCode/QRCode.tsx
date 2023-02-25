@@ -66,7 +66,7 @@ function QRCode({ gameKey }: QRCodeProps) {
           {isCopying ? (
             <CircularProgress color="inherit" size={24} />
           ) : (
-            <Tooltip arrow placement="right" title="Copiar URL">
+            <Tooltip placement="right" title="Copiar URL">
               <CopyIcon />
             </Tooltip>
           )}

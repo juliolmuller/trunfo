@@ -1,11 +1,11 @@
-import { User } from '~/models'
+import { ScoreLog, User } from '~/models'
 
 export interface Player {
-  id?: string
-  addedAt: string // ISO date
+  id: string
+  addedAt: Date // stored as ISO date string
   name: string
   order: number
-  score: number
+  scoreLogs: ScoreLog[]
   avatar: string
   userId?: User['id']
 }

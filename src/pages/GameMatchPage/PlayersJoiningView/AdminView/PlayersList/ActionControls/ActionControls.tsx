@@ -2,6 +2,7 @@ import AddIcon from '@mui/icons-material/Add'
 import PlayIcon from '@mui/icons-material/PlayCircle'
 import DoneIcon from '@mui/icons-material/TaskAlt'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Stack from '@mui/material/Stack'
@@ -9,8 +10,7 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
-import Button from '~/components/Button'
-import { useGame } from '~/hooks'
+import { useGame } from '~/helpers'
 
 function ActionControls() {
   const { addOfflinePlayer, startMatch } = useGame()
@@ -45,14 +45,13 @@ function ActionControls() {
         <Box component="form" onSubmit={handleSubmit}>
           <TextField
             autoFocus
-            color="error"
             disabled={isSubmitting}
             fullWidth
             label="Nome do jogador"
             InputProps={{
               endAdornment: newUserName.length === 0 ? undefined : (
                 <InputAdornment position="end">
-                  <IconButton color="success" type="submit">
+                  <IconButton color="secondary" type="submit">
                     <DoneIcon />
                   </IconButton>
                 </InputAdornment>
@@ -75,7 +74,7 @@ function ActionControls() {
           >
             Adicionar novo jogador
           </Button>
-          <Tooltip arrow placement="right" title="Iniciar jogo">
+          <Tooltip placement="right" title="Iniciar jogo">
             <PlayIcon
               sx={(theme) => {
                 function getTransform(scale: number) {
@@ -83,7 +82,7 @@ function ActionControls() {
                 }
 
                 return {
-                  fill: theme.palette.success.main,
+                  fill: theme.palette.secondary.main,
                   cursor: 'pointer',
                   transition: 'transform 50ms',
                   transform: getTransform(2.2),

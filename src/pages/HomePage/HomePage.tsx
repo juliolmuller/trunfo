@@ -1,13 +1,13 @@
 import AddIcon from '@mui/icons-material/Add'
 import EnterIcon from '@mui/icons-material/Login'
+import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { ChangeEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Button from '~/components/Button'
-import Paper from '~/components/Paper'
+import Section from '~/components/Section'
 
 function HomePage() {
   const GAME_KEY_LENGTH = 6
@@ -27,7 +27,7 @@ function HomePage() {
   }
 
   return (
-    <Paper fullWidth maxWidth="sm">
+    <Section fullWidth maxWidth="sm">
       <Stack alignItems="center" gap={3}>
         <Collapse in={inputVisible} unmountOnExit>
           <TextField
@@ -41,11 +41,10 @@ function HomePage() {
         </Collapse>
 
         <Button
-          color="success"
+          color="secondary"
           disabled={inputVisible && inputValue.length < GAME_KEY_LENGTH}
           fullWidth
           startIcon={<EnterIcon />}
-          variant="contained"
           onClick={inputVisible
             ? handleSearchGame
             : () => setInputVisible(true)}
@@ -59,14 +58,13 @@ function HomePage() {
         <Button
           fullWidth
           startIcon={<AddIcon />}
-          variant="contained"
           onClick={() => navigate('/new')}
           sx={{ color: 'white' }}
         >
           Criar um novo jogo
         </Button>
       </Stack>
-    </Paper>
+    </Section>
   )
 }
 

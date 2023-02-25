@@ -11,7 +11,7 @@ export interface AppBarProps {
 
 function AppBar({ onOpenDrawer }: AppBarProps) {
   return (
-    <MuiAppBar position="relative" sx={{ bgcolor: 'error.main' }}>
+    <MuiAppBar position="relative" sx={{ bgcolor: 'primary.main' }}>
       <Toolbar component={Container}>
         <Typography
           component="div"

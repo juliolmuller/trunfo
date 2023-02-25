@@ -3,7 +3,7 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { Theme, useTheme as useMuiTheme } from '@mui/system'
 import { createContext, ReactNode, useCallback, useContext } from 'react'
 
-import { useLocalStorage } from '~/hooks'
+import { useLocalStorage } from '~/helpers'
 
 export interface ThemeContextProps {
   isDark: boolean
