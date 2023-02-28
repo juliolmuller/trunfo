@@ -13,7 +13,7 @@ import { ChangeEvent, FormEvent, useState } from 'react'
 import { useGame } from '~/helpers'
 
 function ActionControls() {
-  const { addOfflinePlayer, startMatch } = useGame()
+  const { addOfflinePlayer, startGame: startMatch } = useGame()
   const [isAddingPlayer, setAddingPlayer] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
   const [newUserName, setNewUserName] = useState('')

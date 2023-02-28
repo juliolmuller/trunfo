@@ -1,14 +1,14 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Game, GameStatus, Player, Turn } from '~/models'
+import { Game, GameStatus, Player, Match } from '~/models'
 import { gameService } from '~/services'
 
 export type GameContextProps = {
   isLoading: boolean
   activeGame: Game | undefined
   activeGamePlayers: Player[]
-  activeTurn: Turn | undefined
+  activeMatch: Match | undefined
   recentGames: Game[]
   userGames: Game[]
   createGame: (game: Partial<Game>) => Promise<void>
@@ -17,11 +17,12 @@ export type GameContextProps = {
   addOfflinePlayer: (playerName: string) => Promise<void>
   removePlayer: (playerId: Player['id']) => Promise<void>
   reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
-  startMatch: () => Promise<void>
-  defineNewTurn: () => Promise<void>
-  endMatch: () => Promise<void>
-  startTurnAndBet: (rounds: number) => Promise<void>
-  cancelTurn: () => Promise<void>
+  startGame: () => Promise<void>
+  endGame: () => Promise<void>
+
+  configureMatch: () => Promise<void>
+  createMatch: (rounds: number) => Promise<void>
+  abortMatch: () => Promise<void>
 }
 
 export type GameProviderProps = {
@@ -35,7 +36,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const [isLoading] = useState(true)
   const [activeGameId, setActiveGameId] = useState<Game['id']>()
   const [activeGame, setActiveGame] = useState<Game>()
-  const [activeTurn, setActiveTurn] = useState<Turn>()
+  const [activeMatch, setActiveMatch] = useState<Match>()
   const [recentGames] = useState<Game[]>([])
   const [userGames] = useState<Game[]>([])
 
@@ -44,8 +45,8 @@ export function GameProvider({ children }: GameProviderProps) {
   }
 
   async function createGame(game: Partial<Game>) {
-    const { id } = await gameService.createGame(game)
-    navigate(`/game/${id}`, { replace: true })
+    const gameId = await gameService.createGame(game)
+    navigate(`/game/${gameId}`, { replace: true })
   }
 
   async function updateGame(data: Partial<Game>) {
@@ -72,28 +73,28 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }
 
-  async function startMatch() {
+  async function startGame() {
     await updateGame({ status: GameStatus.AWAITING })
   }
 
-  async function defineNewTurn() {
-    await updateGame({ status: GameStatus.SETTING_UP_TURN })
-  }
-
-  async function endMatch() {
+  async function endGame() {
     await updateGame({ status: GameStatus.CLOSED })
   }
 
-  async function startTurnAndBet(rounds: number) {
-    // TODO: create method to save new turn
-    // const activeTurn = await gameService.createTurn(activeGameId, rounds)
-    await updateGame({ status: GameStatus.PLAYERS_BETTING })
-    // setActiveTurn(activeTurn)
+  async function configureMatch() {
+    await updateGame({ status: GameStatus.SETTING_UP_MATCH })
   }
 
-  async function cancelTurn() {
-    if (activeTurn) {
-      // TODO: search for existing turn and delete it
+  async function createMatch(rounds: number) {
+    // TODO: create method to save new match
+    // const activeMatch = await gameService.createMatch(activeGameId, rounds)
+    await updateGame({ status: GameStatus.PLAYERS_BETTING })
+    // setActiveMatch(activeMatch)
+  }
+
+  async function abortMatch() {
+    if (activeMatch) {
+      // TODO: search for existing match and delete it
     }
     await updateGame({ status: GameStatus.AWAITING })
   }
@@ -112,7 +113,7 @@ export function GameProvider({ children }: GameProviderProps) {
         isLoading,
         activeGame,
         activeGamePlayers: activeGame?.players ?? [],
-        activeTurn,
+        activeMatch,
         recentGames,
         userGames,
         connectToGame,
@@ -121,11 +122,11 @@ export function GameProvider({ children }: GameProviderProps) {
         addOfflinePlayer,
         removePlayer,
         reorderPlayers,
-        startMatch,
-        defineNewTurn,
-        endMatch,
-        startTurnAndBet,
-        cancelTurn,
+        startGame,
+        endGame,
+        configureMatch,
+        createMatch,
+        abortMatch,
       }}
     >
       {children}

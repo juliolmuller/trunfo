@@ -19,8 +19,66 @@
   <img src="https://img.shields.io/static/v1?labelColor=000000&color=8257E5&label=PRs&message=welcome" alt="Pull Requests Welcome" />
 
   <img src="https://img.shields.io/github/license/juliolmuller/podcastr?labelColor=000000&color=8257E5" alt="Project License" />
-</p> 
+</p>
 -->
+
+## Modeling
+
+Them main domains/entities of the project are structured like this:
+
+```ts
+interface User {
+  id: string
+  name: string
+  avatar: string
+}
+
+interface Player {
+  id: string
+  name: string
+  order: number
+  addedAt: Date
+  avatar: string
+  userId?: User['id']
+}
+
+enum GameStatus {
+  AWAITING = 'awaiting',
+  CLOSED = 'closed',
+  PLAYERS_BETTING = 'players betting',
+  PLAYERS_JOINING = 'players joining',
+  PLAYING = 'playing',
+  REPORTING_HITS = 'reporting hits',
+  SETTING_UP_TURN = 'setting up turn',
+}
+
+interface Game {
+  id: string
+  name: string
+  scoringMode: 'standard' | 'simplified'
+  betsEqualRounds: boolean
+  betsUnequalRounds: boolean
+  scoreOnZeroBets: boolean
+  key: string
+  createdAt: Date
+  createdBy: User['id']
+  status: GameStatus
+  players: Player[]
+  matches: Array<{
+    id: string
+    roundsCount: number
+    firstPlayer: Player['id']
+    playerTurn?: Player['id']
+    status: 'betting' | 'playing' | 'scoring' | 'finalized'
+    logs: Array<{
+      id: string
+      player: Player['id']
+      betsCount: number
+      wonRounds: number
+    }>
+  }>
+}
+```
 
 ## Glossary
 

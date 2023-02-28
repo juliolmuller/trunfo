@@ -1,5 +1,5 @@
 export * from './Game'
+export * from './Match'
+export * from './MatchLog'
 export * from './Player'
-export * from './ScoreLog'
-export * from './Turn'
 export * from './User'
