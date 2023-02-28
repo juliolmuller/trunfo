@@ -16,5 +16,6 @@ export interface Match {
   playerTurn?: Player['id']
 
   status: MatchStatus
+  createdAt: Date // stored as ISO date string
   logs: MatchLog[]
 }

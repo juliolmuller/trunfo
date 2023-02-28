@@ -4,9 +4,9 @@ export interface Player {
   id: string
 
   name: string
-  order: number
-  addedAt: Date // stored as ISO date string
   avatar: string
+  addedAt: Date // stored as ISO date string
+  order: number
 
   userId?: User['id']
 }
