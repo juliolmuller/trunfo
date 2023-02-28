@@ -1,4 +1,4 @@
-import { Player, Turn, User } from '~/models'
+import { Player, Match, User } from '~/models'
 
 // eslint-disable-next-line no-shadow
 export enum ScoringMode {
@@ -19,15 +19,18 @@ export enum GameStatus {
 
 export interface Game {
   id: string
+
+  name: string
+  scoringMode: ScoringMode
   betsEqualRounds: boolean
   betsUnequalRounds: boolean
+  scoreOnZeroBets: boolean
+
+  key: string
   createdAt: Date // stored as ISO date string
   createdBy: User['id']
-  key: string
-  name: string
-  players: Player[]
-  scoreOnZeroBets: boolean
-  scoringMode: ScoringMode
   status: GameStatus
-  turns: Turn[]
+
+  players: Player[]
+  matches: Match[]
 }

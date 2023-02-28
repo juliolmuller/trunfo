@@ -1,14 +1,14 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Game, GameStatus, Player, Turn } from '~/models'
+import { Game, GameStatus, Player, Match } from '~/models'
 import { gameService } from '~/services'
 
 export type GameContextProps = {
   isLoading: boolean
   activeGame: Game | undefined
   activeGamePlayers: Player[]
-  activeTurn: Turn | undefined
+  activeTurn: Match | undefined
   recentGames: Game[]
   userGames: Game[]
   createGame: (game: Partial<Game>) => Promise<void>
@@ -35,7 +35,7 @@ export function GameProvider({ children }: GameProviderProps) {
   const [isLoading] = useState(true)
   const [activeGameId, setActiveGameId] = useState<Game['id']>()
   const [activeGame, setActiveGame] = useState<Game>()
-  const [activeTurn, setActiveTurn] = useState<Turn>()
+  const [activeTurn, setActiveTurn] = useState<Match>()
   const [recentGames] = useState<Game[]>([])
   const [userGames] = useState<Game[]>([])
 

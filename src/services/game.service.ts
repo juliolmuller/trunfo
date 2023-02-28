@@ -1,5 +1,5 @@
 import { generateAvatar, generateKey } from '~/helpers'
-import { Game, GameStatus, Player, ScoreLog, ScoringMode, Turn } from '~/models'
+import { Game, GameStatus, Player, MatchLog, ScoringMode, Match } from '~/models'
 
 import { auth, database } from './firebase'
 
@@ -28,11 +28,11 @@ function connectToGame(gameId: Game['id'], eventHandler: (game: Game) => void) {
       ...rawValue,
       id: gameId,
       createdAt: new Date(rawValue.createdAt),
-      turns: toArray<Turn>(rawValue.turns),
+      matches: toArray<Match>(rawValue.turns),
       players: toArray<Player>(rawValue.players, (player) => ({
         addedAt: new Date(player.addedAt),
-        scoreLogs: toArray<ScoreLog>(player.scoreLogs, (log) => ({
-          turn: rawValue.turns[log.turnId],
+        scoreLogs: toArray<MatchLog>(player.scoreLogs, (log) => ({
+          match: rawValue.matches[log.matchId],
         })),
       })).sort((p1, p2) => (p1.order === p2.order
         ? Number(p1.addedAt) - Number(p2.addedAt)
