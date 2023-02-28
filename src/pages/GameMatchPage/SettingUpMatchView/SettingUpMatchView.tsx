@@ -9,19 +9,19 @@ import Counter from '~/components/Counter'
 import Section from '~/components/Section'
 import { useGame } from '~/helpers'
 
-function SettingUpTurnView() {
+function SettingUpMatchView() {
   const [cardsCount, setCardsCount] = useState(0)
-  const { cancelTurn, startTurnAndBet } = useGame()
+  const { abortMatch, createMatch } = useGame()
 
   function handleStartBets() {
-    startTurnAndBet(cardsCount)
+    createMatch(cardsCount)
   }
 
   return (
     <Section
       fullWidth
       maxWidth="sm"
-      title="Defina quantas cartas serão dadas a cada jogador nesta próxima rodada:"
+      title="Defina quantas cartas serão dadas a cada jogador nesta próxima partida:"
     >
       <Stack gap={4}>
         <Counter
@@ -53,7 +53,7 @@ function SettingUpTurnView() {
             size="large"
             startIcon={<CancelIcon />}
             variant="text"
-            onClick={cancelTurn}
+            onClick={abortMatch}
           >
             Cancelar
           </Button>
@@ -63,4 +63,4 @@ function SettingUpTurnView() {
   )
 }
 
-export default SettingUpTurnView
+export default SettingUpMatchView

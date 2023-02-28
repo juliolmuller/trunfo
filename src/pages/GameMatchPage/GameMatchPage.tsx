@@ -16,7 +16,7 @@ import PlayersBettingView from './PlayersBettingView'
 import PlayersJoiningView from './PlayersJoiningView'
 import PlayingView from './PlayingView'
 import ReportingHitsView from './ReportingHitsView'
-import SettingUpTurnView from './SettingUpTurnView'
+import SettingUpMatchView from './SettingUpMatchView'
 
 const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.AWAITING]: AwaitingView,
@@ -25,7 +25,7 @@ const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.PLAYERS_JOINING]: PlayersJoiningView,
   [GameStatus.PLAYING]: PlayingView,
   [GameStatus.REPORTING_HITS]: ReportingHitsView,
-  [GameStatus.SETTING_UP_TURN]: SettingUpTurnView,
+  [GameStatus.SETTING_UP_MATCH]: SettingUpMatchView,
 }
 
 function GameMatchPage() {
@@ -35,7 +35,7 @@ function GameMatchPage() {
   const ActiveView = useMemo(() => {
     return activeGame ? viewByStatusMap[activeGame.status] : () => null
   }, [activeGame?.status]) // eslint-disable-line react-hooks/exhaustive-deps
-  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED, GameStatus.SETTING_UP_TURN]
+  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED, GameStatus.SETTING_UP_MATCH]
 
   function handleChangeStatus(event: ChangeEvent<HTMLInputElement>) {
     updateGame({ status: event.target.value as GameStatus })
@@ -60,7 +60,7 @@ function GameMatchPage() {
           >
             <MenuItem value={GameStatus.AWAITING}>Aguardando</MenuItem>
             <MenuItem value={GameStatus.PLAYERS_JOINING}>Adicionar jogadores</MenuItem>
-            <MenuItem value={GameStatus.SETTING_UP_TURN}>Preparar jogada</MenuItem>
+            <MenuItem value={GameStatus.SETTING_UP_MATCH}>Preparar jogada</MenuItem>
             <MenuItem value={GameStatus.PLAYERS_BETTING}>Registrar apostas</MenuItem>
             <MenuItem value={GameStatus.PLAYING}>Em jogo</MenuItem>
             <MenuItem value={GameStatus.REPORTING_HITS}>Registrar resultados</MenuItem>

@@ -14,15 +14,15 @@ export interface AwaitingViewProps {
 
 function AwaitingView({ game }: AwaitingViewProps) {
   const { user } = useAuth()
-  const { defineNewTurn, endMatch } = useGame()
+  const { configureMatch, endGame } = useGame()
   const isGameOwner = user?.id === game.createdBy
 
-  function handleDefineNewTurn() {
-    defineNewTurn()
+  function handleDefineNewMatch() {
+    configureMatch()
   }
 
   function handleEndMatch() {
-    endMatch()
+    endGame()
   }
 
   return (
@@ -34,10 +34,10 @@ function AwaitingView({ game }: AwaitingViewProps) {
           <Button
             color="secondary"
             startIcon={<AddIcon />}
-            onClick={handleDefineNewTurn}
+            onClick={handleDefineNewMatch}
             sx={{ color: 'common.white' }}
           >
-            Nova Jogada
+            Nova Partida
           </Button>
           <Button
             startIcon={<EndIcon />}
