@@ -1,14 +1,6 @@
 import { Components } from '@mui/material/styles'
 
 const componentsDefaults: Components = {
-  MuiBackdrop: {
-    styleOverrides: {
-      root: {
-        backdropFilter: 'blur(3px)',
-      },
-    },
-  },
-
   MuiButton: {
     defaultProps: {
       size: 'large',
@@ -32,6 +24,16 @@ const componentsDefaults: Components = {
       sizeSmall: {
         borderRadius: '0.95rem',
         fontSize: '0.8rem',
+      },
+    },
+  },
+
+  MuiDialog: {
+    defaultProps: {
+      BackdropProps: {
+        style: {
+          backdropFilter: 'blur(3px)',
+        },
       },
     },
   },
