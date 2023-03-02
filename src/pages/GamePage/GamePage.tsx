@@ -28,7 +28,7 @@ const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.SETTING_UP_MATCH]: SettingUpMatchView,
 }
 
-function GameMatchPage() {
+function GamePage() {
   const { user } = useAuth()
   const { gameId } = useParams()
   const { activeGame, connectToGame, updateGame } = useGame()
@@ -78,4 +78,4 @@ function GameMatchPage() {
   )
 }
 
-export default GameMatchPage
+export default GamePage
