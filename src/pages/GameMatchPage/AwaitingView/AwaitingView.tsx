@@ -21,7 +21,7 @@ function AwaitingView({ game }: AwaitingViewProps) {
     configureMatch()
   }
 
-  function handleEndMatch() {
+  function handleEndGame() {
     endGame()
   }
 
@@ -41,10 +41,10 @@ function AwaitingView({ game }: AwaitingViewProps) {
           </Button>
           <Button
             startIcon={<EndIcon />}
-            onClick={handleEndMatch}
+            onClick={handleEndGame}
             sx={{ color: 'common.white' }}
           >
-            Encerrar Partida
+            Encerrar Jogo
           </Button>
         </Stack>
       )}

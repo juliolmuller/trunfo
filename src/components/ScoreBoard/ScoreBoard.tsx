@@ -20,7 +20,7 @@ function ScoreBoard({ players }: ScoreBoardProps) {
   return (
     <Box>
       <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
-        Placar do Jogo
+        Placar Geral
       </Typography>
 
       <AnimatedList>
