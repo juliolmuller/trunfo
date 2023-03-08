@@ -60,7 +60,7 @@ function GamePage() {
           >
             <MenuItem value={GameStatus.AWAITING}>Aguardando</MenuItem>
             <MenuItem value={GameStatus.PLAYERS_JOINING}>Adicionar jogadores</MenuItem>
-            <MenuItem value={GameStatus.SETTING_UP_MATCH}>Preparar jogada</MenuItem>
+            <MenuItem value={GameStatus.SETTING_UP_MATCH}>Preparar partida</MenuItem>
             <MenuItem value={GameStatus.PLAYERS_BETTING}>Registrar apostas</MenuItem>
             <MenuItem value={GameStatus.PLAYING}>Em jogo</MenuItem>
             <MenuItem value={GameStatus.REPORTING_HITS}>Registrar resultados</MenuItem>

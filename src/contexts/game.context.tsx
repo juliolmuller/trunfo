@@ -7,6 +7,7 @@ import { gameService } from '~/services'
 export type GameContextProps = {
   isLoading: boolean
   activeGame: Game | undefined
+  activeGameMatches: Match[]
   activeGamePlayers: Player[]
   activeMatch: Match | undefined
   recentGames: Game[]
@@ -21,7 +22,7 @@ export type GameContextProps = {
   endGame: () => Promise<void>
 
   configureMatch: () => Promise<void>
-  createMatch: (rounds: number) => Promise<void>
+  createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
   abortMatch: () => Promise<void>
 }
 
@@ -85,9 +86,9 @@ export function GameProvider({ children }: GameProviderProps) {
     await updateGame({ status: GameStatus.SETTING_UP_MATCH })
   }
 
-  async function createMatch(rounds: number) {
+  async function createMatch(matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) {
     if (activeGameId) {
-      await gameService.createMatch(activeGameId, rounds)
+      await gameService.createMatch(activeGameId, matchData)
       await updateGame({ status: GameStatus.PLAYERS_BETTING })
     }
   }
@@ -112,6 +113,7 @@ export function GameProvider({ children }: GameProviderProps) {
       value={{
         isLoading,
         activeGame,
+        activeGameMatches: activeGame?.matches ?? [],
         activeGamePlayers: activeGame?.players ?? [],
         activeMatch,
         recentGames,

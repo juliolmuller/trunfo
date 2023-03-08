@@ -103,18 +103,11 @@ async function reorderPlayers(gameId: Game['id'], playersIds: Player['id'][]) {
   }))
 }
 
-async function createMatch(gameId: Game['id'], roundsCount: number) {
+async function createMatch(
+  gameId: Game['id'],
+  { firstPlayer, roundsCount }: Pick<Match, 'firstPlayer' | 'roundsCount'>,
+) {
   const gameRef = database.ref(`games/${gameId}`)
-  const gameSnapshot = await gameRef.once('value')
-  const game = normalizeGame(gameId, gameSnapshot.val())
-  const latestMatch = game.matches.length
-    ? game.matches.reduce((latest, match) => (latest.createdAt > match.createdAt ? latest : match))
-    : null
-  const lastFirstPlayerIndex = game.players.findIndex(({ id }) => id === latestMatch?.firstPlayer)
-  const wasLastInTheList = lastFirstPlayerIndex === game.players.length - 1
-  const firstPlayer = wasLastInTheList
-    ? game.players[0].id
-    : game.players[lastFirstPlayerIndex + 1].id
   const thenable = await gameRef.child('matches').push({
     createdAt: new Date().toISOString(),
     playerTurn: null, // ignored by firebase
