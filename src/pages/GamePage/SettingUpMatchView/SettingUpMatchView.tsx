@@ -7,11 +7,14 @@ import { useState } from 'react'
 
 import Counter from '~/components/Counter'
 import Section from '~/components/Section'
+import { CARDS_COUNT } from '~/config'
 import { useGame } from '~/helpers'
 
 function SettingUpMatchView() {
   const [cardsCount, setCardsCount] = useState(0)
-  const { abortMatch, createMatch } = useGame()
+  const { abortMatch, activeGamePlayers, createMatch } = useGame()
+  const maxCardsPerPlayer = Math.floor(CARDS_COUNT / activeGamePlayers.length)
+  const minCardsPerPlayer = 1
 
   function handleStartBets() {
     createMatch(cardsCount)
@@ -25,7 +28,8 @@ function SettingUpMatchView() {
     >
       <Stack gap={4}>
         <Counter
-          min={1}
+          max={maxCardsPerPlayer}
+          min={minCardsPerPlayer}
           value={cardsCount}
           onChange={setCardsCount}
           onPressEnter={handleStartBets}

@@ -14,6 +14,23 @@ function toArray<TModel>(
   })
 }
 
+function normalizeGame(gameId: Game['id'], snapshotVal: any): Game {
+  return {
+    ...snapshotVal,
+    id: gameId,
+    createdAt: new Date(snapshotVal.createdAt),
+    players: toArray<Player>(snapshotVal.players, (player) => ({
+      addedAt: new Date(player.addedAt),
+    })).sort((p1, p2) => (p1.order === p2.order
+      ? Number(p1.addedAt) - Number(p2.addedAt)
+      : p1.order - p2.order)),
+    matches: toArray<Match>(snapshotVal.matches, (match) => ({
+      createdAt: new Date(match.createdAt),
+      logs: toArray<MatchLog>(match.logs),
+    })),
+  }
+}
+
 function connectToGame(gameId: Game['id'], eventHandler: (game: Game) => void) {
   const gameRef = database.ref(`games/${gameId}`)
 
@@ -24,20 +41,9 @@ function connectToGame(gameId: Game['id'], eventHandler: (game: Game) => void) {
       throw new Error(`Unable to connect to game with ID ${gameId}`)
     }
 
-    eventHandler({
-      ...rawValue,
-      id: gameId,
-      createdAt: new Date(rawValue.createdAt),
-      players: toArray<Player>(rawValue.players, (player) => ({
-        addedAt: new Date(player.addedAt),
-      })).sort((p1, p2) => (p1.order === p2.order
-        ? Number(p1.addedAt) - Number(p2.addedAt)
-        : p1.order - p2.order)),
-      matches: toArray<Match>(rawValue.matches, (match) => ({
-        createdAt: new Date(match.createdAt),
-        logs: toArray<MatchLog>(match.logs),
-      })),
-    })
+    const normalizedGame = normalizeGame(gameId, rawValue)
+
+    eventHandler(normalizedGame)
   })
 
   return () => gameRef.off('value')
@@ -97,6 +103,28 @@ async function reorderPlayers(gameId: Game['id'], playersIds: Player['id'][]) {
   }))
 }
 
+async function createMatch(gameId: Game['id'], roundsCount: number) {
+  const gameRef = database.ref(`games/${gameId}`)
+  const gameSnapshot = await gameRef.once('value')
+  const game = normalizeGame(gameId, gameSnapshot.val())
+  const latestMatch = game.matches.length
+    ? game.matches.reduce((latest, match) => (latest.createdAt > match.createdAt ? latest : match))
+    : null
+  const lastFirstPlayerIndex = game.players.findIndex(({ id }) => id === latestMatch?.firstPlayer)
+  const wasLastInTheList = lastFirstPlayerIndex === game.players.length - 1
+  const firstPlayer = wasLastInTheList
+    ? game.players[0].id
+    : game.players[lastFirstPlayerIndex + 1].id
+  const thenable = await gameRef.child('matches').push({
+    createdAt: new Date().toISOString(),
+    playerTurn: null, // ignored by firebase
+    firstPlayer,
+    roundsCount,
+  })
+
+  return thenable.key as Match['id']
+}
+
 export const gameService = {
   connectToGame,
   createGame,
@@ -104,4 +132,5 @@ export const gameService = {
   addOfflinePlayer,
   removePlayer,
   reorderPlayers,
+  createMatch,
 }

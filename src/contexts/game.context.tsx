@@ -86,10 +86,10 @@ export function GameProvider({ children }: GameProviderProps) {
   }
 
   async function createMatch(rounds: number) {
-    // TODO: create method to save new match
-    // const activeMatch = await gameService.createMatch(activeGameId, rounds)
-    await updateGame({ status: GameStatus.PLAYERS_BETTING })
-    // setActiveMatch(activeMatch)
+    if (activeGameId) {
+      await gameService.createMatch(activeGameId, rounds)
+      await updateGame({ status: GameStatus.PLAYERS_BETTING })
+    }
   }
 
   async function abortMatch() {
