@@ -14,7 +14,6 @@ export enum GameStatus {
   PLAYERS_JOINING = 'players joining',
   PLAYING = 'playing',
   REPORTING_HITS = 'reporting hits',
-  SETTING_UP_MATCH = 'setting up match',
 }
 
 export interface Game {

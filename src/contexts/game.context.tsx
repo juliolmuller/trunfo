@@ -20,8 +20,6 @@ export type GameContextProps = {
   reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
   startGame: () => Promise<void>
   endGame: () => Promise<void>
-
-  configureMatch: () => Promise<void>
   createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
   abortMatch: () => Promise<void>
 }
@@ -82,10 +80,6 @@ export function GameProvider({ children }: GameProviderProps) {
     await updateGame({ status: GameStatus.CLOSED })
   }
 
-  async function configureMatch() {
-    await updateGame({ status: GameStatus.SETTING_UP_MATCH })
-  }
-
   async function createMatch(matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) {
     if (activeGameId) {
       await gameService.createMatch(activeGameId, matchData)
@@ -126,7 +120,6 @@ export function GameProvider({ children }: GameProviderProps) {
         reorderPlayers,
         startGame,
         endGame,
-        configureMatch,
         createMatch,
         abortMatch,
       }}
