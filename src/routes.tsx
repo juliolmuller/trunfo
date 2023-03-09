@@ -4,7 +4,7 @@ import { GameProvider } from '~/contexts'
 import { useAuth } from '~/helpers'
 import AppLayout from '~/layouts/AppLayout'
 import GameFormPage from '~/pages/GameFormPage'
-import GameMatchPage from '~/pages/GameMatchPage'
+import GamePage from '~/pages/GamePage'
 import HomePage from '~/pages/HomePage'
 import LoginPage from '~/pages/LoginPage'
 
@@ -25,7 +25,7 @@ function AuthRoutes() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/new" element={<GameFormPage />} />
-          <Route path="/game/:gameId" element={<GameMatchPage />} />
+          <Route path="/game/:gameId" element={<GamePage />} />
         </Route>
       </Routes>
     </GameProvider>
