@@ -5,5 +5,5 @@ export interface MatchLog {
 
   player: Player['id']
   betsCount: number
-  wonRounds: number
+  hitsCount: number
 }
