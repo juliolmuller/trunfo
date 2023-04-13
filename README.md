@@ -49,7 +49,6 @@ enum GameStatus {
   PLAYERS_JOINING = 'players joining',
   PLAYING = 'playing',
   REPORTING_HITS = 'reporting hits',
-  SETTING_UP_TURN = 'setting up turn',
 }
 
 interface Game {
@@ -74,7 +73,7 @@ interface Game {
       id: string
       player: Player['id']
       betsCount: number
-      wonRounds: number
+      hitsCount: number
     }>
   }>
 }

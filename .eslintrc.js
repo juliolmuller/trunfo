@@ -14,6 +14,8 @@ module.exports = {
     'quote-props': ['error', 'as-needed'],
     'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
     'no-magic-numbers': 'off',
+    'no-nested-ternary': 'off',
+    'no-shadow': 'off',
     'react/display-name': 'off',
   },
 }
