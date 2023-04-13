@@ -6,7 +6,7 @@ import { MatchLog, Player } from '~/models'
 
 import PlayerLogs, { ChangeEvent } from './PlayerLogs'
 
-export type DoneEvent = {
+type DoneEvent = {
   log: MatchLog
   player: Player
   nextPlayer: Player
@@ -77,7 +77,6 @@ function MatchScoreBoard({
       {logs.map((log) => (
         <PlayerLogs
           key={log.id}
-          current={playerTurn === log.player}
           log={log}
           player={playersMap.get(log.player) as Player}
           status={status}
@@ -89,3 +88,4 @@ function MatchScoreBoard({
 }
 
 export default MatchScoreBoard
+export type { ChangeEvent, DoneEvent }

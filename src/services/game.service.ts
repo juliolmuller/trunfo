@@ -154,6 +154,18 @@ async function createMatch(
   return thenable.key as Match['id']
 }
 
+async function updateMatch(
+  gameId: Game['id'],
+  matchId: Match['id'],
+  props: Partial<Omit<Match, 'id'>>,
+) {
+  if ('createdAt' in props) {
+    props.createdAt = new Date().toISOString() as any
+  }
+
+  await database.ref(`games/${gameId}/matches/${matchId}`).update(props)
+}
+
 export const gameService = {
   connectToGame,
   createGame,
@@ -162,4 +174,5 @@ export const gameService = {
   removePlayer,
   reorderPlayers,
   createMatch,
+  updateMatch,
 }

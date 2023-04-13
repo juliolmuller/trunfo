@@ -1,17 +1,22 @@
-import MatchScoreBoard from '~/components/MatchScoreBoard'
+import MatchScoreBoard, { ChangeEvent, DoneEvent } from '~/components/MatchScoreBoard'
 import Section from '~/components/Section'
 import { useGame } from '~/helpers'
 
 function ReportingHitsView() {
-  const { activeGame, activeMatch } = useGame()
+  const { activeGame, activeMatch, updateMatch } = useGame()
   const playerTurn = activeMatch?.playerTurn
   const roundsCount = activeMatch?.roundsCount ?? 0
   const logs = activeMatch?.logs ?? []
   const players = activeGame?.players ?? []
 
-  function handleChange() {}
+  function handleChange({ log, player }: ChangeEvent) {
+    console.log('change', { log, player })
+    updateMatch({ logs })
+  }
 
-  function handleDone() {}
+  function handleDone({ log, player, nextPlayer }: DoneEvent) {
+    console.log('done', { log, player, nextPlayer })
+  }
 
   return (
     <Section fullWidth maxWidth="md">

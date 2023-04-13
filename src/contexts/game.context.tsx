@@ -22,6 +22,7 @@ export type GameContextProps = {
   startGame: () => Promise<void>
   endGame: () => Promise<void>
   createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
+  updateMatch: (data: Partial<Match>) => Promise<void>
   abortMatch: () => Promise<void>
   calculateMatchScore: (betsCount: number, hitsCount: number) => number
 }
@@ -91,6 +92,12 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }
 
+  async function updateMatch(matchData: Partial<Match>) {
+    if (activeGameId && activeMatch?.id) {
+      await gameService.updateMatch(activeGameId, activeMatch?.id, matchData)
+    }
+  }
+
   async function abortMatch() {
     if (activeMatch) {
       // TODO: search for existing match and delete it
@@ -136,6 +143,7 @@ export function GameProvider({ children }: GameProviderProps) {
         startGame,
         endGame,
         createMatch,
+        updateMatch,
         abortMatch,
         calculateMatchScore,
       }}

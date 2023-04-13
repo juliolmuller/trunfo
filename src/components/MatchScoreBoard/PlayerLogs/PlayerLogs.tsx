@@ -45,6 +45,20 @@ function PlayerLogs({
     /* eslint-enable curly, no-shadow, nonblock-statement-body-position */
   }
 
+  function handleChangeBets(value: number) {
+    onChange({
+      log: { ...log, betsCount: value },
+      player,
+    })
+  }
+
+  function handleChangeHits(value: number) {
+    onChange({
+      log: { ...log, hitsCount: value },
+      player,
+    })
+  }
+
   return (
     <ListItem
       key={player.id}
@@ -100,11 +114,18 @@ function PlayerLogs({
             container
             justifyContent="center"
           >
-            <Chip
-              color="info"
-              label={log.betsCount}
-              sx={{ color: 'common.white', fontSize: '1rem' }}
-            />
+            {status === 'betting' ? (
+              <Counter
+                value={log.betsCount}
+                onChange={handleChangeBets}
+              />
+            ) : (
+              <Chip
+                color="info"
+                label={log.betsCount}
+                sx={{ color: 'common.white', fontSize: '1rem' }}
+              />
+            )}
           </Grid>
         )}
 
@@ -129,15 +150,22 @@ function PlayerLogs({
               container
               justifyContent="center"
             >
-              <Chip
-                color="info"
-                label={log.hitsCount}
-                sx={{
-                  mr: status !== 'betting' ? 2 : 0,
-                  color: 'common.white',
-                  fontSize: '1rem',
-                }}
-              />
+              {status === 'scoring' ? (
+                <Counter
+                  value={log.hitsCount}
+                  onChange={handleChangeHits}
+                />
+              ) : (
+                <Chip
+                  color="info"
+                  label={log.hitsCount}
+                  sx={{
+                    mr: status !== 'betting' ? 2 : 0,
+                    color: 'common.white',
+                    fontSize: '1rem',
+                  }}
+                />
+              )}
             </Grid>
 
             {status === 'scoring' && (
