@@ -1,7 +1,8 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Game, GameStatus, Player, Match } from '~/models'
+import { calculateSimplifiedScore, calculateStandardScore } from '~/helpers'
+import { Game, GameStatus, Player, Match, ScoringMode } from '~/models'
 import { gameService } from '~/services'
 
 export type GameContextProps = {
@@ -22,6 +23,7 @@ export type GameContextProps = {
   endGame: () => Promise<void>
   createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
   abortMatch: () => Promise<void>
+  calculateMatchScore: (betsCount: number, hitsCount: number) => number
 }
 
 export type GameProviderProps = {
@@ -35,9 +37,11 @@ export function GameProvider({ children }: GameProviderProps) {
   const [isLoading] = useState(true)
   const [activeGameId, setActiveGameId] = useState<Game['id']>()
   const [activeGame, setActiveGame] = useState<Game>()
-  const [activeMatch, setActiveMatch] = useState<Match>()
   const [recentGames] = useState<Game[]>([])
   const [userGames] = useState<Game[]>([])
+  const activeMatch = activeGame?.matches.reduce((latest, match) => {
+    return latest.createdAt > match.createdAt ? latest : match
+  })
 
   function connectToGame(gameId: Game['id']) {
     setActiveGameId(gameId)
@@ -94,6 +98,17 @@ export function GameProvider({ children }: GameProviderProps) {
     await updateGame({ status: GameStatus.AWAITING })
   }
 
+  function calculateMatchScore(betsCount: number, hitsCount: number) {
+    if (!activeGame) {
+      console.error('Method "calculateMatchScore" called without a game.')
+      return 0
+    }
+
+    return activeGame.scoringMode === ScoringMode.STANDARD
+      ? calculateStandardScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
+      : calculateSimplifiedScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
+  }
+
   useEffect(() => {
     const unsubscribe = activeGameId
       ? gameService.connectToGame(activeGameId, setActiveGame)
@@ -122,6 +137,7 @@ export function GameProvider({ children }: GameProviderProps) {
         endGame,
         createMatch,
         abortMatch,
+        calculateMatchScore,
       }}
     >
       {children}

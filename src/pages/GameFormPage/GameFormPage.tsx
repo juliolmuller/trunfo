@@ -92,7 +92,7 @@ function GameFormPage() {
             <FormControlLabel
               checked={scoreOnZeroBets}
               control={<Switch />}
-              label="Pontuar em acertos com zero apostas"
+              label="Pontuar em acertos com zero apostas (+5 pontos)"
               onChange={(event) => setScoreOnZeroBets((event.target as any).checked)}
             />
           </FormControl>
