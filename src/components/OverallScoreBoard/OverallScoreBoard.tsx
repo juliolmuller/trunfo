@@ -7,11 +7,11 @@ import { Player } from '~/models'
 import AnimatedList from './AnimatedList'
 import PlayerScore from './PlayerScore'
 
-export interface ScoreBoardProps {
+export interface OverallScoreBoardProps {
   players: Player[]
 }
 
-function ScoreBoard({ players }: ScoreBoardProps) {
+function OverallScoreBoard({ players }: OverallScoreBoardProps) {
   const orderedPlayers = useMemo(() => {
   // TODO: find a way to order players by score
     return [...players]
@@ -32,4 +32,4 @@ function ScoreBoard({ players }: ScoreBoardProps) {
   )
 }
 
-export default ScoreBoard
+export default OverallScoreBoard

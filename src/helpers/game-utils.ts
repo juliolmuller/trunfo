@@ -15,3 +15,31 @@ export function generateAvatar(name: string) {
 
   return url.toString()
 }
+
+export function calculateStandardScore(
+  betsCount: number,
+  hitsCount: number,
+  scoreOnZeroBets = false,
+) {
+  if (betsCount === hitsCount) {
+    return scoreOnZeroBets && betsCount === 0 ? 5 : betsCount * 10
+  }
+
+  return Math.abs(betsCount - hitsCount) * -10
+}
+
+export function calculateSimplifiedScore(
+  betsCount: number,
+  hitsCount: number,
+  scoreOnZeroBets = false,
+) {
+  if (betsCount !== hitsCount) {
+    return -10
+  }
+
+  if (scoreOnZeroBets && betsCount === 0) {
+    return 5
+  }
+
+  return betsCount === 0 ? 0 : 10
+}

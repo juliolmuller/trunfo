@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import { useState } from 'react'
 
-import ScoreBoard from '~/components/ScoreBoard'
+import OverallScoreBoard from '~/components/OverallScoreBoard'
 import Section from '~/components/Section'
 import { useAuth, useGame } from '~/helpers'
 import { Game } from '~/models'
@@ -31,7 +31,7 @@ function AwaitingView({ game }: AwaitingViewProps) {
 
   return (
     <Section fullWidth maxWidth="sm">
-      <ScoreBoard players={game.players} />
+      <OverallScoreBoard players={game.players} />
 
       {isGameOwner && (
         <Stack direction="row" justifyContent="space-evenly" mt={3}>

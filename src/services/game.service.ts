@@ -14,20 +14,44 @@ function toArray<TModel>(
   })
 }
 
+function normalizePlayers(snapshotVal: any) {
+  return toArray<Player>(snapshotVal, (player) => ({
+    addedAt: new Date(player.addedAt),
+  })).sort((p1, p2) => (p1.order === p2.order
+    ? Number(p1.addedAt) - Number(p2.addedAt)
+    : p1.order - p2.order))
+}
+
+function normalizeLogs(snapshotVal: any, match: Match, players: Player[]) {
+  const logs = toArray<MatchLog>(snapshotVal)
+  const playersClone = Array.from(players)
+  const firstPlayerIndex = players.findIndex((player) => player.id === match.firstPlayer)
+  const playersToShift = playersClone.splice(0, firstPlayerIndex)
+  const orderedPlayers = [...playersClone, ...playersToShift]
+
+  return orderedPlayers.map((player) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return logs.find((log) => log.player === player.id)!
+  })
+}
+
+function normalizeMatches(snapshotVal: any, players: Player[]) {
+  return toArray<Match>(snapshotVal, (match) => ({
+    createdAt: new Date(match.createdAt),
+    logs: normalizeLogs(match.logs, match, players),
+  }))
+}
+
 function normalizeGame(gameId: Game['id'], snapshotVal: any): Game {
+  const players = normalizePlayers(snapshotVal.players)
+  const matches = normalizeMatches(snapshotVal.matches, players)
+
   return {
     ...snapshotVal,
     id: gameId,
     createdAt: new Date(snapshotVal.createdAt),
-    players: toArray<Player>(snapshotVal.players, (player) => ({
-      addedAt: new Date(player.addedAt),
-    })).sort((p1, p2) => (p1.order === p2.order
-      ? Number(p1.addedAt) - Number(p2.addedAt)
-      : p1.order - p2.order)),
-    matches: toArray<Match>(snapshotVal.matches, (match) => ({
-      createdAt: new Date(match.createdAt),
-      logs: toArray<MatchLog>(match.logs),
-    })),
+    players,
+    matches,
   }
 }
 
@@ -115,7 +139,31 @@ async function createMatch(
     roundsCount,
   })
 
+  const playersSnapshot = await gameRef.child('players').once('value')
+  const players = normalizePlayers(playersSnapshot.val())
+  await Promise.all(
+    players.map(({ id }) => {
+      return gameRef.child(`matches/${thenable.key}/logs`).push({
+        player: id,
+        betsCount: 0,
+        hitsCount: 0,
+      })
+    }),
+  )
+
   return thenable.key as Match['id']
+}
+
+async function updateMatch(
+  gameId: Game['id'],
+  matchId: Match['id'],
+  props: Partial<Omit<Match, 'id'>>,
+) {
+  if ('createdAt' in props) {
+    props.createdAt = new Date().toISOString() as any
+  }
+
+  await database.ref(`games/${gameId}/matches/${matchId}`).update(props)
 }
 
 export const gameService = {
@@ -126,4 +174,5 @@ export const gameService = {
   removePlayer,
   reorderPlayers,
   createMatch,
+  updateMatch,
 }
