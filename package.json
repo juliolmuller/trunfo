@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "author": "Julio L. Muller",
+  "type": "module",
   "scripts": {
     "prepare": "husky install",
     "dev": "vite --port=8080",
