@@ -21,13 +21,16 @@ function Section({
   return (
     <Paper
       elevation={6}
-      sx={mergeSx({
-        width: fullWidth ? 1 : 'auto',
-        maxWidth,
-        my: 3,
-        px: 3,
-        py: 4,
-      }, sx)}
+      sx={mergeSx(
+        {
+          width: fullWidth ? 1 : 'auto',
+          maxWidth,
+          my: 3,
+          px: 3,
+          py: 4,
+        },
+        sx,
+      )}
       {...props}
     >
       {title && (

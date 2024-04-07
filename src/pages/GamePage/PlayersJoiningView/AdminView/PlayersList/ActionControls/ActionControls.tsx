@@ -49,13 +49,14 @@ function ActionControls() {
             fullWidth
             label="Nome do jogador"
             InputProps={{
-              endAdornment: newUserName.length === 0 ? undefined : (
-                <InputAdornment position="end">
-                  <IconButton color="secondary" type="submit">
-                    <DoneIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
+              endAdornment:
+                newUserName.length === 0 ? undefined : (
+                  <InputAdornment position="end">
+                    <IconButton color="secondary" type="submit">
+                      <DoneIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
             }}
             required
             size="small"

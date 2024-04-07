@@ -35,11 +35,7 @@ function AuthRoutes() {
 function Router() {
   const { isAuthenticated } = useAuth()
 
-  return (
-    <BrowserRouter>
-      {isAuthenticated ? <AuthRoutes /> : <PublicRouter />}
-    </BrowserRouter>
-  )
+  return <BrowserRouter>{isAuthenticated ? <AuthRoutes /> : <PublicRouter />}</BrowserRouter>
 }
 
 export default Router

@@ -6,14 +6,14 @@ export interface AnimatableElement {
 }
 
 export function calculateBoundingBoxes<T extends AnimatableElement>(children: T[]) {
-  const boundingBoxes: Record<Key, HTMLElement> = {}
+  const boundingBoxes = new Map<Key, any>()
 
   Children.forEach(children, (child) => {
     const domNode = child.ref.current
     const nodeBoundingBox = domNode.getBoundingClientRect()
 
     if (child.key) {
-      boundingBoxes[child.key] = nodeBoundingBox
+      boundingBoxes.set(child.key, nodeBoundingBox)
     }
   })
 

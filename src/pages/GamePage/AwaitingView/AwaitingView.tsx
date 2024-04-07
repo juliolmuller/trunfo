@@ -35,11 +35,7 @@ function AwaitingView({ game }: AwaitingViewProps) {
 
       {isGameOwner && (
         <Stack direction="row" justifyContent="space-evenly" mt={3}>
-          <Button
-            startIcon={<EndIcon />}
-            onClick={handleEndGame}
-            sx={{ color: 'common.white' }}
-          >
+          <Button startIcon={<EndIcon />} onClick={handleEndGame} sx={{ color: 'common.white' }}>
             Encerrar Jogo
           </Button>
 

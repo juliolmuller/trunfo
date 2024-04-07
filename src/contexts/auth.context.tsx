@@ -25,11 +25,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = Boolean(user)
 
   function setUserFromRaw(rawUser: firebase.User) {
-    const {
-      displayName: name,
-      photoURL: avatar,
-      uid: id,
-    } = rawUser
+    const { displayName: name, photoURL: avatar, uid: id } = rawUser
 
     if (!name || !avatar) {
       throw new Error('Missing information from Google account.')

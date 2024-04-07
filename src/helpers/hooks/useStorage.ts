@@ -4,11 +4,7 @@ import {
   useSessionStorage as useReactUseSessionStorage,
 } from 'react-use'
 
-type UseStorageReturn<T> = [
-  T,
-  Dispatch<SetStateAction<T>>,
-  () => void
-]
+type UseStorageReturn<T> = [T, Dispatch<SetStateAction<T>>, () => void]
 
 function generateKey(suffix: string) {
   return `TRUNFO::${suffix}`

@@ -66,9 +66,7 @@ function GameFormPage() {
           />
 
           <FormControl fullWidth>
-            <FormLabel id="scoring-mode-label">
-              Modo de Pontuação
-            </FormLabel>
+            <FormLabel id="scoring-mode-label">Modo de Pontuação</FormLabel>
             <RadioGroup
               name="scoringMode"
               value={scoringMode}
@@ -133,11 +131,9 @@ function GameFormPage() {
             })}
           >
             <Button type="submit">Próximo</Button>
-            <Button
-              disabled={isSubmitting}
-              variant="text"
-              onClick={handleCancel}
-            >Cancelar</Button>
+            <Button disabled={isSubmitting} variant="text" onClick={handleCancel}>
+              Cancelar
+            </Button>
           </Box>
         </Stack>
       </form>

@@ -8,9 +8,11 @@ export interface AnimatedListProps {
   children: any[]
 }
 
+type BoundingBox = ReturnType<typeof calculateBoundingBoxes>
+
 function AnimatedList({ children }: AnimatedListProps) {
-  const [prevBoundingBox, setPrevBoundingBox] = useState<any>({})
-  const [boundingBox, setBoundingBox] = useState<any>({})
+  const [prevBoundingBox, setPrevBoundingBox] = useState<BoundingBox>(new Map())
+  const [boundingBox, setBoundingBox] = useState<BoundingBox>(new Map())
   const prevChildren = usePrevious(children)
 
   useLayoutEffect(() => {
@@ -29,9 +31,9 @@ function AnimatedList({ children }: AnimatedListProps) {
     if (prevBoundingBox && hasPrevBoundingBox) {
       Children.forEach(children, (child) => {
         const domNode = child.ref.current
-        const firstBox = prevBoundingBox[child.key]
-        const lastBox = boundingBox[child.key]
-        const changeInY = firstBox.top - lastBox.top
+        const firstBoxTop = prevBoundingBox.get(child.key)?.top ?? 0
+        const lastBoxTop = boundingBox.get(child.key)?.top ?? 0
+        const changeInY = firstBoxTop - lastBoxTop
 
         if (changeInY) {
           requestAnimationFrame(() => {

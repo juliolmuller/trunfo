@@ -25,22 +25,15 @@ export type PlayerLogsProps = {
   onChange: (event: ChangeEvent) => void
 }
 
-function PlayerLogs({
-  log,
-  player,
-  status,
-  onChange,
-}: PlayerLogsProps) {
+function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
   const isGreaterThanSm = useMediaQuery<Theme>((theme) => theme.breakpoints.up('sm'))
   const { calculateMatchScore } = useGame()
   const score = calculateMatchScore(log.betsCount, log.hitsCount)
 
   /* eslint-disable curly, no-shadow, nonblock-statement-body-position */
   function getColor(score: number) {
-    if (score > 0)
-      return 'success'
-    if (score < 0)
-      return 'error'
+    if (score > 0) return 'success'
+    if (score < 0) return 'error'
     return 'info'
     /* eslint-enable curly, no-shadow, nonblock-statement-body-position */
   }
@@ -106,19 +99,9 @@ function PlayerLogs({
         />
 
         {(status !== 'scoring' || isGreaterThanSm) && (
-          <Grid
-            item
-            xs={2}
-            sm={1.5}
-            md={1}
-            container
-            justifyContent="center"
-          >
+          <Grid item xs={2} sm={1.5} md={1} container justifyContent="center">
             {status === 'betting' ? (
-              <Counter
-                value={log.betsCount}
-                onChange={handleChangeBets}
-              />
+              <Counter value={log.betsCount} onChange={handleChangeBets} />
             ) : (
               <Chip
                 color="info"
@@ -144,17 +127,9 @@ function PlayerLogs({
 
         {(status !== 'betting' || isGreaterThanSm) && (
           <>
-            <Grid
-              item
-              xs={2}
-              container
-              justifyContent="center"
-            >
+            <Grid item xs={2} container justifyContent="center">
               {status === 'scoring' ? (
-                <Counter
-                  value={log.hitsCount}
-                  onChange={handleChangeHits}
-                />
+                <Counter value={log.hitsCount} onChange={handleChangeHits} />
               ) : (
                 <Chip
                   color="info"

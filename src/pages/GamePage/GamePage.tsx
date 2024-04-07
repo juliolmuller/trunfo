@@ -46,7 +46,9 @@ function GamePage() {
   return (
     <Container maxWidth={smallViews.includes(activeGame?.status as GameStatus) ? 'sm' : 'md'}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Typography variant="h4" fontWeight={700}>{activeGame?.name}</Typography>
+        <Typography variant="h4" fontWeight={700}>
+          {activeGame?.name}
+        </Typography>
 
         {user?.id === activeGame?.createdBy && (
           <TextField
@@ -66,11 +68,7 @@ function GamePage() {
         )}
       </Stack>
 
-      {activeGame ? (
-        <ActiveView game={activeGame} />
-      ) : (
-        <Loading />
-      )}
+      {activeGame ? <ActiveView game={activeGame} /> : <Loading />}
     </Container>
   )
 }

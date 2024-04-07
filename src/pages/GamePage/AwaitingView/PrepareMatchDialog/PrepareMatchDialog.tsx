@@ -26,7 +26,8 @@ function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
   const { abortMatch, activeGameMatches, activeGamePlayers, createMatch } = useGame()
   const maxCardsPerPlayer = Math.floor(CARDS_COUNT / activeGamePlayers.length)
   const minCardsPerPlayer = 1
-  const hasErrors = !firstPlayer || roundsCount < minCardsPerPlayer || roundsCount > maxCardsPerPlayer
+  const hasErrors =
+    !firstPlayer || roundsCount < minCardsPerPlayer || roundsCount > maxCardsPerPlayer
 
   function handleChangeFirstPlayer(event: ChangeEvent<HTMLInputElement>) {
     setFirstPlayer(event.target.value)
@@ -39,9 +40,13 @@ function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
   useEffect(() => {
     setFirstPlayer(() => {
       const latestMatch = activeGameMatches.length
-        ? activeGameMatches.reduce((latest, match) => (latest.createdAt > match.createdAt ? latest : match))
+        ? activeGameMatches.reduce((latest, match) =>
+            latest.createdAt > match.createdAt ? latest : match,
+          )
         : undefined
-      const lastFirstPlayerIndex = activeGamePlayers.findIndex(({ id }) => id === latestMatch?.firstPlayer)
+      const lastFirstPlayerIndex = activeGamePlayers.findIndex(
+        ({ id }) => id === latestMatch?.firstPlayer,
+      )
       const playersCount = activeGamePlayers.length
       const wasLastInTheList = lastFirstPlayerIndex === playersCount - 1
 
@@ -53,12 +58,7 @@ function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
 
   return (
     <Dialog open={open} onClose={() => onClose()}>
-      <Section
-        fullWidth
-        maxWidth="sm"
-        title="Configurar a próxima partida"
-        sx={{ my: 0 }}
-      >
+      <Section fullWidth maxWidth="sm" title="Configurar a próxima partida" sx={{ my: 0 }}>
         <Stack gap={4}>
           <TextField
             label="Primeiro jogador"
@@ -67,7 +67,9 @@ function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
             onChange={handleChangeFirstPlayer}
           >
             {activeGamePlayers.map(({ id, name }) => (
-              <MenuItem key={id} value={id}>{name}</MenuItem>
+              <MenuItem key={id} value={id}>
+                {name}
+              </MenuItem>
             ))}
           </TextField>
 
@@ -93,7 +95,6 @@ function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
             />
           </Box>
 
-
           <Box
             sx={{
               display: 'flex',
@@ -114,12 +115,7 @@ function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
               Registrar Apostas
             </Button>
 
-            <Button
-              size="large"
-              startIcon={<CancelIcon />}
-              variant="text"
-              onClick={abortMatch}
-            >
+            <Button size="large" startIcon={<CancelIcon />} variant="text" onClick={abortMatch}>
               Cancelar
             </Button>
           </Box>

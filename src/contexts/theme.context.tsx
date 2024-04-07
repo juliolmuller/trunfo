@@ -43,7 +43,8 @@ export function ThemeProvider({ children, dark, light }: ThemeProviderProps) {
     >
       <StyledEngineProvider injectFirst>
         <MuiThemeProvider theme={actualTheme}>
-          <CssBaseline /> {/* <== kickstart a simple and consistent baseline to build upon. */}
+          <CssBaseline />
+
           {children}
         </MuiThemeProvider>
       </StyledEngineProvider>

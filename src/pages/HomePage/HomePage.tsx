@@ -23,7 +23,7 @@ function HomePage() {
 
   function handleSearchGame() {
     // TODO: use firebase search method and navigate
-    console.log(`Searching game ${inputValue}...`)
+    console.info(`Searching game ${inputValue}...`)
   }
 
   return (
@@ -45,14 +45,10 @@ function HomePage() {
           disabled={inputVisible && inputValue.length < GAME_KEY_LENGTH}
           fullWidth
           startIcon={<EnterIcon />}
-          onClick={inputVisible
-            ? handleSearchGame
-            : () => setInputVisible(true)}
+          onClick={inputVisible ? handleSearchGame : () => setInputVisible(true)}
           sx={{ color: 'white' }}
         >
-          {inputVisible
-            ? 'Entrar'
-            : 'Acessar um jogo existente'}
+          {inputVisible ? 'Entrar' : 'Acessar um jogo existente'}
         </Button>
 
         <Button

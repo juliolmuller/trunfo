@@ -10,13 +10,10 @@ export default defineConfig({
       plugins: [
         analyzerPlugin({
           summaryOnly: true,
-          limit: 50,
+          limit: 10,
         }),
       ],
     },
   },
-  plugins: [
-    reactPlugin(),
-    tsconfigPathsPlugin(),
-  ],
+  plugins: [reactPlugin(), tsconfigPathsPlugin()],
 })

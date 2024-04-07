@@ -10,9 +10,7 @@ export interface PlayersJoiningAdminViewProps {
   game: Game
 }
 
-function PlayersJoiningAdminView({
-  game: { key, players },
-}: PlayersJoiningAdminViewProps) {
+function PlayersJoiningAdminView({ game: { key, players } }: PlayersJoiningAdminViewProps) {
   return (
     <Section fullWidth maxWidth="inherit">
       <Grid container>
