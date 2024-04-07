@@ -10,7 +10,7 @@ export default defineConfig({
       plugins: [
         analyzerPlugin({
           summaryOnly: true,
-          limit: 50,
+          limit: 10,
         }),
       ],
     },
