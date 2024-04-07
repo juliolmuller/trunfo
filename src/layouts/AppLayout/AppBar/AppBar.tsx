@@ -13,12 +13,7 @@ function AppBar({ onOpenDrawer }: AppBarProps) {
   return (
     <MuiAppBar position="relative" sx={{ bgcolor: 'primary.main' }}>
       <Toolbar component={Container}>
-        <Typography
-          component="div"
-          noWrap
-          variant="h6"
-          sx={{ flexGrow: 1 }}
-        >
+        <Typography component="div" noWrap variant="h6" sx={{ flexGrow: 1 }}>
           Trunfo
         </Typography>
 

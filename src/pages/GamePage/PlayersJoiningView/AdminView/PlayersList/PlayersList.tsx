@@ -13,9 +13,7 @@ export interface PlayersListProps {
   players: Player[]
 }
 
-function PlayersList({
-  players,
-}: PlayersListProps) {
+function PlayersList({ players }: PlayersListProps) {
   return (
     <Stack sx={{ height: 1 }}>
       <Box
@@ -36,7 +34,7 @@ function PlayersList({
       {players.length > 0 && (
         <Box>
           <Divider>
-            <Typography component="h6" variant='caption' sx={{ textTransform: 'uppercase' }}>
+            <Typography component="h6" variant="caption" sx={{ textTransform: 'uppercase' }}>
               Jogadores cadastrados
             </Typography>
           </Divider>

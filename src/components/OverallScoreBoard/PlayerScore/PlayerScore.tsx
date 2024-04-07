@@ -16,10 +16,8 @@ const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, ref) =>
 
   /* eslint-disable curly, no-shadow, nonblock-statement-body-position */
   function getColor(score: number) {
-    if (score > 0)
-      return 'success'
-    if (score < 0)
-      return 'error'
+    if (score > 0) return 'success'
+    if (score < 0) return 'error'
     return 'info'
     /* eslint-enable curly, no-shadow, nonblock-statement-body-position */
   }

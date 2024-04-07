@@ -25,11 +25,7 @@ function Drawer({ open, onClose }: DrawerProps) {
   const theme = useTheme()
 
   return (
-    <MuiDrawer
-      anchor="right"
-      open={open}
-      onClose={() => onClose()}
-    >
+    <MuiDrawer anchor="right" open={open} onClose={() => onClose()}>
       <DrawerHeader>
         <IconButton onClick={() => onClose()}>
           {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -40,9 +36,7 @@ function Drawer({ open, onClose }: DrawerProps) {
 
       <List>
         <ListItem button onClick={theme.toggleThemeMode}>
-          <ListItemIcon>
-            {theme.isDark ? <LightModeIcon /> : <DarkModeIcon />}
-          </ListItemIcon>
+          <ListItemIcon>{theme.isDark ? <LightModeIcon /> : <DarkModeIcon />}</ListItemIcon>
           <ListItemText primary={theme.isDark ? 'Tema claro' : 'Tema escuro'} />
         </ListItem>
         {isAuthenticated && (

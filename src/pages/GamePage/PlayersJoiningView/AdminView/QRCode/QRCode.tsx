@@ -58,11 +58,7 @@ function QRCode({ gameKey }: QRCodeProps) {
         }}
       >
         <code>{gameKey}</code>
-        <IconButton
-          disabled={isCopying}
-          size="small"
-          onClick={() => setCopying(true)}
-        >
+        <IconButton disabled={isCopying} size="small" onClick={() => setCopying(true)}>
           {isCopying ? (
             <CircularProgress color="inherit" size={24} />
           ) : (

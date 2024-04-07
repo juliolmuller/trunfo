@@ -35,17 +35,19 @@ export type MatchScoreBoardProps = (MatchObservingProps | MatchUpdatingProps) & 
 function MatchScoreBoard({
   logs,
   players,
-  playerTurn,
-  roundsCount,
+  // TODO: review implementation
+  // playerTurn,
+  // roundsCount,
   status = 'observing',
   title,
   onChange,
   onDone,
 }: MatchScoreBoardProps) {
   const previousPlayer = useRef<Player['id']>()
-  const betsCount = useMemo(() => {
-    return logs.reduce((count, log) => count + log.betsCount, 0)
-  }, [logs])
+  // TODO: review implementation
+  // const betsCount = useMemo(() => {
+  //   return logs.reduce((count, log) => count + log.betsCount, 0)
+  // }, [logs])
   const playersMap = useMemo(() => {
     const playersEntries = players.map((player) => [player.id, player] as const)
 

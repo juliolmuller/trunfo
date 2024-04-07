@@ -13,7 +13,7 @@ export interface OverallScoreBoardProps {
 
 function OverallScoreBoard({ players }: OverallScoreBoardProps) {
   const orderedPlayers = useMemo(() => {
-  // TODO: find a way to order players by score
+    // TODO: find a way to order players by score
     return [...players]
   }, [players])
 

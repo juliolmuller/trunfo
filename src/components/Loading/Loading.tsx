@@ -8,11 +8,7 @@ export interface LoadingProps {
   size?: number
 }
 
-function Loading({
-  color = 'primary',
-  margin = 'auto',
-  size = 156,
-}: LoadingProps) {
+function Loading({ color = 'primary', margin = 'auto', size = 156 }: LoadingProps) {
   const { palette } = useTheme()
   const actualColor = color in palette ? palette[color].main : color
 
@@ -33,19 +29,8 @@ function Loading({
     >
       <g transform="translate(50,50)">
         <g transform="scale(0.88)">
-          <circle
-            cx="0"
-            cy="0"
-            r="50"
-            fill={actualColor}
-          ></circle>
-          <circle
-            cx="0"
-            cy="-29"
-            r="12"
-            fill="#ffffff"
-            transform="rotate(279.406)"
-          >
+          <circle cx="0" cy="0" r="50" fill={actualColor}></circle>
+          <circle cx="0" cy="-29" r="12" fill="#ffffff" transform="rotate(279.406)">
             <animateTransform
               attributeName="transform"
               type="rotate"

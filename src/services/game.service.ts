@@ -8,7 +8,7 @@ function toArray<TModel>(
   mergeProps?: (model: TModel) => Partial<TModel>,
 ): TModel[] {
   return Object.entries(firebaseObj ?? {}).map(([id, model]) => {
-    const baseModel = { ...model as TModel, id }
+    const baseModel = { ...(model as TModel), id }
 
     return { ...baseModel, ...mergeProps?.(baseModel as TModel) }
   })
@@ -17,9 +17,9 @@ function toArray<TModel>(
 function normalizePlayers(snapshotVal: any) {
   return toArray<Player>(snapshotVal, (player) => ({
     addedAt: new Date(player.addedAt),
-  })).sort((p1, p2) => (p1.order === p2.order
-    ? Number(p1.addedAt) - Number(p2.addedAt)
-    : p1.order - p2.order))
+  })).sort((p1, p2) =>
+    p1.order === p2.order ? Number(p1.addedAt) - Number(p2.addedAt) : p1.order - p2.order,
+  )
 }
 
 function normalizeLogs(snapshotVal: any, match: Match, players: Player[]) {
@@ -122,9 +122,11 @@ async function removePlayer(gameId: Game['id'], playerId: Player['id']) {
 async function reorderPlayers(gameId: Game['id'], playersIds: Player['id'][]) {
   const playersRef = database.ref(`games/${gameId}/players`)
 
-  await Promise.all(playersIds.map(async (id, index) => {
-    await playersRef.child(id).update({ order: index + 1 })
-  }))
+  await Promise.all(
+    playersIds.map(async (id, index) => {
+      await playersRef.child(id).update({ order: index + 1 })
+    }),
+  )
 }
 
 async function createMatch(

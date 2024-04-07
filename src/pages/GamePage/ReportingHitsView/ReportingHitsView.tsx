@@ -10,12 +10,14 @@ function ReportingHitsView() {
   const players = activeGame?.players ?? []
 
   function handleChange({ log, player }: ChangeEvent) {
-    console.log('change', { log, player })
+    // TODO: remove logging after proper implementation
+    console.info('change', { log, player })
     updateMatch({ logs })
   }
 
   function handleDone({ log, player, nextPlayer }: DoneEvent) {
-    console.log('done', { log, player, nextPlayer })
+    // TODO: implement
+    console.info('done', { log, player, nextPlayer })
   }
 
   return (

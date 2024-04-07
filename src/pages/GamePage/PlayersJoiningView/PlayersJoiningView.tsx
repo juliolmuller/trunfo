@@ -11,9 +11,11 @@ export interface PlayersJoiningViewProps {
 function PlayersJoiningView({ game }: PlayersJoiningViewProps) {
   const { user } = useAuth()
 
-  return game.createdBy === user?.id
-    ? <PlayersJoiningAdminView game={game} />
-    : <PlayersJoiningGeneralView game={game} />
+  return game.createdBy === user?.id ? (
+    <PlayersJoiningAdminView game={game} />
+  ) : (
+    <PlayersJoiningGeneralView game={game} />
+  )
 }
 
 export default PlayersJoiningView

@@ -17,9 +17,7 @@ export interface SortablePlayersListProps {
   players: Player[]
 }
 
-function SortablePlayersList({
-  players,
-}: SortablePlayersListProps) {
+function SortablePlayersList({ players }: SortablePlayersListProps) {
   const { removePlayer, reorderPlayers } = useGame()
 
   function handleDragEnd({ destination, source }: DropResult) {
@@ -50,11 +48,7 @@ function SortablePlayersList({
             {...droppableProvider.droppableProps}
           >
             {players.map((player, index) => (
-              <Draggable
-                key={player.id}
-                draggableId={`${player.id}`}
-                index={index}
-              >
+              <Draggable key={player.id} draggableId={`${player.id}`} index={index}>
                 {(draggableProvider, snapshot) => (
                   <ListItem
                     ref={draggableProvider.innerRef}

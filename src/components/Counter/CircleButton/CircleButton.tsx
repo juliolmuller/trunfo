@@ -11,12 +11,7 @@ export interface CircleButtonProps {
   onClick: () => void
 }
 
-function CircleButton({
-  children,
-  color,
-  size = 'small',
-  onClick,
-}: CircleButtonProps) {
+function CircleButton({ children, color, size = 'small', onClick }: CircleButtonProps) {
   return (
     <Paper
       sx={(theme) => ({
@@ -27,10 +22,7 @@ function CircleButton({
       role="button"
       onClick={() => onClick()}
     >
-      <IconButton
-        sx={{ fontSize: size === 'small' ? 24 : 64 }}
-        color={color}
-      >
+      <IconButton sx={{ fontSize: size === 'small' ? 24 : 64 }} color={color}>
         {children}
       </IconButton>
     </Paper>

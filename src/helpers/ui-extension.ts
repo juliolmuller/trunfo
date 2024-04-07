@@ -3,9 +3,7 @@ import { SystemStyleObject } from '@mui/system'
 
 /* eslint-disable @typescript-eslint/indent */
 export type MergedSxProps = Array<
-  | boolean
-  | SystemStyleObject<Theme>
-  | ((theme: Theme) => SystemStyleObject<Theme>)
+  boolean | SystemStyleObject<Theme> | ((theme: Theme) => SystemStyleObject<Theme>)
 >
 /* eslint-enable @typescript-eslint/indent */
 
