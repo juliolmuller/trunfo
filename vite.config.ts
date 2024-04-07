@@ -15,8 +15,5 @@ export default defineConfig({
       ],
     },
   },
-  plugins: [
-    reactPlugin(),
-    tsconfigPathsPlugin(),
-  ],
+  plugins: [reactPlugin(), tsconfigPathsPlugin()],
 })
