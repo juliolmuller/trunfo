@@ -130,8 +130,27 @@ function GameFormPage() {
               },
             })}
           >
-            <Button type="submit">Próximo</Button>
-            <Button disabled={isSubmitting} variant="text" onClick={handleCancel}>
+            <Button
+              type="submit"
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
+            >
+              Próximo
+            </Button>
+
+            <Button
+              disabled={isSubmitting}
+              variant="text"
+              onClick={handleCancel}
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
+            >
               Cancelar
             </Button>
           </Box>

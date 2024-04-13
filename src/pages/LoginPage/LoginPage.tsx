@@ -24,7 +24,7 @@ function LoginPage() {
           onClick={handleGoogleSignIn}
           sx={{ color: 'white' }}
         >
-          Entrar com conta Google
+          Entrar com Google
         </Button>
 
         <Button

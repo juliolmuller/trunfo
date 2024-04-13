@@ -28,15 +28,22 @@ function HomePage() {
 
   return (
     <Section fullWidth maxWidth="sm">
-      <Stack alignItems="center" gap={3}>
+      <Stack gap={3}>
         <Collapse in={inputVisible} unmountOnExit>
           <TextField
             autoFocus
+            fullWidth
             hiddenLabel
+            placeholder="Difite o código de acesso"
             size="medium"
             value={inputValue}
-            variant="filled"
+            variant="outlined"
             onChange={handleChangeInputValue}
+            inputProps={{
+              sx: {
+                textAlign: 'center',
+              },
+            }}
           />
         </Collapse>
 
@@ -48,7 +55,7 @@ function HomePage() {
           onClick={inputVisible ? handleSearchGame : () => setInputVisible(true)}
           sx={{ color: 'white' }}
         >
-          {inputVisible ? 'Entrar' : 'Acessar um jogo existente'}
+          {inputVisible ? 'Entrar' : 'Acessar um jogo'}
         </Button>
 
         <Button
