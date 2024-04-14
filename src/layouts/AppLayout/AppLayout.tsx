@@ -35,8 +35,9 @@ function AppLayout() {
           alignItems: 'center',
           justifyContent: 'center',
           width: 1,
-          p: 3,
-          mb: 6,
+          px: [1, 2, 3],
+          mt: 4,
+          mb: [4, 6],
         }}
       >
         <DrawerHeader />

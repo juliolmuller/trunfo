@@ -39,10 +39,21 @@ function QRCode({ gameKey }: QRCodeProps) {
         height: 1,
       }}
     >
-      <img src={qrCode} height="200" alt="código QR" />
+      <Box
+        component="img"
+        src={qrCode}
+        alt="código QR"
+        sx={{
+          width: '100%',
+          maxWidth: 280,
+          aspectRatio: 1 / 1,
+        }}
+      />
+
       <Typography variant="subtitle1" sx={{ mt: 4 }}>
         Chave do Jogo:
       </Typography>
+
       <Typography
         component="span"
         variant="h4"
@@ -51,14 +62,21 @@ function QRCode({ gameKey }: QRCodeProps) {
           alignItems: 'center',
           gap: 1,
           borderRadius: 2,
-          background: '#acacac',
+          bgcolor: 'grey',
           p: [0.5, 1],
+          color: 'black',
           fontWeight: 700,
           letterSpacing: 4,
         }}
       >
         <code>{gameKey}</code>
-        <IconButton disabled={isCopying} size="small" onClick={() => setCopying(true)}>
+
+        <IconButton
+          disabled={isCopying}
+          size="small"
+          onClick={() => setCopying(true)}
+          sx={{ color: 'black' }}
+        >
           {isCopying ? (
             <CircularProgress color="inherit" size={24} />
           ) : (

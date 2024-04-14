@@ -34,7 +34,7 @@ function HomePage() {
             autoFocus
             fullWidth
             hiddenLabel
-            placeholder="Difite o código de acesso"
+            placeholder="Difite a Chave de acesso"
             size="medium"
             value={inputValue}
             variant="outlined"
