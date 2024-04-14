@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { calculateSimplifiedScore, calculateStandardScore } from '~/helpers'
@@ -40,9 +40,15 @@ export function GameProvider({ children }: GameProviderProps) {
   const [activeGame, setActiveGame] = useState<Game>()
   const [recentGames] = useState<Game[]>([])
   const [userGames] = useState<Game[]>([])
-  const activeMatch = activeGame?.matches.reduce((latest, match) => {
-    return latest.createdAt > match.createdAt ? latest : match
-  })
+  const activeMatch = useMemo(() => {
+    if (!activeGame?.matches.length) {
+      return undefined
+    }
+
+    return activeGame.matches.reduce((latest, match) => {
+      return latest.createdAt > match.createdAt ? latest : match
+    })
+  }, [activeGame])
 
   function connectToGame(gameId: Game['id']) {
     setActiveGameId(gameId)

@@ -1,17 +1,16 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import { Box, Typography } from '@mui/material'
 import { createRef, useMemo } from 'react'
 
 import { Player } from '~/models'
 
-import AnimatedList from './AnimatedList'
-import PlayerScore from './PlayerScore'
+import { AnimatedList } from './AnimatedList'
+import { PlayerScore } from './PlayerScore'
 
 export interface OverallScoreBoardProps {
   players: Player[]
 }
 
-function OverallScoreBoard({ players }: OverallScoreBoardProps) {
+export function OverallScoreBoard({ players }: OverallScoreBoardProps) {
   const orderedPlayers = useMemo(() => {
     // TODO: find a way to order players by score
     return [...players]
@@ -31,5 +30,3 @@ function OverallScoreBoard({ players }: OverallScoreBoardProps) {
     </Box>
   )
 }
-
-export default OverallScoreBoard

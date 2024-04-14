@@ -1,1 +1,1 @@
-export { default } from './PrepareMatchDialog'
+export * from './PrepareMatchDialog'

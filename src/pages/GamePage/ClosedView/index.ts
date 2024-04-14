@@ -1,1 +1,1 @@
-export { default } from './ClosedView'
+export * from './ClosedView'

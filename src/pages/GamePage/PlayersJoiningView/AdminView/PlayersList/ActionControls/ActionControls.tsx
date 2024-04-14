@@ -1,18 +1,21 @@
-import AddIcon from '@mui/icons-material/Add'
-import PlayIcon from '@mui/icons-material/PlayCircle'
-import DoneIcon from '@mui/icons-material/TaskAlt'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
-import Tooltip from '@mui/material/Tooltip'
+import { Add as AddIcon, PlayArrow as PlayIcon, TaskAlt as DoneIcon } from '@mui/icons-material'
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
 import { useGame } from '~/helpers'
 
-function ActionControls() {
+export function ActionControls() {
+  const theme = useTheme()
+  const isDisplaySm = useMediaQuery(theme.breakpoints.down('sm'))
   const { addOfflinePlayer, startGame: startMatch } = useGame()
   const [isAddingPlayer, setAddingPlayer] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
@@ -66,38 +69,60 @@ function ActionControls() {
           />
         </Box>
       ) : (
-        <Stack direction="row" gap={5}>
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+            gap: 2,
+            width: 1,
+            [theme.breakpoints.up('sm')]: {
+              flexDirection: 'row',
+            },
+          })}
+        >
           <Button
             fullWidth
-            size="large"
             startIcon={<AddIcon />}
             onClick={() => setAddingPlayer(true)}
+            sx={(theme) => ({
+              [theme.breakpoints.down('sm')]: {
+                width: '100%',
+              },
+            })}
           >
-            Adicionar novo jogador
+            Adicionar {isDisplaySm ? null : 'novo '}jogador
           </Button>
-          <Tooltip placement="right" title="Iniciar jogo">
-            <PlayIcon
-              sx={(theme) => {
-                function getTransform(scale: number) {
-                  return `scale(${scale}) translate(-8px, 4px)`
-                }
 
-                return {
-                  fill: theme.palette.secondary.main,
-                  cursor: 'pointer',
-                  transition: 'transform 50ms',
-                  transform: getTransform(2.2),
-                  '&:hover': { transform: getTransform(2.3) },
-                  '&:active': { transform: getTransform(2.2) },
-                }
-              }}
+          {isDisplaySm ? (
+            <Button
+              color="secondary"
+              startIcon={<PlayIcon />}
               onClick={handlePlay}
-            />
-          </Tooltip>
-        </Stack>
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
+            >
+              Iniciar jogo
+            </Button>
+          ) : (
+            <Tooltip placement="right" title="Iniciar jogo">
+              <IconButton
+                size="large"
+                onClick={handlePlay}
+                sx={{
+                  bgcolor: 'secondary.main',
+                }}
+              >
+                <PlayIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          )}
+        </Box>
       )}
     </Box>
   )
 }
-
-export default ActionControls

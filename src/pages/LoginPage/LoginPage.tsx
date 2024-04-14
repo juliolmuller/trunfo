@@ -1,10 +1,9 @@
-import Button from '@mui/material/Button'
-import Stack from '@mui/material/Stack'
+import { Button, Stack } from '@mui/material'
 
-import Section from '~/components/Section'
+import { Section } from '~/components'
 import { useAuth } from '~/helpers'
 
-function LoginPage() {
+export function LoginPage() {
   const { signInWithGoogle, signInWithFacebook } = useAuth()
 
   function handleFacebookSignIn() {
@@ -24,7 +23,7 @@ function LoginPage() {
           onClick={handleGoogleSignIn}
           sx={{ color: 'white' }}
         >
-          Entrar com conta Google
+          Entrar com Google
         </Button>
 
         <Button
@@ -41,5 +40,3 @@ function LoginPage() {
     </Section>
   )
 }
-
-export default LoginPage

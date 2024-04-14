@@ -1,12 +1,13 @@
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import { Box, Typography } from '@mui/material'
 import { useMemo, useRef } from 'react'
 
 import { MatchLog, Player } from '~/models'
 
-import PlayerLogs, { ChangeEvent } from './PlayerLogs'
+import { ChangeEvent, PlayerLogs } from './PlayerLogs'
 
-type DoneEvent = {
+export { type ChangeEvent }
+
+export type DoneEvent = {
   log: MatchLog
   player: Player
   nextPlayer: Player
@@ -32,7 +33,7 @@ export type MatchScoreBoardProps = (MatchObservingProps | MatchUpdatingProps) & 
   playerTurn?: Player['id']
 }
 
-function MatchScoreBoard({
+export function MatchScoreBoard({
   logs,
   players,
   // TODO: review implementation
@@ -88,6 +89,3 @@ function MatchScoreBoard({
     </Box>
   )
 }
-
-export default MatchScoreBoard
-export type { ChangeEvent, DoneEvent }

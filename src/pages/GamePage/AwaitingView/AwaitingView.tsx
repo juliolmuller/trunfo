@@ -1,21 +1,18 @@
-import AddIcon from '@mui/icons-material/AddCircleOutline'
-import EndIcon from '@mui/icons-material/CancelPresentation'
-import Button from '@mui/material/Button'
-import Stack from '@mui/material/Stack'
+import { AddCircleOutline as AddIcon, CancelPresentation as EndIcon } from '@mui/icons-material'
+import { Button, Stack } from '@mui/material'
 import { useState } from 'react'
 
-import OverallScoreBoard from '~/components/OverallScoreBoard'
-import Section from '~/components/Section'
+import { OverallScoreBoard, Section } from '~/components'
 import { useAuth, useGame } from '~/helpers'
 import { Game } from '~/models'
 
-import PrepareMatchDialog from './PrepareMatchDialog'
+import { PrepareMatchDialog } from './PrepareMatchDialog'
 
 export interface AwaitingViewProps {
   game: Game
 }
 
-function AwaitingView({ game }: AwaitingViewProps) {
+export function AwaitingView({ game }: AwaitingViewProps) {
   const [isPreparingMatch, setPreparingMatch] = useState(false)
   const { user } = useAuth()
   const { endGame } = useGame()
@@ -54,5 +51,3 @@ function AwaitingView({ game }: AwaitingViewProps) {
     </Section>
   )
 }
-
-export default AwaitingView

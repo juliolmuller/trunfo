@@ -1,1 +1,1 @@
-export { default } from './AwaitingView'
+export * from './AwaitingView'

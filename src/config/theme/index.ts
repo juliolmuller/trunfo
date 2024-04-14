@@ -1,7 +1,7 @@
-import { createTheme, ThemeOptions } from '@mui/material/styles'
+import { createTheme, ThemeOptions } from '@mui/material'
 
-import components from './components'
-import palette from './palette'
+import { components } from './components'
+import { palette } from './palette'
 
 const commonThemeOptions: ThemeOptions = {
   components,

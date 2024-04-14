@@ -1,19 +1,16 @@
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
+import { Box, Divider, Stack, Typography } from '@mui/material'
 
-import Loading from '~/components/Loading'
+import { Loading } from '~/components'
 import { Player } from '~/models'
 
-import ActionControls from './ActionControls'
-import SortablePlayersList from './SortablePlayersList'
+import { ActionControls } from './ActionControls'
+import { SortablePlayersList } from './SortablePlayersList'
 
 export interface PlayersListProps {
   players: Player[]
 }
 
-function PlayersList({ players }: PlayersListProps) {
+export function PlayersList({ players }: PlayersListProps) {
   return (
     <Stack sx={{ height: 1 }}>
       <Box
@@ -47,5 +44,3 @@ function PlayersList({ players }: PlayersListProps) {
     </Stack>
   )
 }
-
-export default PlayersList

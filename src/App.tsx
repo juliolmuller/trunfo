@@ -2,18 +2,16 @@ import { StrictMode } from 'react'
 
 import { darkTheme, lightTheme } from '~/config'
 import { AuthProvider, ThemeProvider } from '~/contexts'
-import Routes from '~/routes'
+import { Router } from '~/routes'
 
-function App() {
+export function App() {
   return (
     <StrictMode>
       <AuthProvider>
         <ThemeProvider dark={darkTheme} light={lightTheme}>
-          <Routes />
+          <Router />
         </ThemeProvider>
       </AuthProvider>
     </StrictMode>
   )
 }
-
-export default App

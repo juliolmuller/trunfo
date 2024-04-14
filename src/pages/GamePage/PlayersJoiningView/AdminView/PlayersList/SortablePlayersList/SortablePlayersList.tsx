@@ -1,13 +1,14 @@
-import DeleteIcon from '@mui/icons-material/Clear'
-import DraggableIcon from '@mui/icons-material/DragIndicator'
-import Avatar from '@mui/material/Avatar'
-import IconButton from '@mui/material/IconButton'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Tooltip from '@mui/material/Tooltip'
+import { Clear as DeleteIcon, DragIndicator as DraggableIcon } from '@mui/icons-material'
+import {
+  Avatar,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+} from '@mui/material'
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd'
 
 import { useGame } from '~/helpers'
@@ -17,7 +18,7 @@ export interface SortablePlayersListProps {
   players: Player[]
 }
 
-function SortablePlayersList({ players }: SortablePlayersListProps) {
+export function SortablePlayersList({ players }: SortablePlayersListProps) {
   const { removePlayer, reorderPlayers } = useGame()
 
   function handleDragEnd({ destination, source }: DropResult) {
@@ -102,5 +103,3 @@ function SortablePlayersList({ players }: SortablePlayersListProps) {
     </DragDropContext>
   )
 }
-
-export default SortablePlayersList

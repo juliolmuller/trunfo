@@ -1,1 +1,1 @@
-export { default } from './GameFormPage'
+export * from './GameFormPage'

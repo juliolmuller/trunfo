@@ -1,1 +1,1 @@
-export { default } from './ReportingHitsView'
+export * from './ReportingHitsView'

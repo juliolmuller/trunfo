@@ -1,1 +1,1 @@
-export { default } from './OverallScoreBoard'
+export * from './OverallScoreBoard'

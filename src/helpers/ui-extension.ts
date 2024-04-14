@@ -1,4 +1,4 @@
-import { SxProps, Theme } from '@mui/material/styles'
+import { SxProps, Theme } from '@mui/material'
 import { SystemStyleObject } from '@mui/system'
 
 /* eslint-disable @typescript-eslint/indent */

@@ -1,16 +1,8 @@
-import CancelIcon from '@mui/icons-material/Close'
-import NextIcon from '@mui/icons-material/NavigateNext'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
+import { Close as CancelIcon, NavigateNext as NextIcon } from '@mui/icons-material'
+import { Box, Button, Dialog, InputLabel, MenuItem, Stack, TextField } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-import Counter from '~/components/Counter'
-import Section from '~/components/Section'
+import { Counter, Section } from '~/components'
 import { CARDS_COUNT } from '~/config'
 import { useGame } from '~/helpers'
 import { Player } from '~/models'
@@ -20,7 +12,7 @@ interface PrepareMatchDialogProps {
   onClose: () => void
 }
 
-function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
+export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
   const [roundsCount, setRoundsCount] = useState(0)
   const [firstPlayer, setFirstPlayer] = useState<Player['id']>('')
   const { abortMatch, activeGameMatches, activeGamePlayers, createMatch } = useGame()
@@ -124,5 +116,3 @@ function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
     </Dialog>
   )
 }
-
-export default PrepareMatchDialog

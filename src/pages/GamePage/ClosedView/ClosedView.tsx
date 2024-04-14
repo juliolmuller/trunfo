@@ -1,11 +1,9 @@
-import Section from '~/components/Section'
+import { Section } from '~/components'
 
-function ClosedView() {
+export function ClosedView() {
   return (
     <Section fullWidth maxWidth="sm">
       <h1>Closed View</h1>
     </Section>
   )
 }
-
-export default ClosedView

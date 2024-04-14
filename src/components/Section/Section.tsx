@@ -1,6 +1,4 @@
-import Paper, { PaperProps } from '@mui/material/Paper'
-import { Breakpoint } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
+import { Breakpoint, Paper, PaperProps, Typography } from '@mui/material'
 
 import { mergeSx } from '~/helpers'
 
@@ -10,7 +8,7 @@ export interface SectionProps extends PaperProps {
   title?: string
 }
 
-function Section({
+export function Section({
   children,
   fullWidth,
   maxWidth = 'auto',
@@ -42,5 +40,3 @@ function Section({
     </Paper>
   )
 }
-
-export default Section

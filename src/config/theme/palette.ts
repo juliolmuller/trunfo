@@ -1,6 +1,6 @@
-import { PaletteOptions } from '@mui/material/styles'
+import { PaletteOptions } from '@mui/material'
 
-const paletteOptions: PaletteOptions = {
+export const palette: PaletteOptions = {
   primary: {
     main: '#ff5b68',
   },
@@ -20,5 +20,3 @@ const paletteOptions: PaletteOptions = {
     main: '#276fbf',
   },
 }
-
-export default paletteOptions

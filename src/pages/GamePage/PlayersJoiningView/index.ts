@@ -1,1 +1,1 @@
-export { default } from './PlayersJoiningView'
+export * from './PlayersJoiningView'

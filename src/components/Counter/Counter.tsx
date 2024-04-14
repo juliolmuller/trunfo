@@ -1,12 +1,8 @@
-import PlusIcon from '@mui/icons-material/Add'
-import MinusIcon from '@mui/icons-material/Remove'
-import Box from '@mui/material/Box'
-import Input from '@mui/material/Input'
-import Paper from '@mui/material/Paper'
-import Typography from '@mui/material/Typography'
+import { Add as PlusIcon, Remove as MinusIcon } from '@mui/icons-material'
+import { Box, Input, Paper, Typography } from '@mui/material'
 import { ChangeEvent, KeyboardEvent, useRef } from 'react'
 
-import CircleButton from './CircleButton'
+import { CircleButton } from './CircleButton'
 
 export interface CounterProps {
   value: number
@@ -19,7 +15,7 @@ export interface CounterProps {
   onPressEnter?: (value: number) => void
 }
 
-function Counter({
+export function Counter({
   id,
   max = 40,
   min = 0,
@@ -145,5 +141,3 @@ function Counter({
     </Box>
   )
 }
-
-export default Counter

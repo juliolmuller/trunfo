@@ -1,23 +1,25 @@
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormLabel from '@mui/material/FormLabel'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import Stack from '@mui/material/Stack'
-import Switch from '@mui/material/Switch'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
+import {
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Section from '~/components/Section'
+import { Section } from '~/components'
 import { useGame, useLocalStorage } from '~/helpers'
 import { ScoringMode } from '~/models'
 
-function GameFormPage() {
+export function GameFormPage() {
   const navigate = useNavigate()
   const { createGame } = useGame()
   const [name, setName] = useState('')
@@ -130,8 +132,27 @@ function GameFormPage() {
               },
             })}
           >
-            <Button type="submit">Próximo</Button>
-            <Button disabled={isSubmitting} variant="text" onClick={handleCancel}>
+            <Button
+              type="submit"
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
+            >
+              Próximo
+            </Button>
+
+            <Button
+              disabled={isSubmitting}
+              variant="text"
+              onClick={handleCancel}
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
+            >
               Cancelar
             </Button>
           </Box>
@@ -140,5 +161,3 @@ function GameFormPage() {
     </Section>
   )
 }
-
-export default GameFormPage
