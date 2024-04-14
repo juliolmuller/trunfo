@@ -7,11 +7,10 @@ export function generateKey() {
 }
 
 export function generateAvatar(name: string) {
-  const url = new URL('https://avatars.dicebear.com/api/initials')
-  url.searchParams.append('backgroundColors', 'grey')
-  url.searchParams.append('fontSize', '40')
-  url.searchParams.append('bold', 'true')
-  url.pathname += `/${decodeURI(name)}.svg`
+  const url = new URL('https://api.dicebear.com/8.x/initials/svg')
+  url.searchParams.append('seed', decodeURI(name))
+  url.searchParams.append('backgroundColor', '777777')
+  url.searchParams.append('fontWeight', '700')
 
   return url.toString()
 }
