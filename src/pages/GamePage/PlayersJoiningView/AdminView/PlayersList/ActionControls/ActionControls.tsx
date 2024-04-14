@@ -1,19 +1,19 @@
-import AddIcon from '@mui/icons-material/Add'
-import PlayIcon from '@mui/icons-material/PlayArrow'
-import DoneIcon from '@mui/icons-material/TaskAlt'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import useTheme from '@mui/material/styles/useTheme'
-import TextField from '@mui/material/TextField'
-import Tooltip from '@mui/material/Tooltip'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import { Add as AddIcon, PlayArrow as PlayIcon, TaskAlt as DoneIcon } from '@mui/icons-material'
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
 import { useGame } from '~/helpers'
 
-function ActionControls() {
+export function ActionControls() {
   const theme = useTheme()
   const isDisplaySm = useMediaQuery(theme.breakpoints.down('sm'))
   const { addOfflinePlayer, startGame: startMatch } = useGame()
@@ -126,5 +126,3 @@ function ActionControls() {
     </Box>
   )
 }
-
-export default ActionControls

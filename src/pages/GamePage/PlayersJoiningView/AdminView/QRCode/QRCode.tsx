@@ -1,16 +1,12 @@
-import CopyIcon from '@mui/icons-material/ContentCopy'
-import Box from '@mui/material/Box'
-import CircularProgress from '@mui/material/CircularProgress'
-import IconButton from '@mui/material/IconButton'
-import Tooltip from '@mui/material/Tooltip'
-import Typography from '@mui/material/Typography'
+import { ContentCopy as CopyIcon } from '@mui/icons-material'
+import { Box, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 export interface QRCodeProps {
   gameKey: string
 }
 
-function QRCode({ gameKey }: QRCodeProps) {
+export function QRCode({ gameKey }: QRCodeProps) {
   const [isCopying, setCopying] = useState(false)
   const gameURL = `${window.location.href}#${gameKey}`
   const qrCode = `https://api.qrserver.com/v1/create-qr-code?size=400x400&data=${gameURL}`
@@ -89,5 +85,3 @@ function QRCode({ gameKey }: QRCodeProps) {
     </Box>
   )
 }
-
-export default QRCode

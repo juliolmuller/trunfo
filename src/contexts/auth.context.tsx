@@ -1,8 +1,8 @@
-import { AuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth'
+import { type AuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 
 import { User } from '~/models'
-import firebase, { auth } from '~/services/firebase'
+import { auth, firebase } from '~/services/firebase'
 
 export type AuthContextProps = {
   isAuthenticated: boolean

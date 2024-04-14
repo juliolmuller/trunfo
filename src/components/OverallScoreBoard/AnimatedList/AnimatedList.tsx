@@ -1,4 +1,4 @@
-import List from '@mui/material/List'
+import { List } from '@mui/material'
 import { Children, useEffect, useLayoutEffect, useState } from 'react'
 import { usePrevious } from 'react-use'
 
@@ -10,7 +10,7 @@ export interface AnimatedListProps {
 
 type BoundingBox = ReturnType<typeof calculateBoundingBoxes>
 
-function AnimatedList({ children }: AnimatedListProps) {
+export function AnimatedList({ children }: AnimatedListProps) {
   const [prevBoundingBox, setPrevBoundingBox] = useState<BoundingBox>(new Map())
   const [boundingBox, setBoundingBox] = useState<BoundingBox>(new Map())
   const prevChildren = usePrevious(children)
@@ -53,5 +53,3 @@ function AnimatedList({ children }: AnimatedListProps) {
 
   return <List>{children}</List>
 }
-
-export default AnimatedList

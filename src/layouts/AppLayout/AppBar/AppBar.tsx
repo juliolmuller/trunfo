@@ -1,15 +1,11 @@
-import MenuIcon from '@mui/icons-material/Menu'
-import MuiAppBar from '@mui/material/AppBar'
-import Container from '@mui/material/Container'
-import IconButton from '@mui/material/IconButton'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
+import { Menu as MenuIcon } from '@mui/icons-material'
+import { AppBar as MuiAppBar, Container, IconButton, Toolbar, Typography } from '@mui/material'
 
 export interface AppBarProps {
   onOpenDrawer: () => void
 }
 
-function AppBar({ onOpenDrawer }: AppBarProps) {
+export function AppBar({ onOpenDrawer }: AppBarProps) {
   return (
     <MuiAppBar position="relative" sx={{ bgcolor: 'primary.main' }}>
       <Toolbar component={Container}>
@@ -29,5 +25,3 @@ function AppBar({ onOpenDrawer }: AppBarProps) {
     </MuiAppBar>
   )
 }
-
-export default AppBar

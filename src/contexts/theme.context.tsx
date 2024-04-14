@@ -1,6 +1,11 @@
-import { CssBaseline, PaletteMode, StyledEngineProvider } from '@mui/material'
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
-import { Theme, useTheme as useMuiTheme } from '@mui/system'
+import {
+  CssBaseline,
+  PaletteMode,
+  StyledEngineProvider,
+  ThemeProvider as MuiThemeProvider,
+  Theme,
+  useTheme as useMuiTheme,
+} from '@mui/material'
 import { createContext, ReactNode, useCallback, useContext } from 'react'
 
 import { useLocalStorage } from '~/helpers'

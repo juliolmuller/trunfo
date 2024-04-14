@@ -1,8 +1,7 @@
-import MatchScoreBoard, { ChangeEvent, DoneEvent } from '~/components/MatchScoreBoard'
-import Section from '~/components/Section'
+import { ChangeEvent, DoneEvent, MatchScoreBoard, Section } from '~/components'
 import { useGame } from '~/helpers'
 
-function ReportingHitsView() {
+export function ReportingHitsView() {
   const { activeGame, activeMatch, updateMatch } = useGame()
   const playerTurn = activeMatch?.playerTurn
   const roundsCount = activeMatch?.roundsCount ?? 0
@@ -35,5 +34,3 @@ function ReportingHitsView() {
     </Section>
   )
 }
-
-export default ReportingHitsView

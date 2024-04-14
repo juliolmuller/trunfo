@@ -9,7 +9,7 @@ import {
   useMediaQuery,
 } from '@mui/material'
 
-import Counter from '~/components/Counter'
+import { Counter } from '~/components'
 import { useGame } from '~/helpers'
 import { MatchLog, Player } from '~/models'
 
@@ -25,7 +25,7 @@ export type PlayerLogsProps = {
   onChange: (event: ChangeEvent) => void
 }
 
-function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
+export function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
   const isGreaterThanSm = useMediaQuery<Theme>((theme) => theme.breakpoints.up('sm'))
   const { calculateMatchScore } = useGame()
   const score = calculateMatchScore(log.betsCount, log.hitsCount)
@@ -163,5 +163,3 @@ function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
     </ListItem>
   )
 }
-
-export default PlayerLogs

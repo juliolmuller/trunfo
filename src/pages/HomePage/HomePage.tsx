@@ -1,15 +1,11 @@
-import AddIcon from '@mui/icons-material/Add'
-import EnterIcon from '@mui/icons-material/Login'
-import Button from '@mui/material/Button'
-import Collapse from '@mui/material/Collapse'
-import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
+import { Add as AddIcon, Login as EnterIcon } from '@mui/icons-material'
+import { Button, Collapse, Stack, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Section from '~/components/Section'
+import { Section } from '~/components'
 
-function HomePage() {
+export function HomePage() {
   const GAME_KEY_LENGTH = 6
   const navigate = useNavigate()
   const [inputVisible, setInputVisible] = useState(false)
@@ -70,5 +66,3 @@ function HomePage() {
     </Section>
   )
 }
-
-export default HomePage

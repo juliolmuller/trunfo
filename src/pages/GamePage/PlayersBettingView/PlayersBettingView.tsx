@@ -1,8 +1,7 @@
-import MatchScoreBoard from '~/components/MatchScoreBoard'
-import Section from '~/components/Section'
+import { MatchScoreBoard, Section } from '~/components'
 import { useGame } from '~/helpers'
 
-function PlayersBettingView() {
+export function PlayersBettingView() {
   const { activeGame, activeMatch } = useGame()
   const playerTurn = activeMatch?.playerTurn
   const roundsCount = activeMatch?.roundsCount ?? 0
@@ -28,5 +27,3 @@ function PlayersBettingView() {
     </Section>
   )
 }
-
-export default PlayersBettingView

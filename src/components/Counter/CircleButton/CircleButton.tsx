@@ -1,7 +1,4 @@
-import { alpha } from '@mui/material'
-import IconButton from '@mui/material/IconButton'
-import Paper from '@mui/material/Paper'
-import { SvgIconProps } from '@mui/material/SvgIcon'
+import { alpha, IconButton, Paper, SvgIconProps } from '@mui/material'
 import { ReactElement } from 'react'
 
 export interface CircleButtonProps {
@@ -11,7 +8,7 @@ export interface CircleButtonProps {
   onClick: () => void
 }
 
-function CircleButton({ children, color, size = 'small', onClick }: CircleButtonProps) {
+export function CircleButton({ children, color, size = 'small', onClick }: CircleButtonProps) {
   return (
     <Paper
       sx={(theme) => ({
@@ -28,5 +25,3 @@ function CircleButton({ children, color, size = 'small', onClick }: CircleButton
     </Paper>
   )
 }
-
-export default CircleButton

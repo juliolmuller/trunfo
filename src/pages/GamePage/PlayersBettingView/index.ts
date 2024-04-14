@@ -1,1 +1,1 @@
-export { default } from './PlayersBettingView'
+export * from './PlayersBettingView'

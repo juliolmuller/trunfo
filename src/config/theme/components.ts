@@ -1,6 +1,6 @@
-import { Components } from '@mui/material/styles'
+import { Components } from '@mui/material'
 
-const componentsDefaults: Components = {
+export const components: Components = {
   MuiButton: {
     defaultProps: {
       size: 'large',
@@ -44,5 +44,3 @@ const componentsDefaults: Components = {
     },
   },
 }
-
-export default componentsDefaults

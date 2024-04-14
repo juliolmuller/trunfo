@@ -2,11 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { GameProvider } from '~/contexts'
 import { useAuth } from '~/helpers'
-import AppLayout from '~/layouts/AppLayout'
-import GameFormPage from '~/pages/GameFormPage'
-import GamePage from '~/pages/GamePage'
-import HomePage from '~/pages/HomePage'
-import LoginPage from '~/pages/LoginPage'
+import { AppLayout } from '~/layouts'
+import { GameFormPage, GamePage, HomePage, LoginPage } from '~/pages'
 
 function PublicRouter() {
   return (
@@ -32,10 +29,8 @@ function AuthRoutes() {
   )
 }
 
-function Router() {
+export function Router() {
   const { isAuthenticated } = useAuth()
 
   return <BrowserRouter>{isAuthenticated ? <AuthRoutes /> : <PublicRouter />}</BrowserRouter>
 }
-
-export default Router

@@ -1,21 +1,17 @@
-import Container from '@mui/material/Container'
-import MenuItem from '@mui/material/MenuItem'
-import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
+import { Container, MenuItem, Stack, TextField, Typography } from '@mui/material'
 import { ChangeEvent, FC, useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import Loading from '~/components/Loading'
+import { Loading } from '~/components/Loading'
 import { useAuth, useGame } from '~/helpers'
 import { Game, GameStatus } from '~/models'
 
-import AwaitingView from './AwaitingView'
-import ClosedView from './ClosedView'
-import PlayersBettingView from './PlayersBettingView'
-import PlayersJoiningView from './PlayersJoiningView'
-import PlayingView from './PlayingView'
-import ReportingHitsView from './ReportingHitsView'
+import { AwaitingView } from './AwaitingView'
+import { ClosedView } from './ClosedView'
+import { PlayersBettingView } from './PlayersBettingView'
+import { PlayersJoiningView } from './PlayersJoiningView'
+import { PlayingView } from './PlayingView'
+import { ReportingHitsView } from './ReportingHitsView'
 
 const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.AWAITING]: AwaitingView,
@@ -26,7 +22,7 @@ const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.REPORTING_HITS]: ReportingHitsView,
 }
 
-function GamePage() {
+export function GamePage() {
   const { user } = useAuth()
   const { gameId } = useParams()
   const { activeGame, connectToGame, updateGame } = useGame()
@@ -72,5 +68,3 @@ function GamePage() {
     </Container>
   )
 }
-
-export default GamePage

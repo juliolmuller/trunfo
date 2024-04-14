@@ -1,16 +1,11 @@
-import Avatar from '@mui/material/Avatar'
-import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
-import ListItem from '@mui/material/ListItem'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import Typography from '@mui/material/Typography'
+import { Avatar, Box, Chip, ListItem, ListItemAvatar, Typography } from '@mui/material'
 import { forwardRef } from 'react'
 
 import { Player } from '~/models'
 
 export type PlayerScoreProps = Player
 
-const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, ref) => {
+export const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, ref) => {
   // TODO: reduce player.scoreLogs to obtain actual score
   const score = 0
 
@@ -51,5 +46,3 @@ const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, ref) =>
     </ListItem>
   )
 })
-
-export default PlayerScore

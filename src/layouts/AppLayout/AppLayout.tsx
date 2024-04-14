@@ -1,16 +1,15 @@
-import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
+import { Box, Stack } from '@mui/material'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import Loading from '~/components/Loading'
+import { Loading } from '~/components'
 import { useAuth } from '~/helpers'
 
-import AppBar from './AppBar'
-import Drawer from './Drawer'
-import DrawerHeader from './DrawerHeader'
+import { AppBar } from './AppBar'
+import { Drawer } from './Drawer'
+import { DrawerHeader } from './DrawerHeader'
 
-function AppLayout() {
+export function AppLayout() {
   const { isLoading } = useAuth()
   const [isDrawerOpen, setDrawerOpen] = useState(false)
 
@@ -46,5 +45,3 @@ function AppLayout() {
     </Stack>
   )
 }
-
-export default AppLayout
