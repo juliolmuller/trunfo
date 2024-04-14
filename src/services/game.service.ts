@@ -30,7 +30,6 @@ function normalizeLogs(snapshotVal: any, match: Match, players: Player[]) {
   const orderedPlayers = [...playersClone, ...playersToShift]
 
   return orderedPlayers.map((player) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return logs.find((log) => log.player === player.id)!
   })
 }

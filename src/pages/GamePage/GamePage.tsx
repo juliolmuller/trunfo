@@ -28,7 +28,7 @@ export function GamePage() {
   const { activeGame, connectToGame, updateGame } = useGame()
   const ActiveView = useMemo(() => {
     return activeGame ? viewByStatusMap[activeGame.status] : () => null
-  }, [activeGame?.status]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [activeGame?.status])
   const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED]
 
   function handleChangeStatus(event: ChangeEvent<HTMLInputElement>) {
@@ -37,7 +37,7 @@ export function GamePage() {
 
   useEffect(() => {
     gameId && connectToGame(gameId)
-  }, [gameId]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [gameId])
 
   return (
     <Container maxWidth={smallViews.includes(activeGame?.status as GameStatus) ? 'sm' : 'md'}>

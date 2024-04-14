@@ -1,12 +1,10 @@
 import { Player, Match, User } from '~/models'
 
-// eslint-disable-next-line no-shadow
 export enum ScoringMode {
   STANDARD = 'standard',
   SIMPLIFIED = 'simplified',
 }
 
-// eslint-disable-next-line no-shadow
 export enum GameStatus {
   AWAITING = 'awaiting',
   CLOSED = 'closed',

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import { styled } from '@mui/material'
 
 export const DrawerHeader = styled('div')(({ theme }) => ({

@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 export function genNumber(min = 0, max = 100) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -16,7 +14,6 @@ export function genColor(string: string) {
   let color = '#'
   let hash = 0
 
-  /* eslint-disable no-bitwise */
   for (let i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash)
   }
@@ -25,7 +22,6 @@ export function genColor(string: string) {
     const value = (hash >> (i * 8)) & 0xff
     color += `00${value.toString(16)}`.slice(-2)
   }
-  /* eslint-enable no-bitwise */
 
   return color
 }

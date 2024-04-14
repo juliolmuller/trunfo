@@ -21,7 +21,6 @@ export function QRCode({ gameKey }: QRCodeProps) {
       setCopying(false)
     }, 1000)
 
-    // eslint-disable-next-line consistent-return
     return () => clearTimeout(timeout)
   }, [gameURL, isCopying])
 
