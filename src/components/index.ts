@@ -1,4 +1,5 @@
 export * from './Counter'
+export * from './Droppable'
 export * from './Loading'
 export * from './MatchScoreBoard'
 export * from './OverallScoreBoard'

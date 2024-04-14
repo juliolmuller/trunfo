@@ -9,8 +9,9 @@ import {
   ListItemText,
   Tooltip,
 } from '@mui/material'
-import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
 
+import { Droppable } from '~/components'
 import { useGame } from '~/helpers'
 import { Player } from '~/models'
 
@@ -49,7 +50,7 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
             {...droppableProvider.droppableProps}
           >
             {players.map((player, index) => (
-              <Draggable key={player.id} draggableId={`${player.id}`} index={index}>
+              <Draggable key={player.id} draggableId={player.id} index={index}>
                 {(draggableProvider, snapshot) => (
                   <ListItem
                     ref={draggableProvider.innerRef}
@@ -88,14 +89,17 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
                     >
                       <DraggableIcon />
                     </ListItemIcon>
+
                     <ListItemAvatar>
                       <Avatar src={player.avatar} />
                     </ListItemAvatar>
+
                     <ListItemText>{player.name}</ListItemText>
                   </ListItem>
                 )}
               </Draggable>
             ))}
+
             {droppableProvider.placeholder}
           </List>
         )}
