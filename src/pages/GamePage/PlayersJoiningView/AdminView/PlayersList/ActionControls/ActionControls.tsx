@@ -2,6 +2,7 @@ import { Add as AddIcon, PlayArrow as PlayIcon, TaskAlt as DoneIcon } from '@mui
 import {
   Box,
   Button,
+  Divider,
   IconButton,
   InputAdornment,
   TextField,
@@ -44,6 +45,8 @@ export function ActionControls() {
 
   return (
     <Box sx={{ mt: 'auto', pt: 2 }}>
+      <Divider sx={{ mb: 3 }} />
+
       {isAddingPlayer ? (
         <Box component="form" onSubmit={handleSubmit}>
           <TextField

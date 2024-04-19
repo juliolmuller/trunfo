@@ -52,14 +52,13 @@ export function GameFormPage() {
   return (
     <Section fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit}>
-        <Stack alignItems="center" gap={3}>
-          <Typography variant="h4" sx={{ mb: 2 }}>
+        <Stack gap={3}>
+          <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
             Novo Jogo
           </Typography>
 
           <TextField
             autoFocus
-            fullWidth
             label="Nome do jogo (opcional)"
             size="small"
             value={name}
@@ -67,7 +66,7 @@ export function GameFormPage() {
             onChange={(event) => setName(event.target.value)}
           />
 
-          <FormControl fullWidth>
+          <FormControl>
             <FormLabel id="scoring-mode-label">Modo de Pontuação</FormLabel>
             <RadioGroup
               name="scoringMode"
@@ -88,7 +87,7 @@ export function GameFormPage() {
             </RadioGroup>
           </FormControl>
 
-          <FormControl fullWidth>
+          <FormControl>
             <FormControlLabel
               checked={scoreOnZeroBets}
               control={<Switch />}
@@ -97,7 +96,7 @@ export function GameFormPage() {
             />
           </FormControl>
 
-          <FormControl fullWidth>
+          <FormControl>
             <FormControlLabel
               checked={betsUnequalRounds}
               control={<Switch />}
@@ -107,7 +106,7 @@ export function GameFormPage() {
             />
           </FormControl>
 
-          <FormControl fullWidth>
+          <FormControl>
             <FormControlLabel
               checked={betsEqualRounds}
               control={<Switch />}
@@ -117,7 +116,7 @@ export function GameFormPage() {
             />
           </FormControl>
 
-          <Divider sx={{ width: 1 }} />
+          <Divider />
 
           <Box
             sx={(theme) => ({
@@ -126,7 +125,6 @@ export function GameFormPage() {
               alignItems: 'center',
               justifyContent: 'space-evenly',
               gap: 2,
-              width: 1,
               [theme.breakpoints.up('sm')]: {
                 flexDirection: 'row-reverse',
               },

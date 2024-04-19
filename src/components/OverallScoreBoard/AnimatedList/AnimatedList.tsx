@@ -51,5 +51,5 @@ export function AnimatedList({ children }: AnimatedListProps) {
     }
   }, [boundingBox, prevBoundingBox, children])
 
-  return <List>{children}</List>
+  return <List dense>{children}</List>
 }

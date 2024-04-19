@@ -23,12 +23,15 @@ export const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, 
         display: 'flex',
         alignItems: 'center',
         gap: 1,
+        px: 0.5,
       }}
     >
-      <ListItemAvatar>
+      <ListItemAvatar sx={{ minWidth: 48 }}>
         <Avatar src={player.avatar} />
       </ListItemAvatar>
+
       <Typography>{player.name}</Typography>
+
       <Box
         sx={{
           flexGrow: 1,
@@ -36,6 +39,7 @@ export const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>((player, 
           borderBottom: '1px dotted #999',
         }}
       />
+
       <Chip
         color={getColor(score)}
         label={score > 0 ? `+${score}` : score}
