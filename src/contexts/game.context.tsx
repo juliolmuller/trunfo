@@ -88,7 +88,9 @@ export function GameProvider({ children }: GameProviderProps) {
   }
 
   async function endGame() {
-    await updateGame({ status: GameStatus.CLOSED })
+    if (window.confirm(`Você realmente deseja encerrar o jogo "${activeGame?.name}"?`)) {
+      await updateGame({ status: GameStatus.CLOSED })
+    }
   }
 
   async function createMatch(matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) {

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, List, Typography } from '@mui/material'
 import { useMemo, useRef } from 'react'
 
 import { MatchLog, Player } from '~/models'
@@ -77,15 +77,17 @@ export function MatchScoreBoard({
         {title}
       </Typography>
 
-      {logs.map((log) => (
-        <PlayerLogs
-          key={log.id}
-          log={log}
-          player={playersMap.get(log.player) as Player}
-          status={status}
-          onChange={handleChange}
-        />
-      ))}
+      <List dense>
+        {logs.map((log) => (
+          <PlayerLogs
+            key={log.id}
+            log={log}
+            player={playersMap.get(log.player) as Player}
+            status={status}
+            onChange={handleChange}
+          />
+        ))}
+      </List>
     </Box>
   )
 }

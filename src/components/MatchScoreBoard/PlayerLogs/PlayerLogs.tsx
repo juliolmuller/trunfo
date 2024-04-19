@@ -53,26 +53,31 @@ export function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
   return (
     <ListItem
       key={player.id}
-      sx={{
+      sx={(theme) => ({
         position: 'relative',
-        transition: (theme) => theme.transitions.create(['background-color', 'border-color']),
+        transition: theme.transitions.create(['background-color', 'border-color']),
         userSelect: 'none',
         display: 'flex',
         alignItems: 'center',
         gap: 1,
         borderRadius: 1,
         border: 'transparent solid 1px',
+        px: 0.5,
         '&:hover': {
-          borderColor: 'rgba(222, 222, 222, 0.7)',
-          bgcolor: 'rgba(222, 222, 222, 0.4)',
+          borderColor:
+            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.5)' : 'rgba(255, 155, 155, 0.7)',
+          bgcolor:
+            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.2)' : 'rgba(255, 155, 155, 0.4)',
         },
         '&:focus-within': {
-          borderColor: 'rgba(222, 222, 222, 0.7)',
-          bgcolor: 'rgba(222, 222, 222, 0.6)',
+          borderColor:
+            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.5)' : 'rgba(255, 155, 155, 0.7)',
+          bgcolor:
+            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.3)' : 'rgba(255, 155, 155, 0.5)',
         },
-      }}
+      })}
     >
-      <ListItemAvatar>
+      <ListItemAvatar sx={{ minWidth: 48, display: ['none', 'block'] }}>
         <Avatar src={player.avatar} alt={`Avatar for ${player.name}`} />
       </ListItemAvatar>
 
@@ -97,7 +102,7 @@ export function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
         />
 
         {(status !== 'scoring' || isGreaterThanSm) && (
-          <Grid item xs={2} sm={1.5} md={1} container justifyContent="center">
+          <Grid item xs={6} sm={3} md={2} container justifyContent="center">
             {status === 'betting' ? (
               <Counter value={log.betsCount} onChange={handleChangeBets} />
             ) : (

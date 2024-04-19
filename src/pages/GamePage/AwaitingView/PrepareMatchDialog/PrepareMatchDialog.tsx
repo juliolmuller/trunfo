@@ -1,5 +1,4 @@
-import { Close as CancelIcon, NavigateNext as NextIcon } from '@mui/icons-material'
-import { Box, Button, Dialog, InputLabel, MenuItem, Stack, TextField } from '@mui/material'
+import { Box, Button, Dialog, Divider, InputLabel, MenuItem, Stack, TextField } from '@mui/material'
 import { ChangeEvent, useEffect, useState } from 'react'
 
 import { Counter, Section } from '~/components'
@@ -13,13 +12,17 @@ interface PrepareMatchDialogProps {
 }
 
 export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
-  const [roundsCount, setRoundsCount] = useState(0)
+  const [roundsCount, setRoundsCount] = useState(1)
   const [firstPlayer, setFirstPlayer] = useState<Player['id']>('')
-  const { abortMatch, activeGameMatches, activeGamePlayers, createMatch } = useGame()
+  const { activeGameMatches, activeGamePlayers, createMatch } = useGame()
   const maxCardsPerPlayer = Math.floor(CARDS_COUNT / activeGamePlayers.length)
   const minCardsPerPlayer = 1
   const hasErrors =
     !firstPlayer || roundsCount < minCardsPerPlayer || roundsCount > maxCardsPerPlayer
+
+  function handleClose() {
+    onClose()
+  }
 
   function handleChangeFirstPlayer(event: ChangeEvent<HTMLInputElement>) {
     setFirstPlayer(event.target.value)
@@ -49,9 +52,9 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
   }, [activeGameMatches, activeGamePlayers])
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={handleClose}>
       <Section fullWidth maxWidth="sm" title="Configurar a próxima partida" sx={{ my: 0 }}>
-        <Stack gap={4}>
+        <Stack gap={3}>
           <TextField
             label="Primeiro jogador"
             select
@@ -66,14 +69,18 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
           </TextField>
 
           <Box
-            sx={{
+            sx={(theme) => ({
               display: 'flex',
-              alignItems: 'center',
+              flexDirection: 'column',
               justifyContent: 'space-between',
-              gap: 4,
-            }}
+              alignItems: 'center',
+              gap: 3,
+              [theme.breakpoints.up('sm')]: {
+                flexDirection: 'row',
+              },
+            })}
           >
-            <InputLabel htmlFor="roundsCount">
+            <InputLabel htmlFor="roundsCount" sx={{ whiteSpace: 'wrap' }}>
               Quantas cartas serão dadas a cada jogador?
             </InputLabel>
 
@@ -87,27 +94,41 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
             />
           </Box>
 
+          <Divider />
+
           <Box
-            sx={{
+            sx={(theme) => ({
               display: 'flex',
-              flexDirection: ['column', 'row-reverse'],
+              flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'space-evenly',
               gap: 2,
-              width: 1,
-            }}
+              [theme.breakpoints.up('sm')]: {
+                flexDirection: 'row-reverse',
+              },
+            })}
           >
             <Button
-              color="secondary"
               disabled={hasErrors}
-              size="large"
-              endIcon={<NextIcon />}
               onClick={handleStartBets}
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
             >
               Registrar Apostas
             </Button>
 
-            <Button size="large" startIcon={<CancelIcon />} variant="text" onClick={abortMatch}>
+            <Button
+              variant="text"
+              onClick={handleClose}
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
+            >
               Cancelar
             </Button>
           </Box>
