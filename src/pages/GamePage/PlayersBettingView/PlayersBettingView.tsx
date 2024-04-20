@@ -1,14 +1,16 @@
-import { MatchScoreBoard, Section } from '~/components'
+import { ChangeEvent, MatchScoreBoard, Section } from '~/components'
 import { useGame } from '~/helpers'
 
 export function PlayersBettingView() {
-  const { activeGame, activeMatch } = useGame()
+  const { activeGame, activeMatch, updateLog } = useGame()
   const playerTurn = activeMatch?.playerTurn
   const roundsCount = activeMatch?.roundsCount ?? 0
   const logs = activeMatch?.logs ?? []
   const players = activeGame?.players ?? []
 
-  function handleChange() {}
+  function handleChange({ log }: ChangeEvent) {
+    updateLog(log.id, log)
+  }
 
   function handleDone() {}
 

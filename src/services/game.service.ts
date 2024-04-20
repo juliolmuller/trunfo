@@ -167,6 +167,19 @@ async function updateMatch(
   await database.ref(`games/${gameId}/matches/${matchId}`).update(props)
 }
 
+async function updateMatchLog(
+  gameId: Game['id'],
+  matchId: Match['id'],
+  logId: MatchLog['id'],
+  props: Partial<Omit<MatchLog, 'id'>>,
+) {
+  if ('createdAt' in props) {
+    props.createdAt = new Date().toISOString() as any
+  }
+
+  await database.ref(`games/${gameId}/matches/${matchId}/logs/${logId}`).update(props)
+}
+
 export const gameService = {
   connectToGame,
   createGame,
@@ -176,4 +189,5 @@ export const gameService = {
   reorderPlayers,
   createMatch,
   updateMatch,
+  updateMatchLog,
 }

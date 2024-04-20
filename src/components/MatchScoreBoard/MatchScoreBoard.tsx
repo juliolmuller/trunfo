@@ -1,4 +1,5 @@
-import { Box, List, Typography } from '@mui/material'
+import { DeleteForeverOutlined as DeleteIcon, PlayArrow as PlayIcon } from '@mui/icons-material'
+import { Box, Button, Divider, List, Stack, Typography } from '@mui/material'
 import { useMemo, useRef } from 'react'
 
 import { MatchLog, Player } from '~/models'
@@ -38,7 +39,7 @@ export function MatchScoreBoard({
   players,
   // TODO: review implementation
   // playerTurn,
-  // roundsCount,
+  roundsCount,
   status = 'observing',
   title,
   onChange,
@@ -62,17 +63,17 @@ export function MatchScoreBoard({
 
     const playerIndex = players.indexOf(player)
     const nextPlayerIndex = (playerIndex + 1) % players.length
-    const thisPlayer = players[playerIndex]
     const nextPlayer = players[nextPlayerIndex]
-    onChange({ log, player: thisPlayer })
 
-    if (previousPlayer.current !== thisPlayer.id) {
+    onChange({ log, player })
+
+    if (previousPlayer.current !== player.id) {
       onDone?.({ log, player, nextPlayer })
     }
   }
 
   return (
-    <Box>
+    <Stack gap={3}>
       <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
         {title}
       </Typography>
@@ -82,12 +83,57 @@ export function MatchScoreBoard({
           <PlayerLogs
             key={log.id}
             log={log}
+            maxBetsAndHits={roundsCount}
             player={playersMap.get(log.player) as Player}
             status={status}
             onChange={handleChange}
           />
         ))}
       </List>
-    </Box>
+
+      <Divider />
+
+      <Box
+        sx={(theme) => ({
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'space-evenly',
+          gap: 2,
+          [theme.breakpoints.up('sm')]: {
+            flexDirection: 'row-reverse',
+          },
+        })}
+      >
+        <Button
+          startIcon={<PlayIcon />}
+          onClick={() => {
+            // TODO:implement
+          }}
+          sx={(theme) => ({
+            [theme.breakpoints.down('sm')]: {
+              width: '100%',
+            },
+          })}
+        >
+          Iniciar Partida
+        </Button>
+
+        <Button
+          startIcon={<DeleteIcon />}
+          variant="text"
+          onClick={() => {
+            // TODO:implement
+          }}
+          sx={(theme) => ({
+            [theme.breakpoints.down('sm')]: {
+              width: '100%',
+            },
+          })}
+        >
+          Cancelar Partida
+        </Button>
+      </Box>
+    </Stack>
   )
 }

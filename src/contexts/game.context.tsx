@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useEffect, useMemo, useState } fr
 import { useNavigate } from 'react-router-dom'
 
 import { calculateSimplifiedScore, calculateStandardScore } from '~/helpers'
-import { Game, GameStatus, Player, Match, ScoringMode } from '~/models'
+import { Game, GameStatus, Player, Match, ScoringMode, MatchLog } from '~/models'
 import { gameService } from '~/services'
 
 export type GameContextProps = {
@@ -24,6 +24,7 @@ export type GameContextProps = {
   createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
   updateMatch: (data: Partial<Match>) => Promise<void>
   abortMatch: () => Promise<void>
+  updateLog: (logId: MatchLog['id'], data: Partial<MatchLog>) => Promise<void>
   calculateMatchScore: (betsCount: number, hitsCount: number) => number
 }
 
@@ -113,6 +114,12 @@ export function GameProvider({ children }: GameProviderProps) {
     await updateGame({ status: GameStatus.AWAITING })
   }
 
+  async function updateLog(logId: MatchLog['id'], data: Partial<MatchLog>) {
+    if (activeGameId && activeMatch?.id) {
+      await gameService.updateMatchLog(activeGameId, activeMatch.id, logId, data)
+    }
+  }
+
   function calculateMatchScore(betsCount: number, hitsCount: number) {
     if (!activeGame) {
       console.error('Method "calculateMatchScore" called without a game.')
@@ -153,6 +160,7 @@ export function GameProvider({ children }: GameProviderProps) {
         createMatch,
         updateMatch,
         abortMatch,
+        updateLog,
         calculateMatchScore,
       }}
     >

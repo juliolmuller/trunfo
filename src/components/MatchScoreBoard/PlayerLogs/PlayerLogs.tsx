@@ -20,12 +20,13 @@ export type ChangeEvent = {
 
 export type PlayerLogsProps = {
   log: MatchLog
+  maxBetsAndHits?: number
   player: Player
   status: 'betting' | 'observing' | 'scoring'
   onChange: (event: ChangeEvent) => void
 }
 
-export function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
+export function PlayerLogs({ log, maxBetsAndHits, player, status, onChange }: PlayerLogsProps) {
   const isGreaterThanSm = useMediaQuery<Theme>((theme) => theme.breakpoints.up('sm'))
   const { calculateMatchScore } = useGame()
   const score = calculateMatchScore(log.betsCount, log.hitsCount)
@@ -104,7 +105,7 @@ export function PlayerLogs({ log, player, status, onChange }: PlayerLogsProps) {
         {(status !== 'scoring' || isGreaterThanSm) && (
           <Grid item xs={6} sm={3} md={2} container justifyContent="center">
             {status === 'betting' ? (
-              <Counter value={log.betsCount} onChange={handleChangeBets} />
+              <Counter max={maxBetsAndHits} value={log.betsCount} onChange={handleChangeBets} />
             ) : (
               <Chip
                 color="info"
