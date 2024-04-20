@@ -167,6 +167,10 @@ async function updateMatch(
   await database.ref(`games/${gameId}/matches/${matchId}`).update(props)
 }
 
+async function destroyMatch(gameId: Game['id'], matchId: Match['id']) {
+  await database.ref(`games/${gameId}/matches/${matchId}`).remove()
+}
+
 async function updateMatchLog(
   gameId: Game['id'],
   matchId: Match['id'],
@@ -189,5 +193,6 @@ export const gameService = {
   reorderPlayers,
   createMatch,
   updateMatch,
+  destroyMatch,
   updateMatchLog,
 }

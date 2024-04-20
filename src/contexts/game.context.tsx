@@ -108,10 +108,14 @@ export function GameProvider({ children }: GameProviderProps) {
   }
 
   async function abortMatch() {
-    if (activeMatch) {
-      // TODO: search for existing match and delete it
+    if (
+      activeGameId &&
+      activeMatch?.id &&
+      window.confirm('Você realmente deseja cancelar essa partida?')
+    ) {
+      await updateGame({ status: GameStatus.AWAITING })
+      await gameService.destroyMatch(activeGameId, activeMatch?.id)
     }
-    await updateGame({ status: GameStatus.AWAITING })
   }
 
   async function updateLog(logId: MatchLog['id'], data: Partial<MatchLog>) {

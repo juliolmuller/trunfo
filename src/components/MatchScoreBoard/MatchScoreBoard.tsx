@@ -32,6 +32,7 @@ export type MatchScoreBoardProps = (MatchObservingProps | MatchUpdatingProps) & 
   roundsCount: number
   title: string
   playerTurn?: Player['id']
+  onCancel: () => void
 }
 
 export function MatchScoreBoard({
@@ -42,6 +43,7 @@ export function MatchScoreBoard({
   roundsCount,
   status = 'observing',
   title,
+  onCancel,
   onChange,
   onDone,
 }: MatchScoreBoardProps) {
@@ -122,9 +124,7 @@ export function MatchScoreBoard({
         <Button
           startIcon={<DeleteIcon />}
           variant="text"
-          onClick={() => {
-            // TODO:implement
-          }}
+          onClick={() => onCancel()}
           sx={(theme) => ({
             [theme.breakpoints.down('sm')]: {
               width: '100%',
