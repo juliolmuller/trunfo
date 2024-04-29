@@ -22,14 +22,21 @@ export function ReportingHitsView() {
   return (
     <Section fullWidth maxWidth="md">
       <MatchScoreBoard
+        betsCount={0} // FIXME: update prop for this context
         logs={logs}
         players={players}
         playerTurn={playerTurn}
         roundsCount={roundsCount}
         status="scoring"
         title="Registrando Acertos e Erros"
+        onCancel={() => {
+          // TODO: implement
+        }}
         onChange={handleChange}
         onDone={handleDone}
+        onFinish={() => {
+          // TODO: implement
+        }}
       />
     </Section>
   )
