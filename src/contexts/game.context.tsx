@@ -23,6 +23,7 @@ export type GameContextProps = {
   endGame: () => Promise<void>
   createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
   updateMatch: (data: Partial<Match>) => Promise<void>
+  startMatch: () => Promise<void>
   abortMatch: () => Promise<void>
   updateLog: (logId: MatchLog['id'], data: Partial<MatchLog>) => Promise<void>
   calculateMatchScore: (betsCount: number, hitsCount: number) => number
@@ -107,6 +108,12 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }
 
+  async function startMatch() {
+    if (activeGameId && activeMatch?.id) {
+      await updateGame({ status: GameStatus.PLAYING })
+    }
+  }
+
   async function abortMatch() {
     if (
       activeGameId &&
@@ -163,6 +170,7 @@ export function GameProvider({ children }: GameProviderProps) {
         endGame,
         createMatch,
         updateMatch,
+        startMatch,
         abortMatch,
         updateLog,
         calculateMatchScore,

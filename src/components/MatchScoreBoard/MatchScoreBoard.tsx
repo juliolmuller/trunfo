@@ -1,6 +1,15 @@
 import { DeleteForeverOutlined as DeleteIcon, PlayArrow as PlayIcon } from '@mui/icons-material'
-import { Box, Button, Divider, List, Stack, Typography } from '@mui/material'
-import { useMemo, useRef } from 'react'
+import {
+  Box,
+  Button,
+  ClickAwayListener,
+  Divider,
+  List,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material'
+import { useMemo, useRef, useState } from 'react'
 
 import { MatchLog, Player } from '~/models'
 
@@ -28,14 +37,19 @@ export type MatchUpdatingProps = {
 
 export type MatchScoreBoardProps = (MatchObservingProps | MatchUpdatingProps) & {
   logs: MatchLog[]
+  betsCount: number
   players: Player[]
   roundsCount: number
   title: string
+  error?: string
   playerTurn?: Player['id']
   onCancel: () => void
+  onFinish: () => void
 }
 
 export function MatchScoreBoard({
+  betsCount,
+  error,
   logs,
   players,
   // TODO: review implementation
@@ -46,7 +60,9 @@ export function MatchScoreBoard({
   onCancel,
   onChange,
   onDone,
+  onFinish,
 }: MatchScoreBoardProps) {
+  const [isTooltipOpen, setTooltipOpen] = useState(false)
   const previousPlayer = useRef<Player['id']>()
   // TODO: review implementation
   // const betsCount = useMemo(() => {
@@ -55,7 +71,7 @@ export function MatchScoreBoard({
   const playersMap = useMemo(() => {
     const playersEntries = players.map((player) => [player.id, player] as const)
 
-    return new Map<string, Player>(playersEntries)
+    return new Map(playersEntries)
   }, [players])
 
   function handleChange({ log, player }: ChangeEvent) {
@@ -74,9 +90,18 @@ export function MatchScoreBoard({
     }
   }
 
+  function handleStartMatch() {
+    if (error) {
+      setTooltipOpen(true)
+      return
+    }
+
+    onFinish()
+  }
+
   return (
     <Stack gap={3}>
-      <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
+      <Typography variant="h5" sx={{ textAlign: 'center' }}>
         {title}
       </Typography>
 
@@ -93,6 +118,10 @@ export function MatchScoreBoard({
         ))}
       </List>
 
+      <Typography variant="caption" align="center">
+        Número de rodadas: <b>{roundsCount}</b> | Total de apostas: <b>{betsCount}</b>
+      </Typography>
+
       <Divider />
 
       <Box
@@ -107,19 +136,26 @@ export function MatchScoreBoard({
           },
         })}
       >
-        <Button
-          startIcon={<PlayIcon />}
-          onClick={() => {
-            // TODO:implement
-          }}
-          sx={(theme) => ({
-            [theme.breakpoints.down('sm')]: {
-              width: '100%',
-            },
-          })}
-        >
-          Iniciar Partida
-        </Button>
+        <ClickAwayListener onClickAway={() => setTooltipOpen(false)}>
+          <Tooltip
+            open={isTooltipOpen}
+            title={error || null}
+            PopperProps={{ disablePortal: true }}
+            onClose={() => setTooltipOpen(false)}
+          >
+            <Button
+              startIcon={<PlayIcon />}
+              onClick={handleStartMatch}
+              sx={(theme) => ({
+                [theme.breakpoints.down('sm')]: {
+                  width: '100%',
+                },
+              })}
+            >
+              Iniciar Partida
+            </Button>
+          </Tooltip>
+        </ClickAwayListener>
 
         <Button
           startIcon={<DeleteIcon />}

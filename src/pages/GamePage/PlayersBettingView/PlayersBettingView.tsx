@@ -1,12 +1,29 @@
+import { useMemo } from 'react'
+
 import { ChangeEvent, MatchScoreBoard, Section } from '~/components'
 import { useGame } from '~/helpers'
 
 export function PlayersBettingView() {
-  const { activeGame, activeMatch, abortMatch, updateLog } = useGame()
+  const { activeGame, activeMatch, abortMatch, updateLog, startMatch } = useGame()
   const playerTurn = activeMatch?.playerTurn
   const roundsCount = activeMatch?.roundsCount ?? 0
-  const logs = activeMatch?.logs ?? []
-  const players = activeGame?.players ?? []
+  const logs = useMemo(() => activeMatch?.logs ?? [], [activeMatch?.logs])
+  const players = useMemo(() => activeGame?.players ?? [], [activeGame?.players])
+  const betsCount = logs.reduce((total, log) => total + log.betsCount, 0)
+  const error = useMemo(() => {
+    if (!activeGame?.betsEqualRounds && !activeGame?.betsUnequalRounds) {
+      return undefined
+    }
+
+    if (activeGame.betsEqualRounds && betsCount !== roundsCount)
+      return 'O número de apostas deve ser equivalente ao número de rodadas'
+    if (activeGame.betsUnequalRounds && betsCount === roundsCount)
+      return 'O número de apostas deve ser diferente do número de rodadas'
+  }, [activeGame?.betsEqualRounds, activeGame?.betsUnequalRounds, betsCount, roundsCount])
+
+  function handleStartMatch() {
+    startMatch()
+  }
 
   function handleCancel() {
     abortMatch()
@@ -21,6 +38,8 @@ export function PlayersBettingView() {
   return (
     <Section fullWidth maxWidth="md">
       <MatchScoreBoard
+        error={error}
+        betsCount={betsCount}
         logs={logs}
         players={players}
         playerTurn={playerTurn}
@@ -30,6 +49,7 @@ export function PlayersBettingView() {
         onCancel={handleCancel}
         onChange={handleChange}
         onDone={handleDone}
+        onFinish={handleStartMatch}
       />
     </Section>
   )

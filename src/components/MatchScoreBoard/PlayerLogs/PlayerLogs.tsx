@@ -1,16 +1,6 @@
-import {
-  Avatar,
-  Chip,
-  Grid,
-  ListItem,
-  ListItemAvatar,
-  Theme,
-  Typography,
-  useMediaQuery,
-} from '@mui/material'
+import { Avatar, Chip, Grid, ListItem, ListItemAvatar, Typography } from '@mui/material'
 
 import { Counter } from '~/components'
-import { useGame } from '~/helpers'
 import { MatchLog, Player } from '~/models'
 
 export type ChangeEvent = {
@@ -27,28 +17,25 @@ export type PlayerLogsProps = {
 }
 
 export function PlayerLogs({ log, maxBetsAndHits, player, status, onChange }: PlayerLogsProps) {
-  const isGreaterThanSm = useMediaQuery<Theme>((theme) => theme.breakpoints.up('sm'))
-  const { calculateMatchScore } = useGame()
-  const score = calculateMatchScore(log.betsCount, log.hitsCount)
+  function handleChange(value: number) {
+    switch (status) {
+      case 'betting':
+        onChange({
+          log: { ...log, betsCount: value },
+          player,
+        })
+        break
 
-  function getColor(score: number) {
-    if (score > 0) return 'success'
-    if (score < 0) return 'error'
-    return 'info'
-  }
+      case 'scoring':
+        onChange({
+          log: { ...log, hitsCount: value },
+          player,
+        })
+        break
 
-  function handleChangeBets(value: number) {
-    onChange({
-      log: { ...log, betsCount: value },
-      player,
-    })
-  }
-
-  function handleChangeHits(value: number) {
-    onChange({
-      log: { ...log, hitsCount: value },
-      player,
-    })
+      default:
+      // do nothing
+    }
   }
 
   return (
@@ -86,7 +73,7 @@ export function PlayerLogs({ log, maxBetsAndHits, player, status, onChange }: Pl
         container
         sx={{
           alignItems: 'center',
-          gap: 2,
+          gap: [0.5, 1, 2],
         }}
       >
         <Grid item xs={false}>
@@ -102,67 +89,17 @@ export function PlayerLogs({ log, maxBetsAndHits, player, status, onChange }: Pl
           }}
         />
 
-        {(status !== 'scoring' || isGreaterThanSm) && (
-          <Grid item xs={6} sm={3} md={2} container justifyContent="center">
-            {status === 'betting' ? (
-              <Counter max={maxBetsAndHits} value={log.betsCount} onChange={handleChangeBets} />
-            ) : (
-              <Chip
-                color="info"
-                label={log.betsCount}
-                sx={{ color: 'common.white', fontSize: '1rem' }}
-              />
-            )}
-          </Grid>
-        )}
-
-        {isGreaterThanSm && (
-          <Grid
-            item
-            xs={2}
-            sm={1.5}
-            md={1}
-            sx={{
-              height: 12,
-              borderBottom: '1px dotted #999',
-            }}
-          />
-        )}
-
-        {(status !== 'betting' || isGreaterThanSm) && (
-          <>
-            <Grid item xs={2} container justifyContent="center">
-              {status === 'scoring' ? (
-                <Counter value={log.hitsCount} onChange={handleChangeHits} />
-              ) : (
-                <Chip
-                  color="info"
-                  label={log.hitsCount}
-                  sx={{
-                    mr: status !== 'betting' ? 2 : 0,
-                    color: 'common.white',
-                    fontSize: '1rem',
-                  }}
-                />
-              )}
-            </Grid>
-
-            {status === 'scoring' && (
-              <Chip
-                color={getColor(score)}
-                label={score > 0 ? `+${score}` : score}
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: (theme) => `calc(100% - ${theme.spacing(2)})`,
-                  transform: 'translateY(-50%)',
-                  color: 'common.white',
-                  fontSize: '1rem',
-                }}
-              />
-            )}
-          </>
-        )}
+        <Grid item xs={false}>
+          {status === 'observing' ? (
+            <Chip
+              color="info"
+              label={log.betsCount}
+              sx={{ color: 'common.white', fontSize: '1rem' }}
+            />
+          ) : (
+            <Counter max={maxBetsAndHits} value={log.betsCount} onChange={handleChange} />
+          )}
+        </Grid>
       </Grid>
     </ListItem>
   )
