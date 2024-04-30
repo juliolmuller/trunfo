@@ -1,6 +1,6 @@
 import { Box, Divider, Stack, Typography } from '@mui/material'
 
-import { Loading } from '~/components'
+import { InProgressSpinner } from '~/components'
 import { Player } from '~/models'
 
 import { ActionControls } from './ActionControls'
@@ -13,20 +13,7 @@ export interface PlayersListProps {
 export function PlayersList({ players }: PlayersListProps) {
   return (
     <Stack sx={{ height: 1 }}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 2,
-          m: 2,
-        }}
-      >
-        <Loading margin="none" size={40} />
-        <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
-          Aguardando jogadores...
-        </Typography>
-      </Box>
+      <InProgressSpinner>Aguardando jogadores...</InProgressSpinner>
 
       {players.length > 0 && (
         <Box>
