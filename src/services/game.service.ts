@@ -1,5 +1,5 @@
 import { generateAvatar, generateKey } from '~/helpers'
-import { Game, GameStatus, Player, MatchLog, ScoringMode, Match } from '~/models'
+import { Game, GameStatus, Player, MatchLog, ScoringMode, Match, User } from '~/models'
 
 import { auth, database } from './firebase'
 
@@ -114,6 +114,18 @@ async function addOfflinePlayer(gameId: Game['id'], playerName: string) {
   return thenable.key as Player['id']
 }
 
+async function addCurrentUser(gameId: Game['id'], user: User) {
+  const thenable = await database.ref(`games/${gameId}/players`).push({
+    addedAt: new Date().toISOString(),
+    avatar: user.avatar,
+    name: user.name,
+    userId: user.id,
+    order: 9999,
+  })
+
+  return thenable.key as Player['id']
+}
+
 async function removePlayer(gameId: Game['id'], playerId: Player['id']) {
   await database.ref(`games/${gameId}/players/${playerId}`).remove()
 }
@@ -189,6 +201,7 @@ export const gameService = {
   createGame,
   updateGame,
   addOfflinePlayer,
+  addCurrentUser,
   removePlayer,
   reorderPlayers,
   createMatch,

@@ -1,26 +1,38 @@
-import { Add as AddIcon, PlayArrow as PlayIcon, TaskAlt as DoneIcon } from '@mui/icons-material'
+import {
+  Add as AddIcon,
+  PersonAdd as PersonAddIcon,
+  PlayArrow as PlayIcon,
+  TaskAlt as DoneIcon,
+} from '@mui/icons-material'
 import {
   Box,
   Button,
+  ClickAwayListener,
   Divider,
   IconButton,
   InputAdornment,
+  Stack,
   TextField,
   Tooltip,
+  Typography,
   useMediaQuery,
   useTheme,
 } from '@mui/material'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
-import { useGame } from '~/helpers'
+import { useAuth, useGame } from '~/helpers'
 
 export function ActionControls() {
+  const { user } = useAuth()
   const theme = useTheme()
   const isDisplaySm = useMediaQuery(theme.breakpoints.down('sm'))
-  const { addOfflinePlayer, startGame: startMatch } = useGame()
+  const { activeGamePlayers, addCurrentUser, addOfflinePlayer, startGame } = useGame()
   const [isAddingPlayer, setAddingPlayer] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
   const [newUserName, setNewUserName] = useState('')
+  const isGameOwnerParticipating = activeGamePlayers.some((player) => {
+    return player.userId && player.userId === user?.id
+  })
 
   function handleBlur() {
     setAddingPlayer(false)
@@ -39,8 +51,15 @@ export function ActionControls() {
     handleBlur()
   }
 
+  async function handleSelfJoin() {
+    setSubmitting(true)
+    await addCurrentUser()
+    setSubmitting(false)
+    handleBlur()
+  }
+
   function handlePlay() {
-    startMatch()
+    startGame()
   }
 
   return (
@@ -48,29 +67,47 @@ export function ActionControls() {
       <Divider sx={{ mb: 3 }} />
 
       {isAddingPlayer ? (
-        <Box component="form" onSubmit={handleSubmit}>
-          <TextField
-            autoFocus
-            disabled={isSubmitting}
-            fullWidth
-            label="Nome do jogador"
-            InputProps={{
-              endAdornment:
-                newUserName.length === 0 ? undefined : (
-                  <InputAdornment position="end">
-                    <IconButton color="secondary" type="submit">
-                      <DoneIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-            }}
-            required
-            size="small"
-            value={newUserName}
-            onBlur={handleBlur}
-            onChange={handleChange}
-          />
-        </Box>
+        <ClickAwayListener onClickAway={handleBlur}>
+          <Stack component="form" gap={2} onSubmit={handleSubmit}>
+            <TextField
+              autoFocus
+              disabled={isSubmitting}
+              fullWidth
+              label="Nome do jogador"
+              InputProps={{
+                endAdornment:
+                  newUserName.length === 0 ? undefined : (
+                    <InputAdornment position="end">
+                      <IconButton color="secondary" type="submit">
+                        <DoneIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+              }}
+              required
+              size="small"
+              value={newUserName}
+              onChange={handleChange}
+            />
+
+            {!isGameOwnerParticipating && (
+              <>
+                <Typography variant="caption" sx={{ textAlign: 'center' }}>
+                  ou
+                </Typography>
+
+                <Button
+                  fullWidth
+                  startIcon={<PersonAddIcon />}
+                  variant="text"
+                  onClick={handleSelfJoin}
+                >
+                  Adicionar-se{isDisplaySm ? null : ' como Jogador'}
+                </Button>
+              </>
+            )}
+          </Stack>
+        </ClickAwayListener>
       ) : (
         <Box
           sx={(theme) => ({
