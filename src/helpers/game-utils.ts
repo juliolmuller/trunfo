@@ -2,8 +2,14 @@ import { genString } from '.'
 
 export function generateKey() {
   const ID_SIZE = 6
+  const randomString = genString(ID_SIZE).toUpperCase()
 
-  return genString(ID_SIZE).toUpperCase()
+  // Avoid letter "O" in the key to avoid it to be confused with number "0"
+  if (randomString.includes('O')) {
+    return generateKey()
+  }
+
+  return randomString
 }
 
 export function generateAvatar(name: string) {
