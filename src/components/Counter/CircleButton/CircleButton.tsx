@@ -19,7 +19,7 @@ export function CircleButton({ children, color, size = 'small', onClick }: Circl
       role="button"
       onClick={() => onClick()}
     >
-      <IconButton sx={{ fontSize: size === 'small' ? 24 : 64 }} color={color}>
+      <IconButton sx={{ fontSize: size === 'small' ? 24 : 64 }} color={color} tabIndex={-1}>
         {children}
       </IconButton>
     </Paper>

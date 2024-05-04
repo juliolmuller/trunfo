@@ -1,5 +1,6 @@
 export * from './Counter'
 export * from './Droppable'
+export * from './InProgressSpinner'
 export * from './Loading'
 export * from './MatchScoreBoard'
 export * from './OverallScoreBoard'

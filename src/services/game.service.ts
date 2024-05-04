@@ -1,5 +1,5 @@
 import { generateAvatar, generateKey } from '~/helpers'
-import { Game, GameStatus, Player, MatchLog, ScoringMode, Match } from '~/models'
+import { Game, GameStatus, Player, MatchLog, ScoringMode, Match, User } from '~/models'
 
 import { auth, database } from './firebase'
 
@@ -114,6 +114,18 @@ async function addOfflinePlayer(gameId: Game['id'], playerName: string) {
   return thenable.key as Player['id']
 }
 
+async function addCurrentUser(gameId: Game['id'], user: User) {
+  const thenable = await database.ref(`games/${gameId}/players`).push({
+    addedAt: new Date().toISOString(),
+    avatar: user.avatar,
+    name: user.name,
+    userId: user.id,
+    order: 9999,
+  })
+
+  return thenable.key as Player['id']
+}
+
 async function removePlayer(gameId: Game['id'], playerId: Player['id']) {
   await database.ref(`games/${gameId}/players/${playerId}`).remove()
 }
@@ -167,13 +179,33 @@ async function updateMatch(
   await database.ref(`games/${gameId}/matches/${matchId}`).update(props)
 }
 
+async function destroyMatch(gameId: Game['id'], matchId: Match['id']) {
+  await database.ref(`games/${gameId}/matches/${matchId}`).remove()
+}
+
+async function updateMatchLog(
+  gameId: Game['id'],
+  matchId: Match['id'],
+  logId: MatchLog['id'],
+  props: Partial<Omit<MatchLog, 'id'>>,
+) {
+  if ('createdAt' in props) {
+    props.createdAt = new Date().toISOString() as any
+  }
+
+  await database.ref(`games/${gameId}/matches/${matchId}/logs/${logId}`).update(props)
+}
+
 export const gameService = {
   connectToGame,
   createGame,
   updateGame,
   addOfflinePlayer,
+  addCurrentUser,
   removePlayer,
   reorderPlayers,
   createMatch,
   updateMatch,
+  destroyMatch,
+  updateMatchLog,
 }

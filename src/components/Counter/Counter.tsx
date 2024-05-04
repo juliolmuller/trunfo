@@ -27,17 +27,19 @@ export function Counter({
 }: CounterProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const actualValue = Math.max(min, Math.min(max, value))
+  const canDecrement = actualValue - 1 >= min
+  const canIncrement = actualValue + 1 <= max
 
   function handleFocus() {
     inputRef.current?.focus()
   }
 
   function handleDecrement() {
-    const newValue = Math.max(min, actualValue - 1)
-
-    if (newValue === value || !inputRef.current) {
+    if (!canDecrement || !inputRef.current) {
       return
     }
+
+    const newValue = actualValue - 1
 
     inputRef.current.value = newValue.toString()
     onChange(newValue, value)
@@ -45,11 +47,11 @@ export function Counter({
   }
 
   function handleIncrement() {
-    const newValue = Math.min(max, actualValue + 1)
-
-    if (newValue === value || !inputRef.current) {
+    if (!canIncrement || !inputRef.current) {
       return
     }
+
+    const newValue = actualValue + 1
 
     inputRef.current.value = newValue.toString()
     onChange(newValue, value)

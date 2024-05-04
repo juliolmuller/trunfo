@@ -29,7 +29,7 @@ export function GamePage() {
   const ActiveView = useMemo(() => {
     return activeGame ? viewByStatusMap[activeGame.status] : () => null
   }, [activeGame?.status])
-  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED]
+  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED, GameStatus.PLAYERS_BETTING]
 
   function handleChangeStatus(event: ChangeEvent<HTMLInputElement>) {
     updateGame({ status: event.target.value as GameStatus })

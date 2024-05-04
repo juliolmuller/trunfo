@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { calculateSimplifiedScore, calculateStandardScore } from '~/helpers'
-import { Game, GameStatus, Player, Match, ScoringMode } from '~/models'
+import { calculateSimplifiedScore, calculateStandardScore, useAuth } from '~/helpers'
+import { Game, GameStatus, Player, Match, ScoringMode, MatchLog } from '~/models'
 import { gameService } from '~/services'
 
 export type GameContextProps = {
@@ -17,13 +17,16 @@ export type GameContextProps = {
   connectToGame: (gameId: Game['id']) => void
   updateGame: (data: Partial<Game>) => Promise<void>
   addOfflinePlayer: (playerName: string) => Promise<void>
+  addCurrentUser: () => Promise<void>
   removePlayer: (playerId: Player['id']) => Promise<void>
   reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
   startGame: () => Promise<void>
   endGame: () => Promise<void>
   createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
   updateMatch: (data: Partial<Match>) => Promise<void>
+  startMatch: () => Promise<void>
   abortMatch: () => Promise<void>
+  updateLog: (logId: MatchLog['id'], data: Partial<MatchLog>) => Promise<void>
   calculateMatchScore: (betsCount: number, hitsCount: number) => number
 }
 
@@ -34,6 +37,7 @@ export type GameProviderProps = {
 export const GameContext = createContext({} as GameContextProps)
 
 export function GameProvider({ children }: GameProviderProps) {
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [isLoading] = useState(true)
   const [activeGameId, setActiveGameId] = useState<Game['id']>()
@@ -68,6 +72,12 @@ export function GameProvider({ children }: GameProviderProps) {
   async function addOfflinePlayer(playerName: string) {
     if (activeGameId) {
       await gameService.addOfflinePlayer(activeGameId, playerName)
+    }
+  }
+
+  async function addCurrentUser() {
+    if (activeGameId && user) {
+      await gameService.addCurrentUser(activeGameId, user)
     }
   }
 
@@ -106,11 +116,27 @@ export function GameProvider({ children }: GameProviderProps) {
     }
   }
 
-  async function abortMatch() {
-    if (activeMatch) {
-      // TODO: search for existing match and delete it
+  async function startMatch() {
+    if (activeGameId && activeMatch?.id) {
+      await updateGame({ status: GameStatus.PLAYING })
     }
-    await updateGame({ status: GameStatus.AWAITING })
+  }
+
+  async function abortMatch() {
+    if (
+      activeGameId &&
+      activeMatch?.id &&
+      window.confirm('Você realmente deseja cancelar essa partida?')
+    ) {
+      await updateGame({ status: GameStatus.AWAITING })
+      await gameService.destroyMatch(activeGameId, activeMatch?.id)
+    }
+  }
+
+  async function updateLog(logId: MatchLog['id'], data: Partial<MatchLog>) {
+    if (activeGameId && activeMatch?.id) {
+      await gameService.updateMatchLog(activeGameId, activeMatch.id, logId, data)
+    }
   }
 
   function calculateMatchScore(betsCount: number, hitsCount: number) {
@@ -146,13 +172,16 @@ export function GameProvider({ children }: GameProviderProps) {
         createGame,
         updateGame,
         addOfflinePlayer,
+        addCurrentUser,
         removePlayer,
         reorderPlayers,
         startGame,
         endGame,
         createMatch,
         updateMatch,
+        startMatch,
         abortMatch,
+        updateLog,
         calculateMatchScore,
       }}
     >
