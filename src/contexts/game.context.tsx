@@ -27,6 +27,7 @@ export type GameContextProps = {
   updateGame: (data: Partial<Game>) => Promise<void>
   addOfflinePlayer: (playerName: string) => Promise<void>
   addCurrentUser: () => Promise<void>
+  updatePlayer: (playerId: Player['id'], data: Partial<Player>) => Promise<void>
   removePlayer: (playerId: Player['id']) => Promise<void>
   reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
   startGame: () => Promise<void>
@@ -122,6 +123,15 @@ export function GameProvider({ children }: GameProviderProps) {
 
     await gameService.addSignedUser(activeGame.id, user)
   }, [activeGame, user])
+
+  const updatePlayer = useCallback(
+    async (playerId: Player['id'], data: Partial<Player>) => {
+      if (activeGameId) {
+        await gameService.updatePlayer(activeGameId, playerId, { ...data })
+      }
+    },
+    [activeGameId],
+  )
 
   const removePlayer = useCallback(
     async (playerId: Player['id']) => {
@@ -239,6 +249,7 @@ export function GameProvider({ children }: GameProviderProps) {
         updateGame,
         addOfflinePlayer,
         addCurrentUser,
+        updatePlayer,
         removePlayer,
         reorderPlayers,
         startGame,

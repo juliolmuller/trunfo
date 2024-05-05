@@ -148,6 +148,18 @@ async function addSignedUser(gameId: Game['id'], user: User) {
   return thenable.key as Player['id']
 }
 
+async function updatePlayer(
+  gameId: Game['id'],
+  playerId: Player['id'],
+  props: Partial<Omit<Player, 'id' | 'userId'>>,
+) {
+  if ('addedAt' in props) {
+    props.addedAt = new Date().toISOString() as any
+  }
+
+  await database.ref(`games/${gameId}/players/${playerId}`).update(props)
+}
+
 async function removePlayer(gameId: Game['id'], playerId: Player['id']) {
   await database.ref(`games/${gameId}/players/${playerId}`).remove()
 }
@@ -225,6 +237,7 @@ export const gameService = {
   updateGame,
   addOfflinePlayer,
   addSignedUser,
+  updatePlayer,
   removePlayer,
   reorderPlayers,
   createMatch,

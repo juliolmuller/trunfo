@@ -1,26 +1,42 @@
-import { Clear as DeleteIcon, DragIndicator as DraggableIcon } from '@mui/icons-material'
+import {
+  DeleteForever as DeleteForeverIcon,
+  DragIndicator as DragIndicatorIcon,
+  Edit as EditIcon,
+  MoreVert as MoreVertIcon,
+  Upload as UploadIcon,
+} from '@mui/icons-material'
 import {
   Avatar,
+  Box,
   IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
-  Tooltip,
+  Menu,
+  MenuItem,
+  Stack,
 } from '@mui/material'
+import { ChangeEvent, MouseEvent, useState } from 'react'
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
 
 import { Droppable } from '~/components'
-import { useGame } from '~/helpers'
+import { fileToBase64, useGame } from '~/helpers'
 import { Player } from '~/models'
 
 export interface SortablePlayersListProps {
   players: Player[]
 }
 
+interface MenuState {
+  anchorEl: HTMLButtonElement
+  player: Player
+}
+
 export function SortablePlayersList({ players }: SortablePlayersListProps) {
-  const { removePlayer, reorderPlayers } = useGame()
+  const [menuState, setMenuState] = useState<MenuState>()
+  const { removePlayer, reorderPlayers, updatePlayer } = useGame()
 
   function handleDragEnd({ destination, source }: DropResult) {
     if (!destination) {
@@ -33,9 +49,52 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
     reorderPlayers(playersIds)
   }
 
-  function handleDeletePlayer(player: Player) {
-    if (window.confirm(`Tem certeza que deseja remover o(a) jogador(a) "${player.name}"?`)) {
-      removePlayer(player.id)
+  function createHandleOpenMenu(player: Player) {
+    return (event: MouseEvent<HTMLButtonElement>) => {
+      setMenuState({
+        anchorEl: event.currentTarget,
+        player,
+      })
+    }
+  }
+
+  function handleCloseMenu() {
+    setMenuState(undefined)
+  }
+
+  function handleRenamePlayer() {
+    handleCloseMenu()
+
+    if (!menuState?.player) {
+      return
+    }
+  }
+
+  async function handleUploadAvatar(event: ChangeEvent<HTMLInputElement>) {
+    handleCloseMenu()
+
+    const selectedFile = event.target.files?.[0]
+
+    if (!menuState?.player || !selectedFile) {
+      return
+    }
+
+    const avatar = await fileToBase64(selectedFile)
+
+    await updatePlayer(menuState.player.id, { avatar })
+  }
+
+  function handleDeletePlayer() {
+    handleCloseMenu()
+
+    if (!menuState?.player) {
+      return
+    }
+
+    if (
+      window.confirm(`Tem certeza que deseja remover o(a) jogador(a) "${menuState.player.name}"?`)
+    ) {
+      removePlayer(menuState.player.id)
     }
   }
 
@@ -55,11 +114,15 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
                   <ListItem
                     ref={draggableProvider.innerRef}
                     secondaryAction={
-                      <Tooltip placement="right" title="Remover jogador">
-                        <IconButton color="error" onClick={() => handleDeletePlayer(player)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
+                      <IconButton
+                        id={`player-${player.id}-options`}
+                        onClick={createHandleOpenMenu(player)}
+                        aria-controls={menuState?.anchorEl && `${menuState.anchorEl.id}-menu`}
+                        aria-expanded={menuState?.anchorEl && true}
+                        aria-haspopup={true}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
                     }
                     sx={(theme) => ({
                       boxShadow: snapshot.isDragging ? 10 : 0,
@@ -87,7 +150,7 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
                       }}
                       {...draggableProvider.dragHandleProps}
                     >
-                      <DraggableIcon />
+                      <DragIndicatorIcon />
                     </ListItemIcon>
 
                     <ListItemAvatar>
@@ -104,6 +167,63 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
           </List>
         )}
       </Droppable>
+
+      <Menu
+        anchorEl={menuState?.anchorEl}
+        id={`${menuState?.anchorEl.id}-menu`}
+        open={!!menuState?.anchorEl}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        onClose={handleCloseMenu}
+        aria-labelledby={menuState?.anchorEl.id}
+      >
+        <MenuItem onClick={handleRenamePlayer}>
+          <Stack direction="row">
+            <ListItemIcon>
+              <EditIcon fontSize="inherit" />
+            </ListItemIcon>
+
+            <ListItemText>Renomear Jogador</ListItemText>
+          </Stack>
+        </MenuItem>
+
+        <MenuItem>
+          <Stack component="label" direction="row" htmlFor="avatar-upload">
+            <ListItemIcon>
+              <UploadIcon fontSize="inherit" />
+            </ListItemIcon>
+
+            <ListItemText>Trocar Avatar</ListItemText>
+
+            <Box
+              component="input"
+              accept="image/*"
+              id="avatar-upload"
+              type="file"
+              onChange={handleUploadAvatar}
+              sx={{
+                // technique to hide content visually but leave it available for screen readers
+                position: 'absolute',
+                left: -10000,
+                top: 'auto',
+                width: 1,
+                height: 1,
+                overflow: 'hidden',
+              }}
+            />
+          </Stack>
+        </MenuItem>
+
+        <MenuItem onClick={handleDeletePlayer}>
+          <Stack direction="row">
+            <ListItemIcon>
+              <DeleteForeverIcon fontSize="inherit" />
+            </ListItemIcon>
+
+            <ListItemText>Remover Jogador</ListItemText>
+          </Stack>
+        </MenuItem>
+      </Menu>
     </DragDropContext>
   )
 }
