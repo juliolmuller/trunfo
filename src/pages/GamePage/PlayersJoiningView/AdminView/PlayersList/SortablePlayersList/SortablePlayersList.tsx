@@ -21,7 +21,7 @@ import {
 import { ChangeEvent, MouseEvent, useState } from 'react'
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
 
-import { Droppable } from '~/components'
+import { Droppable, PromptModal } from '~/components'
 import { fileToBase64, useGame } from '~/helpers'
 import { Player } from '~/models'
 
@@ -34,8 +34,14 @@ interface MenuState {
   player: Player
 }
 
+interface DialogState {
+  value: string
+  onSave: (newValue: string) => void
+}
+
 export function SortablePlayersList({ players }: SortablePlayersListProps) {
   const [menuState, setMenuState] = useState<MenuState>()
+  const [dialogState, setDialogState] = useState<DialogState>()
   const { removePlayer, reorderPlayers, updatePlayer } = useGame()
 
   function handleDragEnd({ destination, source }: DropResult) {
@@ -62,12 +68,23 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
     setMenuState(undefined)
   }
 
+  function handleCloseDialog() {
+    setDialogState(undefined)
+  }
+
   function handleRenamePlayer() {
     handleCloseMenu()
 
     if (!menuState?.player) {
       return
     }
+
+    setDialogState({
+      value: menuState.player.name,
+      onSave(name) {
+        updatePlayer(menuState.player.id, { name })
+      },
+    })
   }
 
   async function handleUploadAvatar(event: ChangeEvent<HTMLInputElement>) {
@@ -171,7 +188,7 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
       <Menu
         anchorEl={menuState?.anchorEl}
         id={`${menuState?.anchorEl.id}-menu`}
-        open={!!menuState?.anchorEl}
+        open={!!menuState}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         onClose={handleCloseMenu}
@@ -224,6 +241,15 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
           </Stack>
         </MenuItem>
       </Menu>
+
+      <PromptModal
+        open={!!dialogState}
+        label="Nome do Jogador"
+        title="Renomear Jogador"
+        onClose={handleCloseDialog}
+        onSave={() => {}}
+        {...dialogState}
+      />
     </DragDropContext>
   )
 }

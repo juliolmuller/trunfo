@@ -62,7 +62,6 @@ export function GameFormPage() {
             label="Nome do jogo (opcional)"
             size="small"
             value={name}
-            variant="outlined"
             onChange={(event) => setName(event.target.value)}
           />
 

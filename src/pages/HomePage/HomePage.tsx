@@ -40,7 +40,6 @@ export function HomePage() {
               placeholder="Difite a Chave de acesso"
               size="medium"
               value={inputValue}
-              variant="outlined"
               onChange={handleChangeInputValue}
               inputProps={{
                 sx: {
