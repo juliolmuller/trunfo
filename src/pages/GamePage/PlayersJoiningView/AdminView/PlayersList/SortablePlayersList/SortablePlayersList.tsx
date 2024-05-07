@@ -1,9 +1,9 @@
 import {
+  AddPhotoAlternate as AddPhotoAlternateIcon,
   DeleteForever as DeleteForeverIcon,
   DragIndicator as DragIndicatorIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
-  Upload as UploadIcon,
 } from '@mui/icons-material'
 import {
   Avatar,
@@ -207,7 +207,7 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
         <MenuItem>
           <Stack component="label" direction="row" htmlFor="avatar-upload">
             <ListItemIcon>
-              <UploadIcon fontSize="inherit" />
+              <AddPhotoAlternateIcon fontSize="inherit" />
             </ListItemIcon>
 
             <ListItemText>Trocar Avatar</ListItemText>
