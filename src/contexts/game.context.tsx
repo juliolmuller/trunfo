@@ -1,4 +1,12 @@
-import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { calculateSimplifiedScore, calculateStandardScore, useAuth } from '~/helpers'
@@ -13,11 +21,13 @@ export type GameContextProps = {
   activeMatch: Match | undefined
   recentGames: Game[]
   userGames: Game[]
-  createGame: (game: Partial<Game>) => Promise<void>
+  findGameByKey: (gameKey: Game['key']) => Promise<void>
   connectToGame: (gameId: Game['id']) => void
+  createGame: (game: Partial<Game>) => Promise<void>
   updateGame: (data: Partial<Game>) => Promise<void>
   addOfflinePlayer: (playerName: string) => Promise<void>
   addCurrentUser: () => Promise<void>
+  updatePlayer: (playerId: Player['id'], data: Partial<Player>) => Promise<void>
   removePlayer: (playerId: Player['id']) => Promise<void>
   reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
   startGame: () => Promise<void>
@@ -54,75 +64,129 @@ export function GameProvider({ children }: GameProviderProps) {
     })
   }, [activeGame])
 
-  function connectToGame(gameId: Game['id']) {
+  const findGameByKey = useCallback(
+    async (gameKey: Game['key']) => {
+      try {
+        const gameId = await gameService.findGameByKey(gameKey)
+
+        navigate({
+          pathname: `/game/${gameId}`,
+          hash: gameKey,
+        })
+      } catch {
+        setActiveGameId(undefined)
+        alert('Nenhum jogo encontrado!')
+      }
+    },
+    [navigate],
+  )
+
+  const connectToGame = useCallback((gameId: Game['id']) => {
     setActiveGameId(gameId)
-  }
+  }, [])
 
-  async function createGame(game: Partial<Game>) {
-    const gameId = await gameService.createGame(game)
-    navigate(`/game/${gameId}`, { replace: true })
-  }
+  const createGame = useCallback(
+    async (game: Partial<Game>) => {
+      const gameId = await gameService.createGame(game)
 
-  async function updateGame(data: Partial<Game>) {
-    if (activeGameId) {
-      await gameService.updateGame(activeGameId, { ...data })
+      navigate(`/game/${gameId}`, { replace: true })
+    },
+    [navigate],
+  )
+
+  const updateGame = useCallback(
+    async (data: Partial<Game>) => {
+      if (activeGameId) {
+        await gameService.updateGame(activeGameId, { ...data })
+      }
+    },
+    [activeGameId],
+  )
+
+  const addOfflinePlayer = useCallback(
+    async (playerName: string) => {
+      if (activeGameId) {
+        await gameService.addOfflinePlayer(activeGameId, playerName)
+      }
+    },
+    [activeGameId],
+  )
+
+  const addCurrentUser = useCallback(async () => {
+    if (!user || !activeGame) {
+      return
     }
-  }
 
-  async function addOfflinePlayer(playerName: string) {
-    if (activeGameId) {
-      await gameService.addOfflinePlayer(activeGameId, playerName)
+    if (activeGame.players.find((player) => player.userId === user.id)) {
+      return
     }
-  }
 
-  async function addCurrentUser() {
-    if (activeGameId && user) {
-      await gameService.addCurrentUser(activeGameId, user)
-    }
-  }
+    await gameService.addSignedUser(activeGame.id, user)
+  }, [activeGame, user])
 
-  async function removePlayer(playerId: Player['id']) {
-    if (activeGameId) {
-      await gameService.removePlayer(activeGameId, playerId)
-    }
-  }
+  const updatePlayer = useCallback(
+    async (playerId: Player['id'], data: Partial<Player>) => {
+      if (activeGameId) {
+        await gameService.updatePlayer(activeGameId, playerId, { ...data })
+      }
+    },
+    [activeGameId],
+  )
 
-  async function reorderPlayers(playersIds: Player['id'][]) {
-    if (activeGameId) {
-      await gameService.reorderPlayers(activeGameId, playersIds)
-    }
-  }
+  const removePlayer = useCallback(
+    async (playerId: Player['id']) => {
+      if (activeGameId) {
+        await gameService.removePlayer(activeGameId, playerId)
+      }
+    },
+    [activeGameId],
+  )
 
-  async function startGame() {
+  const reorderPlayers = useCallback(
+    async (playersIds: Player['id'][]) => {
+      if (activeGameId) {
+        await gameService.reorderPlayers(activeGameId, playersIds)
+      }
+    },
+    [activeGameId],
+  )
+
+  const startGame = useCallback(async () => {
     await updateGame({ status: GameStatus.AWAITING })
-  }
+  }, [updateGame])
 
-  async function endGame() {
+  const endGame = useCallback(async () => {
     if (window.confirm(`Você realmente deseja encerrar o jogo "${activeGame?.name}"?`)) {
       await updateGame({ status: GameStatus.CLOSED })
     }
-  }
+  }, [activeGame?.name, updateGame])
 
-  async function createMatch(matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) {
-    if (activeGameId) {
-      await gameService.createMatch(activeGameId, matchData)
-      await updateGame({ status: GameStatus.PLAYERS_BETTING })
-    }
-  }
+  const createMatch = useCallback(
+    async (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => {
+      if (activeGameId) {
+        await gameService.createMatch(activeGameId, matchData)
+        await updateGame({ status: GameStatus.PLAYERS_BETTING })
+      }
+    },
+    [activeGameId, updateGame],
+  )
 
-  async function updateMatch(matchData: Partial<Match>) {
-    if (activeGameId && activeMatch?.id) {
-      await gameService.updateMatch(activeGameId, activeMatch?.id, matchData)
-    }
-  }
+  const updateMatch = useCallback(
+    async (matchData: Partial<Match>) => {
+      if (activeGameId && activeMatch?.id) {
+        await gameService.updateMatch(activeGameId, activeMatch?.id, matchData)
+      }
+    },
+    [activeGameId, activeMatch?.id],
+  )
 
-  async function startMatch() {
+  const startMatch = useCallback(async () => {
     if (activeGameId && activeMatch?.id) {
       await updateGame({ status: GameStatus.PLAYING })
     }
-  }
+  }, [activeGameId, activeMatch?.id, updateGame])
 
-  async function abortMatch() {
+  const abortMatch = useCallback(async () => {
     if (
       activeGameId &&
       activeMatch?.id &&
@@ -131,31 +195,42 @@ export function GameProvider({ children }: GameProviderProps) {
       await updateGame({ status: GameStatus.AWAITING })
       await gameService.destroyMatch(activeGameId, activeMatch?.id)
     }
-  }
+  }, [activeGameId, activeMatch?.id, updateGame])
 
-  async function updateLog(logId: MatchLog['id'], data: Partial<MatchLog>) {
-    if (activeGameId && activeMatch?.id) {
-      await gameService.updateMatchLog(activeGameId, activeMatch.id, logId, data)
-    }
-  }
+  const updateLog = useCallback(
+    async (logId: MatchLog['id'], data: Partial<MatchLog>) => {
+      if (activeGameId && activeMatch?.id) {
+        await gameService.updateMatchLog(activeGameId, activeMatch.id, logId, data)
+      }
+    },
+    [activeGameId, activeMatch?.id],
+  )
 
-  function calculateMatchScore(betsCount: number, hitsCount: number) {
-    if (!activeGame) {
-      console.error('Method "calculateMatchScore" called without a game.')
-      return 0
-    }
+  const calculateMatchScore = useCallback(
+    (betsCount: number, hitsCount: number) => {
+      if (!activeGame) {
+        console.error('Method "calculateMatchScore" called without a game.')
+        return 0
+      }
 
-    return activeGame.scoringMode === ScoringMode.STANDARD
-      ? calculateStandardScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
-      : calculateSimplifiedScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
-  }
+      return activeGame.scoringMode === ScoringMode.STANDARD
+        ? calculateStandardScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
+        : calculateSimplifiedScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
+    },
+    [activeGame],
+  )
 
   useEffect(() => {
-    const unsubscribe = activeGameId
-      ? gameService.connectToGame(activeGameId, setActiveGame)
-      : undefined
+    try {
+      const unsubscribe = activeGameId
+        ? gameService.connectToGame(activeGameId, setActiveGame)
+        : undefined
 
-    return unsubscribe
+      return unsubscribe
+    } catch {
+      setActiveGameId(undefined)
+      alert('Nenhum jogo encontrado!')
+    }
   }, [activeGameId])
 
   return (
@@ -168,11 +243,13 @@ export function GameProvider({ children }: GameProviderProps) {
         activeMatch,
         recentGames,
         userGames,
+        findGameByKey,
         connectToGame,
         createGame,
         updateGame,
         addOfflinePlayer,
         addCurrentUser,
+        updatePlayer,
         removePlayer,
         reorderPlayers,
         startGame,

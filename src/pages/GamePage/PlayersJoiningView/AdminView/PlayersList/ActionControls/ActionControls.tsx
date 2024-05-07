@@ -73,7 +73,7 @@ export function ActionControls() {
               autoFocus
               disabled={isSubmitting}
               fullWidth
-              label="Nome do jogador"
+              label="Nome do Jogador"
               InputProps={{
                 endAdornment:
                   newUserName.length === 0 ? undefined : (

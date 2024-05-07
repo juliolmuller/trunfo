@@ -72,6 +72,28 @@ function connectToGame(gameId: Game['id'], eventHandler: (game: Game) => void) {
   return () => gameRef.off('value')
 }
 
+async function findGameByKey(gameKey: Game['key']) {
+  const gameRef = database.ref('games')
+  const query = gameRef.orderByChild('key').equalTo(gameKey)
+  const snapshot = await query.once('value')
+  const value = snapshot.val()
+  const error = new Error(`Unable to connect to game with key ${gameKey}`)
+
+  if (!value) {
+    throw error
+  }
+
+  const games = Object.entries(value).map(([gameId, rawValue]) => normalizeGame(gameId, rawValue))
+
+  for (const { id, status } of games) {
+    if (status === GameStatus.PLAYERS_JOINING) {
+      return id
+    }
+  }
+
+  throw error
+}
+
 async function createGame(props: Partial<Omit<Game, 'id'>>) {
   const { key, name, ...rest } = props
   const gameKey = key || generateKey()
@@ -114,7 +136,7 @@ async function addOfflinePlayer(gameId: Game['id'], playerName: string) {
   return thenable.key as Player['id']
 }
 
-async function addCurrentUser(gameId: Game['id'], user: User) {
+async function addSignedUser(gameId: Game['id'], user: User) {
   const thenable = await database.ref(`games/${gameId}/players`).push({
     addedAt: new Date().toISOString(),
     avatar: user.avatar,
@@ -124,6 +146,18 @@ async function addCurrentUser(gameId: Game['id'], user: User) {
   })
 
   return thenable.key as Player['id']
+}
+
+async function updatePlayer(
+  gameId: Game['id'],
+  playerId: Player['id'],
+  props: Partial<Omit<Player, 'id' | 'userId'>>,
+) {
+  if ('addedAt' in props) {
+    props.addedAt = new Date().toISOString() as any
+  }
+
+  await database.ref(`games/${gameId}/players/${playerId}`).update(props)
 }
 
 async function removePlayer(gameId: Game['id'], playerId: Player['id']) {
@@ -198,10 +232,12 @@ async function updateMatchLog(
 
 export const gameService = {
   connectToGame,
+  findGameByKey,
   createGame,
   updateGame,
   addOfflinePlayer,
-  addCurrentUser,
+  addSignedUser,
+  updatePlayer,
   removePlayer,
   reorderPlayers,
   createMatch,

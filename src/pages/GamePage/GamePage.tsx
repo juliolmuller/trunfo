@@ -1,6 +1,6 @@
 import { Container, MenuItem, Stack, TextField, Typography } from '@mui/material'
-import { ChangeEvent, FC, useEffect, useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { ChangeEvent, FC, useEffect, useMemo, useRef } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { Loading } from '~/components/Loading'
 import { useAuth, useGame } from '~/helpers'
@@ -23,11 +23,15 @@ const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
 }
 
 export function GamePage() {
+  const isAddingUserRef = useRef(false)
   const { user } = useAuth()
-  const { gameId } = useParams()
-  const { activeGame, connectToGame, updateGame } = useGame()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const gameId = useParams().gameId || undefined
+  const gameKey = location.hash?.slice?.(1) || undefined
+  const { activeGame, addCurrentUser, connectToGame, updateGame } = useGame()
   const ActiveView = useMemo(() => {
-    return activeGame ? viewByStatusMap[activeGame.status] : () => null
+    return activeGame?.status ? viewByStatusMap[activeGame.status] : () => null
   }, [activeGame?.status])
   const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED, GameStatus.PLAYERS_BETTING]
 
@@ -36,8 +40,23 @@ export function GamePage() {
   }
 
   useEffect(() => {
-    gameId && connectToGame(gameId)
-  }, [gameId])
+    if (gameId) {
+      connectToGame(gameId)
+    }
+  }, [connectToGame, gameId])
+
+  useEffect(() => {
+    if (
+      gameKey &&
+      gameKey === activeGame?.key &&
+      activeGame.status === GameStatus.PLAYERS_JOINING &&
+      !isAddingUserRef.current
+    ) {
+      isAddingUserRef.current = true
+      addCurrentUser()
+      navigate(location.pathname, { replace: true })
+    }
+  }, [activeGame?.key, addCurrentUser, gameKey, location.pathname, navigate])
 
   return (
     <Container maxWidth={smallViews.includes(activeGame?.status as GameStatus) ? 'sm' : 'md'}>
