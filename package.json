@@ -13,7 +13,7 @@
     "build": "tsc -b && vite build",
     "production": "vite preview",
     "prod": "bun run production",
-    "lint": "eslint --fix src/ eslint.config.mjs vite.config.mjs"
+    "lint": "eslint --fix src/ eslint.config.mjs vite.config.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
