@@ -7,13 +7,13 @@
   "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "dev": "vite --port=8080",
-    "development": "npm run dev",
-    "build": "tsc && vite build",
-    "prod": "vite preview",
-    "production": "npm run prod",
-    "lint": "eslint . --fix --ext=js,jsx,ts,tsx",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "development": "vite",
+    "dev": "bun run development",
+    "build": "tsc -b && vite build",
+    "production": "vite preview",
+    "prod": "bun run production",
+    "lint": "eslint . --fix --ext=js,jsx,ts,tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -30,11 +30,11 @@
   "devDependencies": {
     "@commitlint/cli": "^19.2.1",
     "@commitlint/config-conventional": "^19.1.0",
-    "@types/node": "^20.12.5",
+    "@types/node": "^22.15.21",
     "@types/react": "^18.2.74",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.2.24",
-    "@vitejs/plugin-react-swc": "^3.6.0",
+    "@vitejs/plugin-react-swc": "^3.9.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.57.0",
@@ -47,7 +47,6 @@
     "rollup-plugin-analyzer": "^4.0.0",
     "sass": "^1.74.1",
     "typescript": "~5.1",
-    "vite": "^5.2.8",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite": "^6.3.5"
   }
 }

@@ -1,10 +1,19 @@
 import reactPlugin from '@vitejs/plugin-react-swc'
+import path from 'node:path'
 import analyzerPlugin from 'rollup-plugin-analyzer'
 import { defineConfig } from 'vite'
-import tsconfigPathsPlugin from 'vite-tsconfig-paths'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
+  plugins: [reactPlugin()],
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname, 'src'),
+    },
+  },
+  server: {
+    port: 8080,
+  },
   build: {
     rollupOptions: {
       plugins: [
@@ -15,5 +24,4 @@ export default defineConfig({
       ],
     },
   },
-  plugins: [reactPlugin(), tsconfigPathsPlugin()],
 })
