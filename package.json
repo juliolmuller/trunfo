@@ -13,7 +13,7 @@
     "build": "tsc -b && vite build",
     "production": "vite preview",
     "prod": "bun run production",
-    "lint": "eslint . --fix --ext=js,jsx,ts,tsx"
+    "lint": "eslint --fix src/ eslint.config.mjs vite.config.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -36,16 +36,14 @@
     "@types/react-beautiful-dnd": "^13.1.8",
     "@types/react-dom": "^18.2.24",
     "@vitejs/plugin-react-swc": "^3.9.0",
-    "eslint": "^8.57.0",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-import-helpers": "^1.3.1",
-    "eslint-plugin-prettier": "^5.1.3",
+    "eslint": "^9.27.0",
+    "eslint-config-any": "^1.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.0.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.5.3",
     "rollup-plugin-analyzer": "^4.0.0",
     "sass": "^1.74.1",
-    "typescript": "~5.1",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5"
   }
 }
