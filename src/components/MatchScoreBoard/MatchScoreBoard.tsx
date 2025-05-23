@@ -63,7 +63,7 @@ export function MatchScoreBoard({
   onFinish,
 }: MatchScoreBoardProps): ReactNode {
   const [isTooltipOpen, setTooltipOpen] = useState(false);
-  const previousPlayer = useRef<Player['id']>();
+  const previousPlayer = useRef<Player['id']>(undefined);
   // TODO: review implementation
   // const betsCount = useMemo(() => {
   //   return logs.reduce((count, log) => count + log.betsCount, 0)

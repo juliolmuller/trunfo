@@ -19,9 +19,8 @@ import {
   Stack,
 } from '@mui/material';
 import { type ChangeEvent, type MouseEvent, type ReactNode, useState } from 'react';
-import { DragDropContext, Draggable, type DropResult } from 'react-beautiful-dnd';
 
-import { Droppable, PromptModal } from '~/components';
+import { DragAndDrop, type DragAndDropEvent, PromptModal } from '~/components';
 import { fileToBase64, useGame } from '~/helpers';
 import { type Player } from '~/models';
 
@@ -44,7 +43,7 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
   const [dialogState, setDialogState] = useState<DialogState>();
   const { removePlayer, reorderPlayers, updatePlayer } = useGame();
 
-  function handleDragEnd({ destination, source }: DropResult): void {
+  function handleDragEnd({ destination, source }: DragAndDropEvent): void {
     if (!destination) {
       return;
     }
@@ -116,8 +115,8 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
   }
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="players">
+    <DragAndDrop onDragEnd={handleDragEnd}>
+      <DragAndDrop.Droppable droppableId="players">
         {(droppableProvider) => (
           <List
             ref={droppableProvider.innerRef}
@@ -129,7 +128,7 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
             {...droppableProvider.droppableProps}
           >
             {players.map((player, index) => (
-              <Draggable key={player.id} draggableId={player.id} index={index}>
+              <DragAndDrop.Draggable key={player.id} draggableId={player.id} index={index}>
                 {(draggableProvider, snapshot) => (
                   <ListItem
                     ref={draggableProvider.innerRef}
@@ -180,13 +179,13 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
                     <ListItemText>{player.name}</ListItemText>
                   </ListItem>
                 )}
-              </Draggable>
+              </DragAndDrop.Draggable>
             ))}
 
             {droppableProvider.placeholder}
           </List>
         )}
-      </Droppable>
+      </DragAndDrop.Droppable>
 
       <Menu
         anchorEl={menuState?.anchorEl}
@@ -252,6 +251,6 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
         onSave={() => {}}
         {...dialogState}
       />
-    </DragDropContext>
+    </DragAndDrop>
   );
 }
