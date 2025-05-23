@@ -7,8 +7,8 @@ import {
   useLayoutEffect,
   useState,
 } from 'react';
-import { usePrevious } from 'react-use';
 
+import { usePrevious } from '~/helpers';
 import { type AnimatableElement, calculateBoundingBoxes } from '~/helpers';
 
 type AnimatedChild = AnimatableElement & ReactElement;
