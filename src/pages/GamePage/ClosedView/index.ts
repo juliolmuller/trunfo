@@ -1,1 +1,1 @@
-export * from './ClosedView'
+export * from './ClosedView';

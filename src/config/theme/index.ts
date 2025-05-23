@@ -1,12 +1,12 @@
-import { createTheme, ThemeOptions } from '@mui/material'
+import { createTheme, type ThemeOptions } from '@mui/material';
 
-import { components } from './components'
-import { palette } from './palette'
+import { components } from './components';
+import { palette } from './palette';
 
 const commonThemeOptions: ThemeOptions = {
   components,
   palette,
-}
+};
 
 export const darkTheme = createTheme({
   ...commonThemeOptions,
@@ -14,7 +14,7 @@ export const darkTheme = createTheme({
     ...commonThemeOptions.palette,
     mode: 'dark',
   },
-})
+});
 
 export const lightTheme = createTheme({
   ...commonThemeOptions,
@@ -22,4 +22,4 @@ export const lightTheme = createTheme({
     ...commonThemeOptions.palette,
     mode: 'light',
   },
-})
+});

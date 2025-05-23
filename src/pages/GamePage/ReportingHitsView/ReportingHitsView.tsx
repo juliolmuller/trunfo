@@ -1,22 +1,24 @@
-import { ChangeEvent, DoneEvent, MatchScoreBoard, Section } from '~/components'
-import { useGame } from '~/helpers'
+import { type ReactNode } from 'react';
 
-export function ReportingHitsView() {
-  const { activeGame, activeMatch, updateMatch } = useGame()
-  const playerTurn = activeMatch?.playerTurn
-  const roundsCount = activeMatch?.roundsCount ?? 0
-  const logs = activeMatch?.logs ?? []
-  const players = activeGame?.players ?? []
+import { type ChangeEvent, type DoneEvent, MatchScoreBoard, Section } from '~/components';
+import { useGame } from '~/helpers';
 
-  function handleChange({ log, player }: ChangeEvent) {
+export function ReportingHitsView(): ReactNode {
+  const { activeGame, activeMatch, updateMatch } = useGame();
+  const playerTurn = activeMatch?.playerTurn;
+  const roundsCount = activeMatch?.roundsCount ?? 0;
+  const logs = activeMatch?.logs ?? [];
+  const players = activeGame?.players ?? [];
+
+  function handleChange({ log, player }: ChangeEvent): void {
     // TODO: remove logging after proper implementation
-    console.info('change', { log, player })
-    updateMatch({ logs })
+    console.info('change', { log, player });
+    updateMatch({ logs });
   }
 
-  function handleDone({ log, player, nextPlayer }: DoneEvent) {
+  function handleDone({ log, player, nextPlayer }: DoneEvent): void {
     // TODO: implement
-    console.info('done', { log, player, nextPlayer })
+    console.info('done', { log, player, nextPlayer });
   }
 
   return (
@@ -39,5 +41,5 @@ export function ReportingHitsView() {
         }}
       />
     </Section>
-  )
+  );
 }

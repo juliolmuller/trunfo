@@ -11,41 +11,41 @@ import {
   Switch,
   TextField,
   Typography,
-} from '@mui/material'
-import { FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+} from '@mui/material';
+import { type FormEvent, type ReactNode, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Section } from '~/components'
-import { useGame, useLocalStorage } from '~/helpers'
-import { ScoringMode } from '~/models'
+import { Section } from '~/components';
+import { useGame, useLocalStorage } from '~/helpers';
+import { ScoringMode } from '~/models';
 
-export function GameFormPage() {
-  const navigate = useNavigate()
-  const { createGame } = useGame()
-  const [name, setName] = useState('')
-  const [scoringMode, setScoringMode] = useLocalStorage('scoringMode', ScoringMode.STANDARD)
-  const [scoreOnZeroBets, setScoreOnZeroBets] = useLocalStorage('scoreOnZeroBets', false)
-  const [betsUnequalRounds, setBetsUnequalRounds] = useLocalStorage('betsUnequalRounds', false)
-  const [betsEqualRounds, setBetsEqualRounds] = useLocalStorage('betsEqualRounds', false)
-  const [isSubmitting, setSubmitting] = useState(false)
+export function GameFormPage(): ReactNode {
+  const navigate = useNavigate();
+  const { createGame } = useGame();
+  const [name, setName] = useState('');
+  const [scoringMode, setScoringMode] = useLocalStorage('scoringMode', ScoringMode.STANDARD);
+  const [scoreOnZeroBets, setScoreOnZeroBets] = useLocalStorage('scoreOnZeroBets', false);
+  const [betsUnequalRounds, setBetsUnequalRounds] = useLocalStorage('betsUnequalRounds', false);
+  const [betsEqualRounds, setBetsEqualRounds] = useLocalStorage('betsEqualRounds', false);
+  const [isSubmitting, setSubmitting] = useState(false);
 
-  function handleCancel() {
-    navigate('/', { replace: true })
+  function handleCancel(): void {
+    navigate('/', { replace: true });
   }
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent): Promise<void> {
     try {
-      event.preventDefault()
-      setSubmitting(true)
+      event.preventDefault();
+      setSubmitting(true);
       await createGame({
         name,
         scoringMode,
         scoreOnZeroBets,
         betsUnequalRounds,
         betsEqualRounds,
-      })
+      });
     } catch {
-      setSubmitting(false)
+      setSubmitting(false);
     }
   }
 
@@ -91,7 +91,7 @@ export function GameFormPage() {
               checked={scoreOnZeroBets}
               control={<Switch />}
               label="Pontuar em acertos com zero apostas (+5 pontos)"
-              onChange={(event) => setScoreOnZeroBets((event.target as any).checked)}
+              onChange={(_, checked) => setScoreOnZeroBets(checked)}
             />
           </FormControl>
 
@@ -101,7 +101,7 @@ export function GameFormPage() {
               control={<Switch />}
               disabled={betsEqualRounds}
               label="Quantidade total de apostas sempre diferente do número de rodadas"
-              onChange={(event) => setBetsUnequalRounds((event.target as any).checked)}
+              onChange={(_, checked) => setBetsUnequalRounds(checked)}
             />
           </FormControl>
 
@@ -111,7 +111,7 @@ export function GameFormPage() {
               control={<Switch />}
               disabled={betsUnequalRounds}
               label="Quantidade total de apostas sempre igual ao número de rodadas"
-              onChange={(event) => setBetsEqualRounds((event.target as any).checked)}
+              onChange={(_, checked) => setBetsEqualRounds(checked)}
             />
           </FormControl>
 
@@ -156,5 +156,5 @@ export function GameFormPage() {
         </Stack>
       </form>
     </Section>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import { Player, Match, User } from '~/models'
+import { type Match, type Player, type User } from '~/models';
 
 export enum ScoringMode {
-  STANDARD = 'standard',
   SIMPLIFIED = 'simplified',
+  STANDARD = 'standard',
 }
 
 export enum GameStatus {
@@ -15,19 +15,19 @@ export enum GameStatus {
 }
 
 export interface Game {
-  id: string
+  betsEqualRounds: boolean;
 
-  name: string
-  scoringMode: ScoringMode
-  betsEqualRounds: boolean
-  betsUnequalRounds: boolean
-  scoreOnZeroBets: boolean
+  betsUnequalRounds: boolean;
+  createdAt: Date; // stored as ISO date string
+  createdBy: User['id'];
+  id: string;
+  key: string;
 
-  key: string
-  createdAt: Date // stored as ISO date string
-  createdBy: User['id']
-  status: GameStatus
+  matches: Match[];
+  name: string;
+  players: Player[];
+  scoreOnZeroBets: boolean;
 
-  players: Player[]
-  matches: Match[]
+  scoringMode: ScoringMode;
+  status: GameStatus;
 }

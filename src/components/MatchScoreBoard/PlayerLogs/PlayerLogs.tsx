@@ -1,37 +1,44 @@
-import { Avatar, Chip, Grid, ListItem, ListItemAvatar, Typography } from '@mui/material'
+import { Avatar, Chip, Grid, ListItem, ListItemAvatar, Typography } from '@mui/material';
+import { type ReactNode } from 'react';
 
-import { Counter } from '~/components'
-import { MatchLog, Player } from '~/models'
+import { Counter } from '~/components';
+import { type MatchLog, type Player } from '~/models';
 
-export type ChangeEvent = {
-  log: MatchLog
-  player: Player
+export interface ChangeEvent {
+  log: MatchLog;
+  player: Player;
 }
 
-export type PlayerLogsProps = {
-  log: MatchLog
-  maxBetsAndHits?: number
-  player: Player
-  status: 'betting' | 'observing' | 'scoring'
-  onChange: (event: ChangeEvent) => void
+export interface PlayerLogsProps {
+  log: MatchLog;
+  maxBetsAndHits?: number;
+  onChange: (event: ChangeEvent) => void;
+  player: Player;
+  status: 'betting' | 'observing' | 'scoring';
 }
 
-export function PlayerLogs({ log, maxBetsAndHits, player, status, onChange }: PlayerLogsProps) {
-  function handleChange(value: number) {
+export function PlayerLogs({
+  log,
+  maxBetsAndHits,
+  player,
+  status,
+  onChange,
+}: PlayerLogsProps): ReactNode {
+  function handleChange(value: number): void {
     switch (status) {
       case 'betting':
         onChange({
           log: { ...log, betsCount: value },
           player,
-        })
-        break
+        });
+        break;
 
       case 'scoring':
         onChange({
           log: { ...log, hitsCount: value },
           player,
-        })
-        break
+        });
+        break;
 
       default:
       // do nothing
@@ -102,5 +109,5 @@ export function PlayerLogs({ log, maxBetsAndHits, player, status, onChange }: Pl
         </Grid>
       </Grid>
     </ListItem>
-  )
+  );
 }

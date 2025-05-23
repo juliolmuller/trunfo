@@ -1,1 +1,1 @@
-export * from './Droppable'
+export * from './Droppable';

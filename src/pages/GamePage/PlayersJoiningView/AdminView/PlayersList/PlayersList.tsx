@@ -1,16 +1,17 @@
-import { Box, Divider, Stack, Typography } from '@mui/material'
+import { Box, Divider, Stack, Typography } from '@mui/material';
+import { type ReactNode } from 'react';
 
-import { InProgressSpinner } from '~/components'
-import { Player } from '~/models'
+import { InProgressSpinner } from '~/components';
+import { type Player } from '~/models';
 
-import { ActionControls } from './ActionControls'
-import { SortablePlayersList } from './SortablePlayersList'
+import { ActionControls } from './ActionControls';
+import { SortablePlayersList } from './SortablePlayersList';
 
 export interface PlayersListProps {
-  players: Player[]
+  players: Player[];
 }
 
-export function PlayersList({ players }: PlayersListProps) {
+export function PlayersList({ players }: PlayersListProps): ReactNode {
   return (
     <Stack sx={{ height: 1 }}>
       <InProgressSpinner>Aguardando jogadores...</InProgressSpinner>
@@ -29,5 +30,5 @@ export function PlayersList({ players }: PlayersListProps) {
 
       <ActionControls />
     </Stack>
-  )
+  );
 }

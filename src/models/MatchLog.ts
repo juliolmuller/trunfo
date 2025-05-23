@@ -1,9 +1,9 @@
-import { Player } from '~/models'
+import { type Player } from '~/models';
 
 export interface MatchLog {
-  id: string
+  betsCount: number;
 
-  player: Player['id']
-  betsCount: number
-  hitsCount: number
+  hitsCount: number;
+  id: string;
+  player: Player['id'];
 }

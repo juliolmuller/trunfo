@@ -1,24 +1,24 @@
-import { Box, Stack } from '@mui/material'
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Box, Stack } from '@mui/material';
+import { type ReactNode, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
-import { Loading } from '~/components'
-import { useAuth } from '~/helpers'
+import { Loading } from '~/components';
+import { useAuth } from '~/helpers';
 
-import { AppBar } from './AppBar'
-import { Drawer } from './Drawer'
-import { DrawerHeader } from './DrawerHeader'
+import { AppBar } from './AppBar';
+import { Drawer } from './Drawer';
+import { DrawerHeader } from './DrawerHeader';
 
-export function AppLayout() {
-  const { isLoading } = useAuth()
-  const [isDrawerOpen, setDrawerOpen] = useState(false)
+export function AppLayout(): ReactNode {
+  const { isLoading } = useAuth();
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-  function handleDrawerOpen() {
-    setDrawerOpen(true)
+  function handleDrawerOpen(): void {
+    setDrawerOpen(true);
   }
 
-  function handleDrawerClose() {
-    setDrawerOpen(false)
+  function handleDrawerClose(): void {
+    setDrawerOpen(false);
   }
 
   return (
@@ -43,5 +43,5 @@ export function AppLayout() {
         {isLoading ? <Loading /> : <Outlet />}
       </Box>
     </Stack>
-  )
+  );
 }

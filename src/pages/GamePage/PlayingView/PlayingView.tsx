@@ -1,9 +1,11 @@
-import { Section } from '~/components'
+import { type ReactNode } from 'react';
 
-export function PlayingView() {
+import { Section } from '~/components';
+
+export function PlayingView(): ReactNode {
   return (
     <Section fullWidth maxWidth="sm">
       <h1>Playing View</h1>
     </Section>
-  )
+  );
 }

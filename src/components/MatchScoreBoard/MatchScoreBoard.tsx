@@ -1,4 +1,4 @@
-import { DeleteForeverOutlined as DeleteIcon, PlayArrow as PlayIcon } from '@mui/icons-material'
+import { DeleteForeverOutlined as DeleteIcon, PlayArrow as PlayIcon } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -8,44 +8,44 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from '@mui/material'
-import { useMemo, useRef, useState } from 'react'
+} from '@mui/material';
+import { type ReactNode, useMemo, useRef, useState } from 'react';
 
-import { MatchLog, Player } from '~/models'
+import { type MatchLog, type Player } from '~/models';
 
-import { ChangeEvent, PlayerLogs } from './PlayerLogs'
+import { type ChangeEvent, PlayerLogs } from './PlayerLogs';
 
-export { type ChangeEvent }
+export { type ChangeEvent };
 
-export type DoneEvent = {
-  log: MatchLog
-  player: Player
-  nextPlayer: Player
+export interface DoneEvent {
+  log: MatchLog;
+  nextPlayer: Player;
+  player: Player;
 }
 
-export type MatchObservingProps = {
-  status?: 'observing'
-  onChange?: (event: ChangeEvent) => void
-  onDone?: (event: DoneEvent) => void
+export interface MatchObservingProps {
+  onChange?: (event: ChangeEvent) => void;
+  onDone?: (event: DoneEvent) => void;
+  status?: 'observing';
 }
 
-export type MatchUpdatingProps = {
-  status: 'betting' | 'scoring'
-  onChange: (event: ChangeEvent) => void
-  onDone: (event: DoneEvent) => void
+export interface MatchUpdatingProps {
+  onChange: (event: ChangeEvent) => void;
+  onDone: (event: DoneEvent) => void;
+  status: 'betting' | 'scoring';
 }
 
-export type MatchScoreBoardProps = (MatchObservingProps | MatchUpdatingProps) & {
-  logs: MatchLog[]
-  betsCount: number
-  players: Player[]
-  roundsCount: number
-  title: string
-  error?: string
-  playerTurn?: Player['id']
-  onCancel: () => void
-  onFinish: () => void
-}
+export type MatchScoreBoardProps = {
+  betsCount: number;
+  error?: string;
+  logs: MatchLog[];
+  onCancel: () => void;
+  onFinish: () => void;
+  players: Player[];
+  playerTurn?: Player['id'];
+  roundsCount: number;
+  title: string;
+} & (MatchObservingProps | MatchUpdatingProps);
 
 export function MatchScoreBoard({
   betsCount,
@@ -61,42 +61,42 @@ export function MatchScoreBoard({
   onChange,
   onDone,
   onFinish,
-}: MatchScoreBoardProps) {
-  const [isTooltipOpen, setTooltipOpen] = useState(false)
-  const previousPlayer = useRef<Player['id']>()
+}: MatchScoreBoardProps): ReactNode {
+  const [isTooltipOpen, setTooltipOpen] = useState(false);
+  const previousPlayer = useRef<Player['id']>();
   // TODO: review implementation
   // const betsCount = useMemo(() => {
   //   return logs.reduce((count, log) => count + log.betsCount, 0)
   // }, [logs])
   const playersMap = useMemo(() => {
-    const playersEntries = players.map((player) => [player.id, player] as const)
+    const playersEntries = players.map((player) => [player.id, player] as const);
 
-    return new Map(playersEntries)
-  }, [players])
+    return new Map(playersEntries);
+  }, [players]);
 
-  function handleChange({ log, player }: ChangeEvent) {
+  function handleChange({ log, player }: ChangeEvent): void {
     if (!onChange) {
-      return
+      return;
     }
 
-    const playerIndex = players.indexOf(player)
-    const nextPlayerIndex = (playerIndex + 1) % players.length
-    const nextPlayer = players[nextPlayerIndex]
+    const playerIndex = players.indexOf(player);
+    const nextPlayerIndex = (playerIndex + 1) % players.length;
+    const nextPlayer = players[nextPlayerIndex];
 
-    onChange({ log, player })
+    onChange({ log, player });
 
     if (previousPlayer.current !== player.id) {
-      onDone?.({ log, player, nextPlayer })
+      onDone?.({ log, player, nextPlayer });
     }
   }
 
-  function handleStartMatch() {
+  function handleStartMatch(): void {
     if (error) {
-      setTooltipOpen(true)
-      return
+      setTooltipOpen(true);
+      return;
     }
 
-    onFinish()
+    onFinish();
   }
 
   return (
@@ -171,5 +171,5 @@ export function MatchScoreBoard({
         </Button>
       </Box>
     </Stack>
-  )
+  );
 }

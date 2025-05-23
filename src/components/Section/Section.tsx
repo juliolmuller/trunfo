@@ -1,11 +1,12 @@
-import { Breakpoint, Paper, PaperProps, Typography } from '@mui/material'
+import { type Breakpoint, Paper, type PaperProps, Typography } from '@mui/material';
+import { type ReactNode } from 'react';
 
-import { mergeSx } from '~/helpers'
+import { mergeSx } from '~/helpers';
 
 export interface SectionProps extends PaperProps {
-  fullWidth?: boolean
-  maxWidth?: Breakpoint | 'inherit' | 'auto' | number
-  title?: string
+  fullWidth?: boolean;
+  maxWidth?: 'auto' | 'inherit' | Breakpoint | number;
+  title?: string;
 }
 
 export function Section({
@@ -15,7 +16,7 @@ export function Section({
   sx = {},
   title,
   ...props
-}: SectionProps) {
+}: SectionProps): ReactNode {
   return (
     <Paper
       elevation={6}
@@ -38,5 +39,5 @@ export function Section({
       )}
       {children}
     </Paper>
-  )
+  );
 }

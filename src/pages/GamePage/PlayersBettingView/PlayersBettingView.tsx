@@ -1,39 +1,39 @@
-import { useMemo } from 'react'
+import { type ReactNode, useMemo } from 'react';
 
-import { ChangeEvent, MatchScoreBoard, Section } from '~/components'
-import { useGame } from '~/helpers'
+import { type ChangeEvent, MatchScoreBoard, Section } from '~/components';
+import { useGame } from '~/helpers';
 
-export function PlayersBettingView() {
-  const { activeGame, activeMatch, abortMatch, updateLog, startMatch } = useGame()
-  const playerTurn = activeMatch?.playerTurn
-  const roundsCount = activeMatch?.roundsCount ?? 0
-  const logs = useMemo(() => activeMatch?.logs ?? [], [activeMatch?.logs])
-  const players = useMemo(() => activeGame?.players ?? [], [activeGame?.players])
-  const betsCount = logs.reduce((total, log) => total + log.betsCount, 0)
+export function PlayersBettingView(): ReactNode {
+  const { activeGame, activeMatch, abortMatch, updateLog, startMatch } = useGame();
+  const playerTurn = activeMatch?.playerTurn;
+  const roundsCount = activeMatch?.roundsCount ?? 0;
+  const logs = useMemo(() => activeMatch?.logs ?? [], [activeMatch?.logs]);
+  const players = useMemo(() => activeGame?.players ?? [], [activeGame?.players]);
+  const betsCount = logs.reduce((total, log) => total + log.betsCount, 0);
   const error = useMemo(() => {
     if (!activeGame?.betsEqualRounds && !activeGame?.betsUnequalRounds) {
-      return undefined
+      return undefined;
     }
 
     if (activeGame.betsEqualRounds && betsCount !== roundsCount)
-      return 'O número de apostas deve ser equivalente ao número de rodadas'
+      return 'O número de apostas deve ser equivalente ao número de rodadas';
     if (activeGame.betsUnequalRounds && betsCount === roundsCount)
-      return 'O número de apostas deve ser diferente do número de rodadas'
-  }, [activeGame?.betsEqualRounds, activeGame?.betsUnequalRounds, betsCount, roundsCount])
+      return 'O número de apostas deve ser diferente do número de rodadas';
+  }, [activeGame?.betsEqualRounds, activeGame?.betsUnequalRounds, betsCount, roundsCount]);
 
-  function handleStartMatch() {
-    startMatch()
+  function handleStartMatch(): void {
+    startMatch();
   }
 
-  function handleCancel() {
-    abortMatch()
+  function handleCancel(): void {
+    abortMatch();
   }
 
-  function handleChange({ log }: ChangeEvent) {
-    updateLog(log.id, log)
+  function handleChange({ log }: ChangeEvent): void {
+    updateLog(log.id, log);
   }
 
-  function handleDone() {}
+  function handleDone(): void {}
 
   return (
     <Section fullWidth maxWidth="md">
@@ -52,5 +52,5 @@ export function PlayersBettingView() {
         onFinish={handleStartMatch}
       />
     </Section>
-  )
+  );
 }

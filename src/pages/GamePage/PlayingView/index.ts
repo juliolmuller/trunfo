@@ -1,1 +1,1 @@
-export * from './PlayingView'
+export * from './PlayingView';

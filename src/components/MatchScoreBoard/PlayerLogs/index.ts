@@ -1,1 +1,1 @@
-export * from './PlayerLogs'
+export * from './PlayerLogs';

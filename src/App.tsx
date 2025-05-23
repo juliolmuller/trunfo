@@ -1,10 +1,10 @@
-import { StrictMode } from 'react'
+import { type ReactNode, StrictMode } from 'react';
 
-import { darkTheme, lightTheme } from '~/config'
-import { AuthProvider, ThemeProvider } from '~/contexts'
-import { Router } from '~/routes'
+import { darkTheme, lightTheme } from '~/config';
+import { AuthProvider, ThemeProvider } from '~/contexts';
+import { Router } from '~/routes';
 
-export function App() {
+export function App(): ReactNode {
   return (
     <StrictMode>
       <AuthProvider>
@@ -13,5 +13,5 @@ export function App() {
         </ThemeProvider>
       </AuthProvider>
     </StrictMode>
-  )
+  );
 }

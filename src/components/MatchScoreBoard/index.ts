@@ -1,1 +1,1 @@
-export * from './MatchScoreBoard'
+export * from './MatchScoreBoard';

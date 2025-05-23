@@ -1,1 +1,1 @@
-export * from './ReportingHitsView'
+export * from './ReportingHitsView';

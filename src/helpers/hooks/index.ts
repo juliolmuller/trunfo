@@ -1,2 +1,2 @@
-export * from './useAuth'
-export * from './useStorage'
+export * from './useAuth';
+export * from './useStorage';

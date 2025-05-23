@@ -1,17 +1,17 @@
-import { Container, MenuItem, Stack, TextField, Typography } from '@mui/material'
-import { ChangeEvent, FC, useEffect, useMemo, useRef } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Container, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { type ChangeEvent, type FC, type ReactNode, useEffect, useMemo, useRef } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { Loading } from '~/components/Loading'
-import { useAuth, useGame } from '~/helpers'
-import { Game, GameStatus } from '~/models'
+import { Loading } from '~/components/Loading';
+import { useAuth, useGame } from '~/helpers';
+import { type Game, GameStatus } from '~/models';
 
-import { AwaitingView } from './AwaitingView'
-import { ClosedView } from './ClosedView'
-import { PlayersBettingView } from './PlayersBettingView'
-import { PlayersJoiningView } from './PlayersJoiningView'
-import { PlayingView } from './PlayingView'
-import { ReportingHitsView } from './ReportingHitsView'
+import { AwaitingView } from './AwaitingView';
+import { ClosedView } from './ClosedView';
+import { PlayersBettingView } from './PlayersBettingView';
+import { PlayersJoiningView } from './PlayersJoiningView';
+import { PlayingView } from './PlayingView';
+import { ReportingHitsView } from './ReportingHitsView';
 
 const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.AWAITING]: AwaitingView,
@@ -20,30 +20,30 @@ const viewByStatusMap: Record<GameStatus, FC<{ game: Game }>> = {
   [GameStatus.PLAYERS_JOINING]: PlayersJoiningView,
   [GameStatus.PLAYING]: PlayingView,
   [GameStatus.REPORTING_HITS]: ReportingHitsView,
-}
+};
 
-export function GamePage() {
-  const isAddingUserRef = useRef(false)
-  const { user } = useAuth()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const gameId = useParams().gameId || undefined
-  const gameKey = location.hash?.slice?.(1) || undefined
-  const { activeGame, addCurrentUser, connectToGame, updateGame } = useGame()
+export function GamePage(): ReactNode {
+  const isAddingUserRef = useRef(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const gameId = useParams().gameId || undefined;
+  const gameKey = location.hash?.slice?.(1) || undefined;
+  const { activeGame, addCurrentUser, connectToGame, updateGame } = useGame();
   const ActiveView = useMemo(() => {
-    return activeGame?.status ? viewByStatusMap[activeGame.status] : () => null
-  }, [activeGame?.status])
-  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED, GameStatus.PLAYERS_BETTING]
+    return activeGame?.status ? viewByStatusMap[activeGame.status] : (): null => null;
+  }, [activeGame?.status]);
+  const smallViews = [GameStatus.AWAITING, GameStatus.CLOSED, GameStatus.PLAYERS_BETTING];
 
-  function handleChangeStatus(event: ChangeEvent<HTMLInputElement>) {
-    updateGame({ status: event.target.value as GameStatus })
+  function handleChangeStatus(event: ChangeEvent<HTMLInputElement>): void {
+    updateGame({ status: event.target.value as GameStatus });
   }
 
   useEffect(() => {
     if (gameId) {
-      connectToGame(gameId)
+      connectToGame(gameId);
     }
-  }, [connectToGame, gameId])
+  }, [connectToGame, gameId]);
 
   useEffect(() => {
     if (
@@ -52,11 +52,11 @@ export function GamePage() {
       activeGame.status === GameStatus.PLAYERS_JOINING &&
       !isAddingUserRef.current
     ) {
-      isAddingUserRef.current = true
-      addCurrentUser()
-      navigate(location.pathname, { replace: true })
+      isAddingUserRef.current = true;
+      addCurrentUser();
+      navigate(location.pathname, { replace: true });
     }
-  }, [activeGame?.key, addCurrentUser, gameKey, location.pathname, navigate])
+  }, [activeGame?.key, addCurrentUser, gameKey, location.pathname, navigate]);
 
   return (
     <Container maxWidth={smallViews.includes(activeGame?.status as GameStatus) ? 'sm' : 'md'}>
@@ -85,5 +85,5 @@ export function GamePage() {
 
       {activeGame ? <ActiveView game={activeGame} /> : <Loading />}
     </Container>
-  )
+  );
 }

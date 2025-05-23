@@ -1,1 +1,1 @@
-export * from './PrepareMatchDialog'
+export * from './PrepareMatchDialog';

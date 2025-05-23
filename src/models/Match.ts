@@ -1,12 +1,12 @@
-import { MatchLog, Player } from '~/models'
+import { type MatchLog, type Player } from '~/models';
 
 export interface Match {
-  id: string
+  createdAt: Date; // stored as ISO date string
 
-  roundsCount: number
-  firstPlayer: Player['id']
-  playerTurn?: Player['id']
+  firstPlayer: Player['id'];
+  id: string;
+  logs: MatchLog[];
 
-  createdAt: Date // stored as ISO date string
-  logs: MatchLog[]
+  playerTurn?: Player['id'];
+  roundsCount: number;
 }

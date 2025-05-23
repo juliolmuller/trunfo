@@ -1,1 +1,1 @@
-export * from './PlayersBettingView'
+export * from './PlayersBettingView';

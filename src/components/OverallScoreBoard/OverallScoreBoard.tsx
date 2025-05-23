@@ -3,7 +3,7 @@ import {
   AutoFixHigh as AutoFixHighIcon,
   DeleteForever as DeleteForeverIcon,
   Edit as EditIcon,
-} from '@mui/icons-material'
+} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -14,88 +14,95 @@ import {
   MenuItem,
   Stack,
   Typography,
-} from '@mui/material'
-import { ChangeEvent, MouseEvent, createRef, useMemo, useState } from 'react'
+} from '@mui/material';
+import {
+  type ChangeEvent,
+  createRef,
+  type MouseEvent,
+  type ReactNode,
+  useMemo,
+  useState,
+} from 'react';
 
-import { PromptModal } from '~/components'
-import { fileToBase64, useAuth, useGame } from '~/helpers'
-import { Player } from '~/models'
+import { PromptModal } from '~/components';
+import { fileToBase64, useAuth, useGame } from '~/helpers';
+import { type Player } from '~/models';
 
-import { AnimatedList } from './AnimatedList'
-import { PlayerScore } from './PlayerScore'
+import { AnimatedList } from './AnimatedList';
+import { PlayerScore } from './PlayerScore';
 
 export interface OverallScoreBoardProps {
-  players: Player[]
+  players: Player[];
 }
 
 interface DialogState {
-  value: string
-  onSave: (newValue: string) => void
+  onSave: (newValue: string) => void;
+  value: string;
 }
 
-export function OverallScoreBoard({ players }: OverallScoreBoardProps) {
-  const { user } = useAuth()
-  const { removePlayer, updatePlayer } = useGame()
+export function OverallScoreBoard({ players }: OverallScoreBoardProps): ReactNode {
+  const { user } = useAuth();
+  const { removePlayer, updatePlayer } = useGame();
   const userPlayer = useMemo(() => {
-    return user && players.find((player) => player.userId === user?.id)
-  }, [players, user])
+    return user && players.find((player) => player.userId === user?.id);
+  }, [players, user]);
   const orderedPlayers = useMemo(() => {
     // TODO: find a way to order players by score
-    return [...players]
-  }, [players])
-  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLButtonElement>()
-  const [dialogState, setDialogState] = useState<DialogState>()
+    return [...players];
+  }, [players]);
+  const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLButtonElement>();
+  const [dialogState, setDialogState] = useState<DialogState>();
 
-  function handleOpenMenu(event: MouseEvent<HTMLButtonElement>) {
-    setMenuAnchorEl(event.currentTarget)
+  function handleOpenMenu(event: MouseEvent<HTMLButtonElement>): void {
+    setMenuAnchorEl(event.currentTarget);
   }
 
-  function handleCloseMenu() {
-    setMenuAnchorEl(undefined)
+  function handleCloseMenu(): void {
+    setMenuAnchorEl(undefined);
   }
 
-  function handleCloseDialog() {
-    setDialogState(undefined)
+  function handleCloseDialog(): void {
+    setDialogState(undefined);
   }
 
-  function handleRenamePlayer() {
-    handleCloseMenu()
+  function handleRenamePlayer(): void {
+    handleCloseMenu();
 
     if (!userPlayer) {
-      return
+      return;
     }
 
     setDialogState({
       value: userPlayer.name,
       onSave(name) {
-        updatePlayer(userPlayer.id, { name })
+        updatePlayer(userPlayer.id, { name });
       },
-    })
+    });
   }
 
-  async function handleUploadAvatar(event: ChangeEvent<HTMLInputElement>) {
-    handleCloseMenu()
+  async function handleUploadAvatar(event: ChangeEvent<HTMLInputElement>): Promise<void> {
+    handleCloseMenu();
 
-    const selectedFile = event.target.files?.[0]
+    const selectedFile = event.target.files?.[0];
 
     if (!userPlayer || !selectedFile) {
-      return
+      return;
     }
 
-    const avatar = await fileToBase64(selectedFile)
+    const avatar = await fileToBase64(selectedFile);
 
-    await updatePlayer(userPlayer.id, { avatar })
+    await updatePlayer(userPlayer.id, { avatar });
   }
 
-  function handleDeletePlayer() {
-    handleCloseMenu()
+  function handleDeletePlayer(): void {
+    handleCloseMenu();
 
     if (!userPlayer) {
-      return
+      return;
     }
 
     if (window.confirm('Tem certeza que deseja se retirar do jogo?')) {
-      removePlayer(userPlayer.id)
+      removePlayer(userPlayer.id);
     }
   }
 
@@ -127,7 +134,7 @@ export function OverallScoreBoard({ players }: OverallScoreBoardProps) {
               onClick={handleOpenMenu}
               aria-controls={menuAnchorEl && `${menuAnchorEl.id}-menu`}
               aria-expanded={menuAnchorEl && true}
-              aria-haspopup={true}
+              aria-haspopup
             >
               Configurar
             </Button>
@@ -201,5 +208,5 @@ export function OverallScoreBoard({ players }: OverallScoreBoardProps) {
         {...dialogState}
       />
     </Stack>
-  )
+  );
 }

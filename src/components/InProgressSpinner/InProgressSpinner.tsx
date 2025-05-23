@@ -1,15 +1,15 @@
-import { Box, SxProps, Theme, Typography } from '@mui/material'
-import { ReactNode } from 'react'
+import { Box, type SxProps, type Theme, Typography } from '@mui/material';
+import { type ReactNode } from 'react';
 
-import { Loading } from '~/components'
-import { mergeSx } from '~/helpers'
+import { Loading } from '~/components';
+import { mergeSx } from '~/helpers';
 
-export type InProgressSpinnerProps = {
-  children: ReactNode
-  sx?: SxProps<Theme>
+export interface InProgressSpinnerProps {
+  children: ReactNode;
+  sx?: SxProps<Theme>;
 }
 
-export function InProgressSpinner({ children, sx = [] }: InProgressSpinnerProps) {
+export function InProgressSpinner({ children, sx = [] }: InProgressSpinnerProps): ReactNode {
   return (
     <Box
       sx={[
@@ -31,5 +31,5 @@ export function InProgressSpinner({ children, sx = [] }: InProgressSpinnerProps)
         </Typography>
       )}
     </Box>
-  )
+  );
 }

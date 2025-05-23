@@ -1,91 +1,98 @@
-import { type AuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth'
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import { type AuthProvider, FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import { createContext, type ReactNode, useEffect, useState } from 'react';
 
-import { User } from '~/models'
-import { auth, firebase } from '~/services/firebase'
+import { type User } from '~/models';
+import { auth, type firebase } from '~/services/firebase';
 
-export type AuthContextProps = {
-  isAuthenticated: boolean
-  isLoading: boolean
-  user: User | undefined
-  signInWithFacebook: () => Promise<boolean>
-  signInWithGoogle: () => Promise<boolean>
-  signOut: () => Promise<void>
+export interface AuthContextProps {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  signInWithFacebook: () => Promise<boolean>;
+  signInWithGoogle: () => Promise<boolean>;
+  signOut: () => Promise<void>;
+  user: undefined | User;
 }
 
-export type AuthProviderProps = {
-  children: ReactNode
+export interface AuthProviderProps {
+  children: ReactNode;
 }
 
-export const AuthContext = createContext({} as AuthContextProps)
+export const AuthContext = createContext({} as AuthContextProps);
 
-export function AuthProvider({ children }: AuthProviderProps) {
-  const [isLoading, setLoading] = useState(true)
-  const [user, setUser] = useState<User>()
-  const isAuthenticated = Boolean(user)
+export function AuthProvider({ children }: AuthProviderProps): ReactNode {
+  const [isLoading, setLoading] = useState(true);
+  const [user, setUser] = useState<User>();
+  const isAuthenticated = Boolean(user);
 
-  function setUserFromRaw(rawUser: firebase.User) {
-    const { displayName: name, photoURL: avatar, uid: id } = rawUser
+  function setUserFromRaw(rawUser: firebase.User): void {
+    const { displayName: name, photoURL: avatar, uid: id } = rawUser;
 
     if (!name || !avatar) {
-      throw new Error('Missing information from Google account.')
+      throw new Error('Missing information from Google account.');
     }
 
-    setUser({ id, name, avatar })
+    setUser({ id, name, avatar });
   }
 
-  async function handleSignIn(provider: AuthProvider) {
+  async function handleSignIn(provider: AuthProvider): Promise<boolean> {
     if (user) {
-      return true
+      return true;
     }
 
     try {
-      setLoading(true)
-      const response = await auth.signInWithPopup(provider)
+      setLoading(true);
+
+      const response = await auth.signInWithPopup(provider);
 
       if (!response.user) {
-        throw new Error('Failed to get data from Google Account.')
+        throw new Error('Failed to get data from Google Account.');
       }
 
-      setUserFromRaw(response.user)
-      return true
+      setUserFromRaw(response.user);
+
+      return true;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') {
-        return false
+        return false;
       }
-      throw error
+
+      throw error;
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
-  function signInWithFacebook() {
-    const facebookAuthProvider = new FacebookAuthProvider()
+  function signInWithFacebook(): Promise<boolean> {
+    const facebookAuthProvider = new FacebookAuthProvider();
 
-    return handleSignIn(facebookAuthProvider)
+    return handleSignIn(facebookAuthProvider);
   }
 
-  function signInWithGoogle() {
-    const googleAuthProvider = new GoogleAuthProvider()
+  function signInWithGoogle(): Promise<boolean> {
+    const googleAuthProvider = new GoogleAuthProvider();
 
-    return handleSignIn(googleAuthProvider)
+    return handleSignIn(googleAuthProvider);
   }
 
-  async function signOut() {
-    setLoading(true)
-    await auth.signOut()
-    setUser(undefined)
-    setLoading(false)
+  async function signOut(): Promise<void> {
+    setLoading(true);
+    await auth.signOut();
+    setUser(undefined);
+    setLoading(false);
   }
 
   useEffect(() => {
     // Return of function ("unregister") will be called when component unmounts
-    setLoading(true)
+    setLoading(true);
     return auth.onAuthStateChanged((rawUser) => {
-      rawUser && setUserFromRaw(rawUser)
-      setLoading(false)
-    })
-  }, [])
+      if (rawUser) {
+        setUserFromRaw(rawUser);
+      }
+
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -100,5 +107,5 @@ export function AuthProvider({ children }: AuthProviderProps) {
     >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }

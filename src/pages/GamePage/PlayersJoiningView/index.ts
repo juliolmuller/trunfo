@@ -1,1 +1,1 @@
-export * from './PlayersJoiningView'
+export * from './PlayersJoiningView';

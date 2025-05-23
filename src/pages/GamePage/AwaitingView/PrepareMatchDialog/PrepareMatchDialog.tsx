@@ -1,35 +1,44 @@
-import { Box, Button, Dialog, Divider, InputLabel, MenuItem, Stack, TextField } from '@mui/material'
-import { ChangeEvent, useEffect, useState } from 'react'
+import {
+  Box,
+  Button,
+  Dialog,
+  Divider,
+  InputLabel,
+  MenuItem,
+  Stack,
+  TextField,
+} from '@mui/material';
+import { type ChangeEvent, type ReactNode, useEffect, useState } from 'react';
 
-import { Counter, Section } from '~/components'
-import { CARDS_COUNT } from '~/config'
-import { useGame } from '~/helpers'
-import { Player } from '~/models'
+import { Counter, Section } from '~/components';
+import { CARDS_COUNT } from '~/config';
+import { useGame } from '~/helpers';
+import { type Player } from '~/models';
 
 interface PrepareMatchDialogProps {
-  open: boolean
-  onClose: () => void
+  onClose: () => void;
+  open: boolean;
 }
 
-export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
-  const [roundsCount, setRoundsCount] = useState(1)
-  const [firstPlayer, setFirstPlayer] = useState<Player['id']>('')
-  const { activeGameMatches, activeGamePlayers, createMatch } = useGame()
-  const maxCardsPerPlayer = Math.floor(CARDS_COUNT / activeGamePlayers.length)
-  const minCardsPerPlayer = 1
+export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps): ReactNode {
+  const [roundsCount, setRoundsCount] = useState(1);
+  const [firstPlayer, setFirstPlayer] = useState<Player['id']>('');
+  const { activeGameMatches, activeGamePlayers, createMatch } = useGame();
+  const maxCardsPerPlayer = Math.floor(CARDS_COUNT / activeGamePlayers.length);
+  const minCardsPerPlayer = 1;
   const hasErrors =
-    !firstPlayer || roundsCount < minCardsPerPlayer || roundsCount > maxCardsPerPlayer
+    !firstPlayer || roundsCount < minCardsPerPlayer || roundsCount > maxCardsPerPlayer;
 
-  function handleClose() {
-    onClose()
+  function handleClose(): void {
+    onClose();
   }
 
-  function handleChangeFirstPlayer(event: ChangeEvent<HTMLInputElement>) {
-    setFirstPlayer(event.target.value)
+  function handleChangeFirstPlayer(event: ChangeEvent<HTMLInputElement>): void {
+    setFirstPlayer(event.target.value);
   }
 
-  function handleStartBets() {
-    createMatch({ firstPlayer, roundsCount })
+  function handleStartBets(): void {
+    createMatch({ firstPlayer, roundsCount });
   }
 
   useEffect(() => {
@@ -38,18 +47,18 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
         ? activeGameMatches.reduce((latest, match) =>
             latest.createdAt > match.createdAt ? latest : match,
           )
-        : undefined
+        : undefined;
       const lastFirstPlayerIndex = activeGamePlayers.findIndex(
         ({ id }) => id === latestMatch?.firstPlayer,
-      )
-      const playersCount = activeGamePlayers.length
-      const wasLastInTheList = lastFirstPlayerIndex === playersCount - 1
+      );
+      const playersCount = activeGamePlayers.length;
+      const wasLastInTheList = lastFirstPlayerIndex === playersCount - 1;
 
       return wasLastInTheList
         ? activeGamePlayers[0].id
-        : activeGamePlayers[lastFirstPlayerIndex + 1].id
-    })
-  }, [activeGameMatches, activeGamePlayers])
+        : activeGamePlayers[lastFirstPlayerIndex + 1].id;
+    });
+  }, [activeGameMatches, activeGamePlayers]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -135,5 +144,5 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps) {
         </Stack>
       </Section>
     </Dialog>
-  )
+  );
 }

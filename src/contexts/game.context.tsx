@@ -1,190 +1,197 @@
 import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
-} from 'react'
-import { useNavigate } from 'react-router-dom'
+} from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { calculateSimplifiedScore, calculateStandardScore, useAuth } from '~/helpers'
-import { Game, GameStatus, Player, Match, ScoringMode, MatchLog } from '~/models'
-import { gameService } from '~/services'
+import { calculateSimplifiedScore, calculateStandardScore, useAuth } from '~/helpers';
+import {
+  type Game,
+  GameStatus,
+  type Match,
+  type MatchLog,
+  type Player,
+  ScoringMode,
+} from '~/models';
+import { gameService } from '~/services';
 
-export type GameContextProps = {
-  isLoading: boolean
-  activeGame: Game | undefined
-  activeGameMatches: Match[]
-  activeGamePlayers: Player[]
-  activeMatch: Match | undefined
-  recentGames: Game[]
-  userGames: Game[]
-  findGameByKey: (gameKey: Game['key']) => Promise<void>
-  connectToGame: (gameId: Game['id']) => void
-  createGame: (game: Partial<Game>) => Promise<void>
-  updateGame: (data: Partial<Game>) => Promise<void>
-  addOfflinePlayer: (playerName: string) => Promise<void>
-  addCurrentUser: () => Promise<void>
-  updatePlayer: (playerId: Player['id'], data: Partial<Player>) => Promise<void>
-  removePlayer: (playerId: Player['id']) => Promise<void>
-  reorderPlayers: (playersIds: Player['id'][]) => Promise<void>
-  startGame: () => Promise<void>
-  endGame: () => Promise<void>
-  createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>
-  updateMatch: (data: Partial<Match>) => Promise<void>
-  startMatch: () => Promise<void>
-  abortMatch: () => Promise<void>
-  updateLog: (logId: MatchLog['id'], data: Partial<MatchLog>) => Promise<void>
-  calculateMatchScore: (betsCount: number, hitsCount: number) => number
+export interface GameContextProps {
+  abortMatch: () => Promise<void>;
+  activeGame: Game | undefined;
+  activeGameMatches: Match[];
+  activeGamePlayers: Player[];
+  activeMatch: Match | undefined;
+  addCurrentUser: () => Promise<void>;
+  addOfflinePlayer: (playerName: string) => Promise<void>;
+  calculateMatchScore: (betsCount: number, hitsCount: number) => number;
+  connectToGame: (gameId: Game['id']) => void;
+  createGame: (game: Partial<Game>) => Promise<void>;
+  createMatch: (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => Promise<void>;
+  endGame: () => Promise<void>;
+  findGameByKey: (gameKey: Game['key']) => Promise<void>;
+  isLoading: boolean;
+  recentGames: Game[];
+  removePlayer: (playerId: Player['id']) => Promise<void>;
+  reorderPlayers: (playersIds: Player['id'][]) => Promise<void>;
+  startGame: () => Promise<void>;
+  startMatch: () => Promise<void>;
+  updateGame: (data: Partial<Game>) => Promise<void>;
+  updateLog: (logId: MatchLog['id'], data: Partial<MatchLog>) => Promise<void>;
+  updateMatch: (data: Partial<Match>) => Promise<void>;
+  updatePlayer: (playerId: Player['id'], data: Partial<Player>) => Promise<void>;
+  userGames: Game[];
 }
 
-export type GameProviderProps = {
-  children: ReactNode
+export interface GameProviderProps {
+  children: ReactNode;
 }
 
-export const GameContext = createContext({} as GameContextProps)
+export const GameContext = createContext({} as GameContextProps);
 
-export function GameProvider({ children }: GameProviderProps) {
-  const { user } = useAuth()
-  const navigate = useNavigate()
-  const [isLoading] = useState(true)
-  const [activeGameId, setActiveGameId] = useState<Game['id']>()
-  const [activeGame, setActiveGame] = useState<Game>()
-  const [recentGames] = useState<Game[]>([])
-  const [userGames] = useState<Game[]>([])
+export function GameProvider({ children }: GameProviderProps): ReactNode {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [isLoading] = useState(true);
+  const [activeGameId, setActiveGameId] = useState<Game['id']>();
+  const [activeGame, setActiveGame] = useState<Game>();
+  const [recentGames] = useState<Game[]>([]);
+  const [userGames] = useState<Game[]>([]);
   const activeMatch = useMemo(() => {
     if (!activeGame?.matches.length) {
-      return undefined
+      return undefined;
     }
 
     return activeGame.matches.reduce((latest, match) => {
-      return latest.createdAt > match.createdAt ? latest : match
-    })
-  }, [activeGame])
+      return latest.createdAt > match.createdAt ? latest : match;
+    });
+  }, [activeGame]);
 
   const findGameByKey = useCallback(
     async (gameKey: Game['key']) => {
       try {
-        const gameId = await gameService.findGameByKey(gameKey)
+        const gameId = await gameService.findGameByKey(gameKey);
 
         navigate({
           pathname: `/game/${gameId}`,
           hash: gameKey,
-        })
+        });
       } catch {
-        setActiveGameId(undefined)
-        alert('Nenhum jogo encontrado!')
+        setActiveGameId(undefined);
+        alert('Nenhum jogo encontrado!');
       }
     },
     [navigate],
-  )
+  );
 
   const connectToGame = useCallback((gameId: Game['id']) => {
-    setActiveGameId(gameId)
-  }, [])
+    setActiveGameId(gameId);
+  }, []);
 
   const createGame = useCallback(
     async (game: Partial<Game>) => {
-      const gameId = await gameService.createGame(game)
+      const gameId = await gameService.createGame(game);
 
-      navigate(`/game/${gameId}`, { replace: true })
+      navigate(`/game/${gameId}`, { replace: true });
     },
     [navigate],
-  )
+  );
 
   const updateGame = useCallback(
     async (data: Partial<Game>) => {
       if (activeGameId) {
-        await gameService.updateGame(activeGameId, { ...data })
+        await gameService.updateGame(activeGameId, { ...data });
       }
     },
     [activeGameId],
-  )
+  );
 
   const addOfflinePlayer = useCallback(
     async (playerName: string) => {
       if (activeGameId) {
-        await gameService.addOfflinePlayer(activeGameId, playerName)
+        await gameService.addOfflinePlayer(activeGameId, playerName);
       }
     },
     [activeGameId],
-  )
+  );
 
   const addCurrentUser = useCallback(async () => {
     if (!user || !activeGame) {
-      return
+      return;
     }
 
     if (activeGame.players.find((player) => player.userId === user.id)) {
-      return
+      return;
     }
 
-    await gameService.addSignedUser(activeGame.id, user)
-  }, [activeGame, user])
+    await gameService.addSignedUser(activeGame.id, user);
+  }, [activeGame, user]);
 
   const updatePlayer = useCallback(
     async (playerId: Player['id'], data: Partial<Player>) => {
       if (activeGameId) {
-        await gameService.updatePlayer(activeGameId, playerId, { ...data })
+        await gameService.updatePlayer(activeGameId, playerId, { ...data });
       }
     },
     [activeGameId],
-  )
+  );
 
   const removePlayer = useCallback(
     async (playerId: Player['id']) => {
       if (activeGameId) {
-        await gameService.removePlayer(activeGameId, playerId)
+        await gameService.removePlayer(activeGameId, playerId);
       }
     },
     [activeGameId],
-  )
+  );
 
   const reorderPlayers = useCallback(
     async (playersIds: Player['id'][]) => {
       if (activeGameId) {
-        await gameService.reorderPlayers(activeGameId, playersIds)
+        await gameService.reorderPlayers(activeGameId, playersIds);
       }
     },
     [activeGameId],
-  )
+  );
 
   const startGame = useCallback(async () => {
-    await updateGame({ status: GameStatus.AWAITING })
-  }, [updateGame])
+    await updateGame({ status: GameStatus.AWAITING });
+  }, [updateGame]);
 
   const endGame = useCallback(async () => {
     if (window.confirm(`Você realmente deseja encerrar o jogo "${activeGame?.name}"?`)) {
-      await updateGame({ status: GameStatus.CLOSED })
+      await updateGame({ status: GameStatus.CLOSED });
     }
-  }, [activeGame?.name, updateGame])
+  }, [activeGame?.name, updateGame]);
 
   const createMatch = useCallback(
     async (matchData: Pick<Match, 'firstPlayer' | 'roundsCount'>) => {
       if (activeGameId) {
-        await gameService.createMatch(activeGameId, matchData)
-        await updateGame({ status: GameStatus.PLAYERS_BETTING })
+        await gameService.createMatch(activeGameId, matchData);
+        await updateGame({ status: GameStatus.PLAYERS_BETTING });
       }
     },
     [activeGameId, updateGame],
-  )
+  );
 
   const updateMatch = useCallback(
     async (matchData: Partial<Match>) => {
       if (activeGameId && activeMatch?.id) {
-        await gameService.updateMatch(activeGameId, activeMatch?.id, matchData)
+        await gameService.updateMatch(activeGameId, activeMatch?.id, matchData);
       }
     },
     [activeGameId, activeMatch?.id],
-  )
+  );
 
   const startMatch = useCallback(async () => {
     if (activeGameId && activeMatch?.id) {
-      await updateGame({ status: GameStatus.PLAYING })
+      await updateGame({ status: GameStatus.PLAYING });
     }
-  }, [activeGameId, activeMatch?.id, updateGame])
+  }, [activeGameId, activeMatch?.id, updateGame]);
 
   const abortMatch = useCallback(async () => {
     if (
@@ -192,46 +199,46 @@ export function GameProvider({ children }: GameProviderProps) {
       activeMatch?.id &&
       window.confirm('Você realmente deseja cancelar essa partida?')
     ) {
-      await updateGame({ status: GameStatus.AWAITING })
-      await gameService.destroyMatch(activeGameId, activeMatch?.id)
+      await updateGame({ status: GameStatus.AWAITING });
+      await gameService.destroyMatch(activeGameId, activeMatch?.id);
     }
-  }, [activeGameId, activeMatch?.id, updateGame])
+  }, [activeGameId, activeMatch?.id, updateGame]);
 
   const updateLog = useCallback(
     async (logId: MatchLog['id'], data: Partial<MatchLog>) => {
       if (activeGameId && activeMatch?.id) {
-        await gameService.updateMatchLog(activeGameId, activeMatch.id, logId, data)
+        await gameService.updateMatchLog(activeGameId, activeMatch.id, logId, data);
       }
     },
     [activeGameId, activeMatch?.id],
-  )
+  );
 
   const calculateMatchScore = useCallback(
     (betsCount: number, hitsCount: number) => {
       if (!activeGame) {
-        console.error('Method "calculateMatchScore" called without a game.')
-        return 0
+        console.error('Method "calculateMatchScore" called without a game.');
+        return 0;
       }
 
       return activeGame.scoringMode === ScoringMode.STANDARD
         ? calculateStandardScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
-        : calculateSimplifiedScore(betsCount, hitsCount, activeGame.scoreOnZeroBets)
+        : calculateSimplifiedScore(betsCount, hitsCount, activeGame.scoreOnZeroBets);
     },
     [activeGame],
-  )
+  );
 
   useEffect(() => {
     try {
       const unsubscribe = activeGameId
         ? gameService.connectToGame(activeGameId, setActiveGame)
-        : undefined
+        : undefined;
 
-      return unsubscribe
+      return unsubscribe;
     } catch {
-      setActiveGameId(undefined)
-      alert('Nenhum jogo encontrado!')
+      setActiveGameId(undefined);
+      alert('Nenhum jogo encontrado!');
     }
-  }, [activeGameId])
+  }, [activeGameId]);
 
   return (
     <GameContext.Provider
@@ -264,9 +271,9 @@ export function GameProvider({ children }: GameProviderProps) {
     >
       {children}
     </GameContext.Provider>
-  )
+  );
 }
 
 export function useGame(): GameContextProps {
-  return useContext(GameContext)
+  return useContext(GameContext);
 }

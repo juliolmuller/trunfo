@@ -1,12 +1,12 @@
-import { User } from '~/models'
+import { type User } from '~/models';
 
 export interface Player {
-  id: string
+  addedAt: Date; // stored as ISO date string
 
-  name: string
-  avatar: string
-  addedAt: Date // stored as ISO date string
-  order: number
+  avatar: string;
+  id: string;
+  name: string;
+  order: number;
 
-  userId?: User['id']
+  userId?: User['id'];
 }
