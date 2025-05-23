@@ -87,20 +87,19 @@ export function PlayerLogs({
           gap: [0.5, 1, 2],
         }}
       >
-        <Grid item xs={false}>
+        <Grid size={false}>
           <Typography>{player.name}</Typography>
         </Grid>
 
         <Grid
-          item
-          xs
+          size="grow"
           sx={{
             height: 12,
             borderBottom: '1px dotted #999',
           }}
         />
 
-        <Grid item xs={false}>
+        <Grid size={false}>
           {status === 'observing' ? (
             <Chip
               color="info"
