@@ -1,21 +1,22 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { type ReactNode } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { GameProvider } from '~/contexts'
-import { useAuth } from '~/helpers'
-import { AppLayout } from '~/layouts'
-import { GameFormPage, GamePage, HomePage, LoginPage } from '~/pages'
+import { GameProvider } from '~/contexts';
+import { useAuth } from '~/helpers';
+import { AppLayout } from '~/layouts';
+import { GameFormPage, GamePage, HomePage, LoginPage } from '~/pages';
 
-function PublicRouter() {
+function PublicRouter(): ReactNode {
   return (
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="*" element={<LoginPage />} />
       </Route>
     </Routes>
-  )
+  );
 }
 
-function AuthRoutes() {
+function AuthRoutes(): ReactNode {
   return (
     <GameProvider>
       <Routes>
@@ -26,11 +27,11 @@ function AuthRoutes() {
         </Route>
       </Routes>
     </GameProvider>
-  )
+  );
 }
 
-export function Router() {
-  const { isAuthenticated } = useAuth()
+export function Router(): ReactNode {
+  const { isAuthenticated } = useAuth();
 
-  return <BrowserRouter>{isAuthenticated ? <AuthRoutes /> : <PublicRouter />}</BrowserRouter>
+  return <BrowserRouter>{isAuthenticated ? <AuthRoutes /> : <PublicRouter />}</BrowserRouter>;
 }

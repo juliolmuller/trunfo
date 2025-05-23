@@ -1,1 +1,1 @@
-export const CARDS_COUNT = 80
+export const CARDS_COUNT = 80;

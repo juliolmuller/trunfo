@@ -1,28 +1,28 @@
-import { ContentCopy as CopyIcon } from '@mui/icons-material'
-import { Box, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { ContentCopy as CopyIcon } from '@mui/icons-material';
+import { Box, CircularProgress, IconButton, Tooltip, Typography } from '@mui/material';
+import { type ReactNode, useEffect, useState } from 'react';
 
 export interface QRCodeProps {
-  gameKey: string
+  gameKey: string;
 }
 
-export function QRCode({ gameKey }: QRCodeProps) {
-  const [isCopying, setCopying] = useState(false)
-  const gameURL = `${window.location.href}#${gameKey}`
-  const qrCode = `https://api.qrserver.com/v1/create-qr-code?size=400x400&data=${gameURL}`
+export function QRCode({ gameKey }: QRCodeProps): ReactNode {
+  const [isCopying, setCopying] = useState(false);
+  const gameURL = `${window.location.href}#${gameKey}`;
+  const qrCode = `https://api.qrserver.com/v1/create-qr-code?size=400x400&data=${gameURL}`;
 
   useEffect(() => {
     if (!isCopying) {
-      return
+      return;
     }
 
-    navigator.clipboard.writeText(gameURL)
+    navigator.clipboard.writeText(gameURL);
     const timeout = setTimeout(() => {
-      setCopying(false)
-    }, 1000)
+      setCopying(false);
+    }, 1000);
 
-    return () => clearTimeout(timeout)
-  }, [gameURL, isCopying])
+    return (): void => clearTimeout(timeout);
+  }, [gameURL, isCopying]);
 
   return (
     <Box
@@ -82,5 +82,5 @@ export function QRCode({ gameKey }: QRCodeProps) {
         </IconButton>
       </Typography>
     </Box>
-  )
+  );
 }

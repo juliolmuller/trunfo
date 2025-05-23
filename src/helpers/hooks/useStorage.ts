@@ -1,25 +1,64 @@
-import { Dispatch, SetStateAction } from 'react'
 import {
-  useLocalStorage as useReactUseLocalStorage,
-  useSessionStorage as useReactUseSessionStorage,
-} from 'react-use'
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 
-type UseStorageReturn<T> = [T, Dispatch<SetStateAction<T>>, () => void]
+export const useLocalStorage = makeStorageHook(localStorage);
 
-function generateKey(suffix: string) {
-  return `TRUNFO::${suffix}`
+export const useSessionStorage = makeStorageHook(sessionStorage);
+
+function generateKey(suffix: string): string {
+  return `TRUNFO::${suffix}`;
 }
 
-export function useLocalStorage<T>(keySuffix: string, initialValue: T): UseStorageReturn<T> {
-  const storageKey = generateKey(keySuffix)
-  const useStorageReturn = useReactUseLocalStorage(storageKey, initialValue)
+function makeStorageHook(storage: Storage) {
+  return <T>(key: string, initialValue: T): [T, Dispatch<SetStateAction<T>>] => {
+    if (!key) {
+      throw new TypeError('useLocalStorage key may not be falsy');
+    }
 
-  return useStorageReturn as any
-}
+    const actualKey = generateKey(key);
+    const initializer = useRef((key: string) => {
+      try {
+        const storageValue = storage.getItem(key);
 
-export function useSessionStorage<T>(keySuffix: string, initialValue: T): UseStorageReturn<T> {
-  const storageKey = generateKey(keySuffix)
-  const useStorageReturn = useReactUseSessionStorage(storageKey, initialValue)
+        if (storageValue === null) {
+          storage.setItem(key, JSON.stringify(initialValue));
 
-  return useStorageReturn as any
+          return initialValue;
+        }
+
+        return JSON.parse(storageValue);
+      } catch {
+        return initialValue;
+      }
+    });
+    const [state, setState] = useState<T>(() => {
+      return initializer.current(actualKey);
+    });
+
+    const set = useCallback<Dispatch<SetStateAction<T>>>(
+      (setStateAction) => {
+        const newState =
+          typeof setStateAction === 'function'
+            ? (setStateAction as (prev: T) => T)(state)
+            : setStateAction;
+        const value = JSON.stringify(newState);
+
+        storage.setItem(actualKey, value);
+        setState(newState);
+      },
+      [actualKey, setState],
+    );
+
+    useLayoutEffect(() => {
+      setState(initializer.current(actualKey));
+    }, [actualKey]);
+
+    return [state, set];
+  };
 }

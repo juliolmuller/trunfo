@@ -1,8 +1,8 @@
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/auth'
-import 'firebase/compat/database'
-import 'firebase/compat/performance'
-import 'firebase/compat/analytics'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/database';
+import 'firebase/compat/performance';
+import 'firebase/compat/analytics';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,19 +13,19 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-}
+};
 
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig)
-  firebase.performance()
-  firebase.analytics()
+  firebase.initializeApp(firebaseConfig);
+  firebase.performance();
+  firebase.analytics();
 
   if (import.meta.env.DEV) {
-    console.info('Firebase initialized')
+    console.info('Firebase initialized');
   }
 }
 
-export const auth = firebase.auth()
-export const database = firebase.database()
+export const auth = firebase.auth();
+export const database = firebase.database();
 
-export { firebase }
+export { firebase };

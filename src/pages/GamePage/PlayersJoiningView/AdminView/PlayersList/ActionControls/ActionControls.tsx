@@ -1,9 +1,9 @@
 import {
   Add as AddIcon,
+  TaskAlt as DoneIcon,
   PersonAdd as PersonAddIcon,
   PlayArrow as PlayIcon,
-  TaskAlt as DoneIcon,
-} from '@mui/icons-material'
+} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -17,49 +17,49 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from '@mui/material'
-import { ChangeEvent, FormEvent, useState } from 'react'
+} from '@mui/material';
+import { type ChangeEvent, type FormEvent, type ReactNode, useState } from 'react';
 
-import { useAuth, useGame } from '~/helpers'
+import { useAuth, useGame } from '~/helpers';
 
-export function ActionControls() {
-  const { user } = useAuth()
-  const theme = useTheme()
-  const isDisplaySm = useMediaQuery(theme.breakpoints.down('sm'))
-  const { activeGamePlayers, addCurrentUser, addOfflinePlayer, startGame } = useGame()
-  const [isAddingPlayer, setAddingPlayer] = useState(false)
-  const [isSubmitting, setSubmitting] = useState(false)
-  const [newUserName, setNewUserName] = useState('')
+export function ActionControls(): ReactNode {
+  const { user } = useAuth();
+  const theme = useTheme();
+  const isDisplaySm = useMediaQuery(theme.breakpoints.down('sm'));
+  const { activeGamePlayers, addCurrentUser, addOfflinePlayer, startGame } = useGame();
+  const [isAddingPlayer, setAddingPlayer] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [newUserName, setNewUserName] = useState('');
   const isGameOwnerParticipating = activeGamePlayers.some((player) => {
-    return player.userId && player.userId === user?.id
-  })
+    return player.userId && player.userId === user?.id;
+  });
 
-  function handleBlur() {
-    setAddingPlayer(false)
-    setNewUserName('')
+  function handleBlur(): void {
+    setAddingPlayer(false);
+    setNewUserName('');
   }
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    setNewUserName(event.target.value)
+  function handleChange(event: ChangeEvent<HTMLInputElement>): void {
+    setNewUserName(event.target.value);
   }
 
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault()
-    setSubmitting(true)
-    await addOfflinePlayer(newUserName)
-    setSubmitting(false)
-    handleBlur()
+  async function handleSubmit(event: FormEvent): Promise<void> {
+    event.preventDefault();
+    setSubmitting(true);
+    await addOfflinePlayer(newUserName);
+    setSubmitting(false);
+    handleBlur();
   }
 
-  async function handleSelfJoin() {
-    setSubmitting(true)
-    await addCurrentUser()
-    setSubmitting(false)
-    handleBlur()
+  async function handleSelfJoin(): Promise<void> {
+    setSubmitting(true);
+    await addCurrentUser();
+    setSubmitting(false);
+    handleBlur();
   }
 
-  function handlePlay() {
-    startGame()
+  function handlePlay(): void {
+    startGame();
   }
 
   return (
@@ -164,5 +164,5 @@ export function ActionControls() {
         </Box>
       )}
     </Box>
-  )
+  );
 }

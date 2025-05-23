@@ -1,1 +1,1 @@
-export * from './PlayersJoiningAdminView'
+export * from './PlayersJoiningAdminView';

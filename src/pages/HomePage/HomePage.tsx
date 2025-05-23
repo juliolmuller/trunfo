@@ -1,31 +1,31 @@
-import { Add as AddIcon, Login as EnterIcon } from '@mui/icons-material'
-import { Button, Collapse, Stack, TextField } from '@mui/material'
-import { ChangeEvent, FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Add as AddIcon, Login as EnterIcon } from '@mui/icons-material';
+import { Button, Collapse, Stack, TextField } from '@mui/material';
+import { type ChangeEvent, type FormEvent, type ReactNode, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Section } from '~/components'
-import { useGame } from '~/helpers'
+import { Section } from '~/components';
+import { useGame } from '~/helpers';
 
-export function HomePage() {
-  const GAME_KEY_LENGTH = 6
-  const navigate = useNavigate()
-  const { findGameByKey } = useGame()
-  const [inputVisible, setInputVisible] = useState(false)
-  const [inputValue, setInputValue] = useState('')
+export function HomePage(): ReactNode {
+  const GAME_KEY_LENGTH = 6;
+  const navigate = useNavigate();
+  const { findGameByKey } = useGame();
+  const [inputVisible, setInputVisible] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
-  function handleChangeInputValue(event: ChangeEvent<HTMLInputElement>) {
-    const newValue = event.target.value
-    const transformedValue = newValue.trim().toUpperCase()
+  function handleChangeInputValue(event: ChangeEvent<HTMLInputElement>): void {
+    const newValue = event.target.value;
+    const transformedValue = newValue.trim().toUpperCase();
 
     if (transformedValue.length <= GAME_KEY_LENGTH) {
-      setInputValue(transformedValue)
+      setInputValue(transformedValue);
     }
   }
 
-  async function handleSearchGame(event: FormEvent) {
-    event.preventDefault()
+  async function handleSearchGame(event: FormEvent): Promise<void> {
+    event.preventDefault();
 
-    await findGameByKey(inputValue)
+    await findGameByKey(inputValue);
   }
 
   return (
@@ -57,7 +57,7 @@ export function HomePage() {
           fullWidth
           startIcon={<EnterIcon />}
           type={inputVisible ? 'submit' : undefined}
-          onClick={inputVisible ? undefined : () => setInputVisible(true)}
+          onClick={inputVisible ? undefined : (): void => setInputVisible(true)}
           sx={{ color: 'white' }}
         >
           {inputVisible ? 'Entrar' : 'Acessar um jogo'}
@@ -73,5 +73,5 @@ export function HomePage() {
         </Button>
       </Stack>
     </Section>
-  )
+  );
 }

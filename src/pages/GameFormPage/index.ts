@@ -1,1 +1,1 @@
-export * from './GameFormPage'
+export * from './GameFormPage';

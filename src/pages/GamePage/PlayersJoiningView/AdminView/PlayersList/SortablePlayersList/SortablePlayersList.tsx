@@ -4,7 +4,7 @@ import {
   DragIndicator as DragIndicatorIcon,
   Edit as EditIcon,
   MoreVert as MoreVertIcon,
-} from '@mui/icons-material'
+} from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -17,42 +17,42 @@ import {
   Menu,
   MenuItem,
   Stack,
-} from '@mui/material'
-import { ChangeEvent, MouseEvent, useState } from 'react'
-import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
+} from '@mui/material';
+import { type ChangeEvent, type MouseEvent, type ReactNode, useState } from 'react';
+import { DragDropContext, Draggable, type DropResult } from 'react-beautiful-dnd';
 
-import { Droppable, PromptModal } from '~/components'
-import { fileToBase64, useGame } from '~/helpers'
-import { Player } from '~/models'
+import { Droppable, PromptModal } from '~/components';
+import { fileToBase64, useGame } from '~/helpers';
+import { type Player } from '~/models';
 
 export interface SortablePlayersListProps {
-  players: Player[]
+  players: Player[];
 }
 
 interface MenuState {
-  anchorEl: HTMLButtonElement
-  player: Player
+  anchorEl: HTMLButtonElement;
+  player: Player;
 }
 
 interface DialogState {
-  value: string
-  onSave: (newValue: string) => void
+  onSave: (newValue: string) => void;
+  value: string;
 }
 
-export function SortablePlayersList({ players }: SortablePlayersListProps) {
-  const [menuState, setMenuState] = useState<MenuState>()
-  const [dialogState, setDialogState] = useState<DialogState>()
-  const { removePlayer, reorderPlayers, updatePlayer } = useGame()
+export function SortablePlayersList({ players }: SortablePlayersListProps): ReactNode {
+  const [menuState, setMenuState] = useState<MenuState>();
+  const [dialogState, setDialogState] = useState<DialogState>();
+  const { removePlayer, reorderPlayers, updatePlayer } = useGame();
 
-  function handleDragEnd({ destination, source }: DropResult) {
+  function handleDragEnd({ destination, source }: DropResult): void {
     if (!destination) {
-      return
+      return;
     }
 
-    const playersIds = players.map(({ id }) => id)
-    const [pickedPlayerId] = playersIds.splice(source.index, 1)
-    playersIds.splice(destination.index, 0, pickedPlayerId)
-    reorderPlayers(playersIds)
+    const playersIds = players.map(({ id }) => id);
+    const [pickedPlayerId] = playersIds.splice(source.index, 1);
+    playersIds.splice(destination.index, 0, pickedPlayerId);
+    reorderPlayers(playersIds);
   }
 
   function createHandleOpenMenu(player: Player) {
@@ -60,58 +60,58 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
       setMenuState({
         anchorEl: event.currentTarget,
         player,
-      })
-    }
+      });
+    };
   }
 
-  function handleCloseMenu() {
-    setMenuState(undefined)
+  function handleCloseMenu(): void {
+    setMenuState(undefined);
   }
 
-  function handleCloseDialog() {
-    setDialogState(undefined)
+  function handleCloseDialog(): void {
+    setDialogState(undefined);
   }
 
-  function handleRenamePlayer() {
-    handleCloseMenu()
+  function handleRenamePlayer(): void {
+    handleCloseMenu();
 
     if (!menuState?.player) {
-      return
+      return;
     }
 
     setDialogState({
       value: menuState.player.name,
       onSave(name) {
-        updatePlayer(menuState.player.id, { name })
+        updatePlayer(menuState.player.id, { name });
       },
-    })
+    });
   }
 
-  async function handleUploadAvatar(event: ChangeEvent<HTMLInputElement>) {
-    handleCloseMenu()
+  async function handleUploadAvatar(event: ChangeEvent<HTMLInputElement>): Promise<void> {
+    handleCloseMenu();
 
-    const selectedFile = event.target.files?.[0]
+    const selectedFile = event.target.files?.[0];
 
     if (!menuState?.player || !selectedFile) {
-      return
+      return;
     }
 
-    const avatar = await fileToBase64(selectedFile)
+    const avatar = await fileToBase64(selectedFile);
 
-    await updatePlayer(menuState.player.id, { avatar })
+    await updatePlayer(menuState.player.id, { avatar });
   }
 
-  function handleDeletePlayer() {
-    handleCloseMenu()
+  function handleDeletePlayer(): void {
+    handleCloseMenu();
 
     if (!menuState?.player) {
-      return
+      return;
     }
 
     if (
       window.confirm(`Tem certeza que deseja remover o(a) jogador(a) "${menuState.player.name}"?`)
     ) {
-      removePlayer(menuState.player.id)
+      removePlayer(menuState.player.id);
     }
   }
 
@@ -136,7 +136,7 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
                         onClick={createHandleOpenMenu(player)}
                         aria-controls={menuState?.anchorEl && `${menuState.anchorEl.id}-menu`}
                         aria-expanded={menuState?.anchorEl && true}
-                        aria-haspopup={true}
+                        aria-haspopup
                       >
                         <MoreVertIcon />
                       </IconButton>
@@ -251,5 +251,5 @@ export function SortablePlayersList({ players }: SortablePlayersListProps) {
         {...dialogState}
       />
     </DragDropContext>
-  )
+  );
 }

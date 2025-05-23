@@ -1,1 +1,1 @@
-export * from './SortablePlayersList'
+export * from './SortablePlayersList';

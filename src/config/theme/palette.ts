@@ -1,4 +1,4 @@
-import { PaletteOptions } from '@mui/material'
+import { type PaletteOptions } from '@mui/material';
 
 export const palette: PaletteOptions = {
   primary: {
@@ -19,4 +19,4 @@ export const palette: PaletteOptions = {
   info: {
     main: '#276fbf',
   },
-}
+};

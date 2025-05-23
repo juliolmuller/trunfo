@@ -1,7 +1,7 @@
-import reactPlugin from '@vitejs/plugin-react-swc'
-import path from 'node:path'
-import analyzerPlugin from 'rollup-plugin-analyzer'
-import { defineConfig } from 'vite'
+import reactPlugin from '@vitejs/plugin-react-swc';
+import path from 'node:path';
+import analyzerPlugin from 'rollup-plugin-analyzer';
+import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -24,4 +24,4 @@ export default defineConfig({
       ],
     },
   },
-})
+});

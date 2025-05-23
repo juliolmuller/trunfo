@@ -1,18 +1,18 @@
-import { Add as PlusIcon, Remove as MinusIcon } from '@mui/icons-material'
-import { Box, Input, Paper, Typography } from '@mui/material'
-import { ChangeEvent, KeyboardEvent, useRef } from 'react'
+import { Remove as MinusIcon, Add as PlusIcon } from '@mui/icons-material';
+import { Box, Input, Paper, Typography } from '@mui/material';
+import { type ChangeEvent, type KeyboardEvent, type ReactNode, useRef } from 'react';
 
-import { CircleButton } from './CircleButton'
+import { CircleButton } from './CircleButton';
 
 export interface CounterProps {
-  value: number
-  id?: string
-  max?: number
-  min?: number
-  name?: string
-  size?: 'small' | 'big'
-  onChange: (newValue: number, oldValue: number) => void
-  onPressEnter?: (value: number) => void
+  id?: string;
+  max?: number;
+  min?: number;
+  name?: string;
+  onChange: (newValue: number, oldValue: number) => void;
+  onPressEnter?: (value: number) => void;
+  size?: 'big' | 'small';
+  value: number;
 }
 
 export function Counter({
@@ -24,54 +24,54 @@ export function Counter({
   value,
   onChange,
   onPressEnter,
-}: CounterProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const actualValue = Math.max(min, Math.min(max, value))
-  const canDecrement = actualValue - 1 >= min
-  const canIncrement = actualValue + 1 <= max
+}: CounterProps): ReactNode {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const actualValue = Math.max(min, Math.min(max, value));
+  const canDecrement = actualValue - 1 >= min;
+  const canIncrement = actualValue + 1 <= max;
 
-  function handleFocus() {
-    inputRef.current?.focus()
+  function handleFocus(): void {
+    inputRef.current?.focus();
   }
 
-  function handleDecrement() {
+  function handleDecrement(): void {
     if (!canDecrement || !inputRef.current) {
-      return
+      return;
     }
 
-    const newValue = actualValue - 1
+    const newValue = actualValue - 1;
 
-    inputRef.current.value = newValue.toString()
-    onChange(newValue, value)
-    handleFocus()
+    inputRef.current.value = newValue.toString();
+    onChange(newValue, value);
+    handleFocus();
   }
 
-  function handleIncrement() {
+  function handleIncrement(): void {
     if (!canIncrement || !inputRef.current) {
-      return
+      return;
     }
 
-    const newValue = actualValue + 1
+    const newValue = actualValue + 1;
 
-    inputRef.current.value = newValue.toString()
-    onChange(newValue, value)
-    handleFocus()
+    inputRef.current.value = newValue.toString();
+    onChange(newValue, value);
+    handleFocus();
   }
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    const valueAsString = event.target.value
-    const valueAsNumber = Number(valueAsString) || 0
-    const valueNormalized = Math.max(min, Math.min(max, valueAsNumber))
-    onChange(valueNormalized, value)
+  function handleChange(event: ChangeEvent<HTMLInputElement>): void {
+    const valueAsString = event.target.value;
+    const valueAsNumber = Number(valueAsString) || 0;
+    const valueNormalized = Math.max(min, Math.min(max, valueAsNumber));
+    onChange(valueNormalized, value);
   }
 
-  function handleKeyUp(event: KeyboardEvent<HTMLInputElement>) {
+  function handleKeyUp(event: KeyboardEvent<HTMLInputElement>): void {
     if (['ArrowUp', 'ArrowRight', '+', '='].includes(event.key)) {
-      handleIncrement()
+      handleIncrement();
     } else if (['ArrowDown', 'ArrowLeft', '-', '_'].includes(event.key)) {
-      handleDecrement()
+      handleDecrement();
     } else if (event.key === 'Enter') {
-      onPressEnter?.(actualValue)
+      onPressEnter?.(actualValue);
     }
   }
 
@@ -141,5 +141,5 @@ export function Counter({
         <PlusIcon fontSize="inherit" />
       </CircleButton>
     </Box>
-  )
+  );
 }

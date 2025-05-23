@@ -1,49 +1,61 @@
-import { generateAvatar, generateKey } from '~/helpers'
-import { Game, GameStatus, Player, MatchLog, ScoringMode, Match, User } from '~/models'
+import { generateAvatar, generateKey } from '~/helpers';
+import {
+  type Game,
+  GameStatus,
+  type Match,
+  type MatchLog,
+  type Player,
+  ScoringMode,
+  type User,
+} from '~/models';
 
-import { auth, database } from './firebase'
+import { auth, database } from './firebase';
 
 function toArray<TModel>(
   firebaseObj: object,
   mergeProps?: (model: TModel) => Partial<TModel>,
 ): TModel[] {
   return Object.entries(firebaseObj ?? {}).map(([id, model]) => {
-    const baseModel = { ...(model as TModel), id }
+    const baseModel = { ...(model as TModel), id };
 
-    return { ...baseModel, ...mergeProps?.(baseModel as TModel) }
-  })
+    return { ...baseModel, ...mergeProps?.(baseModel as TModel) };
+  });
 }
 
-function normalizePlayers(snapshotVal: any) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizePlayers(snapshotVal: any): Player[] {
   return toArray<Player>(snapshotVal, (player) => ({
     addedAt: new Date(player.addedAt),
   })).sort((p1, p2) =>
     p1.order === p2.order ? Number(p1.addedAt) - Number(p2.addedAt) : p1.order - p2.order,
-  )
+  );
 }
 
-function normalizeLogs(snapshotVal: any, match: Match, players: Player[]) {
-  const logs = toArray<MatchLog>(snapshotVal)
-  const playersClone = Array.from(players)
-  const firstPlayerIndex = players.findIndex((player) => player.id === match.firstPlayer)
-  const playersToShift = playersClone.splice(0, firstPlayerIndex)
-  const orderedPlayers = [...playersClone, ...playersToShift]
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeLogs(snapshotVal: any, match: Match, players: Player[]): MatchLog[] {
+  const logs = toArray<MatchLog>(snapshotVal);
+  const playersClone = Array.from(players);
+  const firstPlayerIndex = players.findIndex((player) => player.id === match.firstPlayer);
+  const playersToShift = playersClone.splice(0, firstPlayerIndex);
+  const orderedPlayers = [...playersClone, ...playersToShift];
 
   return orderedPlayers.map((player) => {
-    return logs.find((log) => log.player === player.id)!
-  })
+    return logs.find((log) => log.player === player.id)!;
+  });
 }
 
-function normalizeMatches(snapshotVal: any, players: Player[]) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeMatches(snapshotVal: any, players: Player[]): Match[] {
   return toArray<Match>(snapshotVal, (match) => ({
     createdAt: new Date(match.createdAt),
     logs: normalizeLogs(match.logs, match, players),
-  }))
+  }));
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeGame(gameId: Game['id'], snapshotVal: any): Game {
-  const players = normalizePlayers(snapshotVal.players)
-  const matches = normalizeMatches(snapshotVal.matches, players)
+  const players = normalizePlayers(snapshotVal.players);
+  const matches = normalizeMatches(snapshotVal.matches, players);
 
   return {
     ...snapshotVal,
@@ -51,54 +63,54 @@ function normalizeGame(gameId: Game['id'], snapshotVal: any): Game {
     createdAt: new Date(snapshotVal.createdAt),
     players,
     matches,
-  }
+  };
 }
 
 function connectToGame(gameId: Game['id'], eventHandler: (game: Game) => void) {
-  const gameRef = database.ref(`games/${gameId}`)
+  const gameRef = database.ref(`games/${gameId}`);
 
   gameRef.on('value', (snapshot) => {
-    const rawValue = snapshot.val()
+    const rawValue = snapshot.val();
 
     if (!rawValue) {
-      throw new Error(`Unable to connect to game with ID ${gameId}`)
+      throw new Error(`Unable to connect to game with ID ${gameId}`);
     }
 
-    const normalizedGame = normalizeGame(gameId, rawValue)
+    const normalizedGame = normalizeGame(gameId, rawValue);
 
-    eventHandler(normalizedGame)
-  })
+    eventHandler(normalizedGame);
+  });
 
-  return () => gameRef.off('value')
+  return (): void => gameRef.off('value');
 }
 
-async function findGameByKey(gameKey: Game['key']) {
-  const gameRef = database.ref('games')
-  const query = gameRef.orderByChild('key').equalTo(gameKey)
-  const snapshot = await query.once('value')
-  const value = snapshot.val()
-  const error = new Error(`Unable to connect to game with key ${gameKey}`)
+async function findGameByKey(gameKey: Game['key']): Promise<Game['id']> {
+  const gameRef = database.ref('games');
+  const query = gameRef.orderByChild('key').equalTo(gameKey);
+  const snapshot = await query.once('value');
+  const value = snapshot.val();
+  const error = new Error(`Unable to connect to game with key ${gameKey}`);
 
   if (!value) {
-    throw error
+    throw error;
   }
 
-  const games = Object.entries(value).map(([gameId, rawValue]) => normalizeGame(gameId, rawValue))
+  const games = Object.entries(value).map(([gameId, rawValue]) => normalizeGame(gameId, rawValue));
 
   for (const { id, status } of games) {
     if (status === GameStatus.PLAYERS_JOINING) {
-      return id
+      return id;
     }
   }
 
-  throw error
+  throw error;
 }
 
-async function createGame(props: Partial<Omit<Game, 'id'>>) {
-  const { key, name, ...rest } = props
-  const gameKey = key || generateKey()
-  const gameName = name || `Jogo ${gameKey}`
-  const gamesRef = database.ref('games')
+async function createGame(props: Partial<Omit<Game, 'id'>>): Promise<Game['id']> {
+  const { key, name, ...rest } = props;
+  const gameKey = key || generateKey();
+  const gameName = name || `Jogo ${gameKey}`;
+  const gamesRef = database.ref('games');
   const thenable = await gamesRef.push({
     name: gameName,
     scoringMode: ScoringMode.STANDARD,
@@ -112,109 +124,109 @@ async function createGame(props: Partial<Omit<Game, 'id'>>) {
     players: [], // ignored by firebase
     matches: [], // ignored by firebase
     ...rest,
-  })
+  });
 
-  return thenable.key as Game['id']
+  return thenable.key as Game['id'];
 }
 
-async function updateGame(gameId: Game['id'], props: Partial<Omit<Game, 'id'>>) {
+async function updateGame(gameId: Game['id'], props: Partial<Omit<Game, 'id'>>): Promise<void> {
   if ('createdAt' in props) {
-    props.createdAt = new Date().toISOString() as any
+    props.createdAt = new Date().toISOString() as unknown as Date;
   }
 
-  await database.ref(`games/${gameId}`).update(props)
+  await database.ref(`games/${gameId}`).update(props);
 }
 
-async function addOfflinePlayer(gameId: Game['id'], playerName: string) {
+async function addOfflinePlayer(gameId: Game['id'], playerName: string): Promise<Player['id']> {
   const thenable = await database.ref(`games/${gameId}/players`).push({
     addedAt: new Date().toISOString(),
     avatar: generateAvatar(playerName),
     name: playerName,
     order: 9999,
-  })
+  });
 
-  return thenable.key as Player['id']
+  return thenable.key as Player['id'];
 }
 
-async function addSignedUser(gameId: Game['id'], user: User) {
+async function addSignedUser(gameId: Game['id'], user: User): Promise<Player['id']> {
   const thenable = await database.ref(`games/${gameId}/players`).push({
     addedAt: new Date().toISOString(),
     avatar: user.avatar,
     name: user.name,
     userId: user.id,
     order: 9999,
-  })
+  });
 
-  return thenable.key as Player['id']
+  return thenable.key as Player['id'];
 }
 
 async function updatePlayer(
   gameId: Game['id'],
   playerId: Player['id'],
   props: Partial<Omit<Player, 'id' | 'userId'>>,
-) {
+): Promise<void> {
   if ('addedAt' in props) {
-    props.addedAt = new Date().toISOString() as any
+    props.addedAt = new Date().toISOString() as unknown as Date;
   }
 
-  await database.ref(`games/${gameId}/players/${playerId}`).update(props)
+  await database.ref(`games/${gameId}/players/${playerId}`).update(props);
 }
 
-async function removePlayer(gameId: Game['id'], playerId: Player['id']) {
-  await database.ref(`games/${gameId}/players/${playerId}`).remove()
+async function removePlayer(gameId: Game['id'], playerId: Player['id']): Promise<void> {
+  await database.ref(`games/${gameId}/players/${playerId}`).remove();
 }
 
-async function reorderPlayers(gameId: Game['id'], playersIds: Player['id'][]) {
-  const playersRef = database.ref(`games/${gameId}/players`)
+async function reorderPlayers(gameId: Game['id'], playersIds: Player['id'][]): Promise<void> {
+  const playersRef = database.ref(`games/${gameId}/players`);
 
   await Promise.all(
     playersIds.map(async (id, index) => {
-      await playersRef.child(id).update({ order: index + 1 })
+      await playersRef.child(id).update({ order: index + 1 });
     }),
-  )
+  );
 }
 
 async function createMatch(
   gameId: Game['id'],
   { firstPlayer, roundsCount }: Pick<Match, 'firstPlayer' | 'roundsCount'>,
-) {
-  const gameRef = database.ref(`games/${gameId}`)
+): Promise<Match['id']> {
+  const gameRef = database.ref(`games/${gameId}`);
   const thenable = await gameRef.child('matches').push({
     createdAt: new Date().toISOString(),
     playerTurn: null, // ignored by firebase
     firstPlayer,
     roundsCount,
-  })
+  });
 
-  const playersSnapshot = await gameRef.child('players').once('value')
-  const players = normalizePlayers(playersSnapshot.val())
+  const playersSnapshot = await gameRef.child('players').once('value');
+  const players = normalizePlayers(playersSnapshot.val());
   await Promise.all(
     players.map(({ id }) => {
       return gameRef.child(`matches/${thenable.key}/logs`).push({
         player: id,
         betsCount: 0,
         hitsCount: 0,
-      })
+      });
     }),
-  )
+  );
 
-  return thenable.key as Match['id']
+  return thenable.key as Match['id'];
 }
 
 async function updateMatch(
   gameId: Game['id'],
   matchId: Match['id'],
   props: Partial<Omit<Match, 'id'>>,
-) {
+): Promise<void> {
   if ('createdAt' in props) {
-    props.createdAt = new Date().toISOString() as any
+    props.createdAt = new Date().toISOString() as unknown as Date;
   }
 
-  await database.ref(`games/${gameId}/matches/${matchId}`).update(props)
+  await database.ref(`games/${gameId}/matches/${matchId}`).update(props);
 }
 
-async function destroyMatch(gameId: Game['id'], matchId: Match['id']) {
-  await database.ref(`games/${gameId}/matches/${matchId}`).remove()
+async function destroyMatch(gameId: Game['id'], matchId: Match['id']): Promise<void> {
+  await database.ref(`games/${gameId}/matches/${matchId}`).remove();
 }
 
 async function updateMatchLog(
@@ -222,12 +234,12 @@ async function updateMatchLog(
   matchId: Match['id'],
   logId: MatchLog['id'],
   props: Partial<Omit<MatchLog, 'id'>>,
-) {
+): Promise<void> {
   if ('createdAt' in props) {
-    props.createdAt = new Date().toISOString() as any
+    props.createdAt = new Date().toISOString() as unknown as Date;
   }
 
-  await database.ref(`games/${gameId}/matches/${matchId}/logs/${logId}`).update(props)
+  await database.ref(`games/${gameId}/matches/${matchId}/logs/${logId}`).update(props);
 }
 
 export const gameService = {
@@ -244,4 +256,4 @@ export const gameService = {
   updateMatch,
   destroyMatch,
   updateMatchLog,
-}
+};

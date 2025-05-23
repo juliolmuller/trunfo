@@ -1,1 +1,1 @@
-export * from './InProgressSpinner'
+export * from './InProgressSpinner';

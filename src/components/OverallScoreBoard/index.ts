@@ -1,1 +1,1 @@
-export * from './OverallScoreBoard'
+export * from './OverallScoreBoard';

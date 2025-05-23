@@ -1,11 +1,12 @@
-import { Menu as MenuIcon } from '@mui/icons-material'
-import { AppBar as MuiAppBar, Container, IconButton, Toolbar, Typography } from '@mui/material'
+import { Menu as MenuIcon } from '@mui/icons-material';
+import { Container, IconButton, AppBar as MuiAppBar, Toolbar, Typography } from '@mui/material';
+import { type ReactNode } from 'react';
 
 export interface AppBarProps {
-  onOpenDrawer: () => void
+  onOpenDrawer: () => void;
 }
 
-export function AppBar({ onOpenDrawer }: AppBarProps) {
+export function AppBar({ onOpenDrawer }: AppBarProps): ReactNode {
   return (
     <MuiAppBar position="relative" sx={{ bgcolor: 'primary.main' }}>
       <Toolbar component={Container}>
@@ -23,5 +24,5 @@ export function AppBar({ onOpenDrawer }: AppBarProps) {
         </IconButton>
       </Toolbar>
     </MuiAppBar>
-  )
+  );
 }

@@ -4,29 +4,30 @@ import {
   DarkMode as DarkModeIcon,
   LightMode as LightModeIcon,
   Logout as SignOutIcon,
-} from '@mui/icons-material'
+} from '@mui/icons-material';
 import {
   Divider,
-  Drawer as MuiDrawer,
   IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@mui/material'
+  Drawer as MuiDrawer,
+} from '@mui/material';
+import { type ReactNode } from 'react';
 
-import { useAuth, useTheme } from '~/helpers'
+import { useAuth, useTheme } from '~/helpers';
 
-import { DrawerHeader } from '../DrawerHeader'
+import { DrawerHeader } from '../DrawerHeader';
 
 export interface DrawerProps {
-  open: boolean
-  onClose: () => void
+  onClose: () => void;
+  open: boolean;
 }
 
-export function Drawer({ open, onClose }: DrawerProps) {
-  const { isAuthenticated, signOut } = useAuth()
-  const theme = useTheme()
+export function Drawer({ open, onClose }: DrawerProps): ReactNode {
+  const { isAuthenticated, signOut } = useAuth();
+  const theme = useTheme();
 
   return (
     <MuiDrawer anchor="right" open={open} onClose={() => onClose()}>
@@ -53,5 +54,5 @@ export function Drawer({ open, onClose }: DrawerProps) {
         )}
       </List>
     </MuiDrawer>
-  )
+  );
 }

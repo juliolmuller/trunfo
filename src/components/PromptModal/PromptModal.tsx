@@ -1,15 +1,22 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
-import { FormEvent, HTMLInputTypeAttribute } from 'react'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
+import { type FormEvent, type HTMLInputTypeAttribute, type ReactNode } from 'react';
 
 export interface PromptModalProps {
-  open: boolean
-  title: string
-  label?: string
-  placeholder?: string
-  type?: HTMLInputTypeAttribute
-  value?: string
-  onClose: () => void
-  onSave: (newValue: string) => void
+  label?: string;
+  onClose: () => void;
+  onSave: (newValue: string) => void;
+  open: boolean;
+  placeholder?: string;
+  title: string;
+  type?: HTMLInputTypeAttribute;
+  value?: string;
 }
 
 export function PromptModal({
@@ -21,21 +28,21 @@ export function PromptModal({
   value = '',
   onClose,
   onSave,
-}: PromptModalProps) {
-  const inputName = 'dialog-input'
+}: PromptModalProps): ReactNode {
+  const inputName = 'dialog-input';
 
-  function handleClose() {
-    onClose()
+  function handleClose(): void {
+    onClose();
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
 
-    const formData = new FormData(event.currentTarget)
-    const fieldValue = formData.get(inputName)?.toString() ?? ''
+    const formData = new FormData(event.currentTarget);
+    const fieldValue = formData.get(inputName)?.toString() ?? '';
 
-    onSave(fieldValue)
-    handleClose()
+    onSave(fieldValue);
+    handleClose();
   }
 
   return (
@@ -81,5 +88,5 @@ export function PromptModal({
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 }

@@ -1,1 +1,1 @@
-export * from './PromptModal'
+export * from './PromptModal';

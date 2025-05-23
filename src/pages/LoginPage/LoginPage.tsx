@@ -1,17 +1,18 @@
-import { Button, Stack } from '@mui/material'
+import { Button, Stack } from '@mui/material';
+import { type ReactNode } from 'react';
 
-import { Section } from '~/components'
-import { useAuth } from '~/helpers'
+import { Section } from '~/components';
+import { useAuth } from '~/helpers';
 
-export function LoginPage() {
-  const { signInWithGoogle, signInWithFacebook } = useAuth()
+export function LoginPage(): ReactNode {
+  const { signInWithGoogle, signInWithFacebook } = useAuth();
 
-  function handleFacebookSignIn() {
-    signInWithFacebook()
+  function handleFacebookSignIn(): void {
+    signInWithFacebook();
   }
 
-  function handleGoogleSignIn() {
-    signInWithGoogle()
+  function handleGoogleSignIn(): void {
+    signInWithGoogle();
   }
 
   return (
@@ -38,5 +39,5 @@ export function LoginPage() {
         </Button>
       </Stack>
     </Section>
-  )
+  );
 }

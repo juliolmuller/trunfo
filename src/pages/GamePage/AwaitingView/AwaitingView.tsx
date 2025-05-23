@@ -1,29 +1,29 @@
-import { AddCircleOutline as AddIcon, CancelPresentation as EndIcon } from '@mui/icons-material'
-import { Box, Button, Divider, Stack } from '@mui/material'
-import { useState } from 'react'
+import { AddCircleOutline as AddIcon, CancelPresentation as EndIcon } from '@mui/icons-material';
+import { Box, Button, Divider, Stack } from '@mui/material';
+import { type ReactNode, useState } from 'react';
 
-import { OverallScoreBoard, Section } from '~/components'
-import { useAuth, useGame } from '~/helpers'
-import { Game } from '~/models'
+import { OverallScoreBoard, Section } from '~/components';
+import { useAuth, useGame } from '~/helpers';
+import { type Game } from '~/models';
 
-import { PrepareMatchDialog } from './PrepareMatchDialog'
+import { PrepareMatchDialog } from './PrepareMatchDialog';
 
 export interface AwaitingViewProps {
-  game: Game
+  game: Game;
 }
 
-export function AwaitingView({ game }: AwaitingViewProps) {
-  const [isPreparingMatch, setPreparingMatch] = useState(false)
-  const { user } = useAuth()
-  const { endGame } = useGame()
-  const isGameOwner = user?.id === game.createdBy
+export function AwaitingView({ game }: AwaitingViewProps): ReactNode {
+  const [isPreparingMatch, setPreparingMatch] = useState(false);
+  const { user } = useAuth();
+  const { endGame } = useGame();
+  const isGameOwner = user?.id === game.createdBy;
 
-  function handleEndGame() {
-    endGame()
+  function handleEndGame(): void {
+    endGame();
   }
 
-  function handlePrepareMatch() {
-    setPreparingMatch(true)
+  function handlePrepareMatch(): void {
+    setPreparingMatch(true);
   }
 
   return (
@@ -78,5 +78,5 @@ export function AwaitingView({ game }: AwaitingViewProps) {
 
       <PrepareMatchDialog open={isPreparingMatch} onClose={() => setPreparingMatch(false)} />
     </Section>
-  )
+  );
 }
