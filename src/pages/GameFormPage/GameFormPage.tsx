@@ -52,8 +52,14 @@ export function GameFormPage(): ReactNode {
   return (
     <Section fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit}>
-        <Stack gap={3}>
-          <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
+        <Stack sx={{ gap: 3 }}>
+          <Typography
+            sx={{
+              mb: 2,
+              textAlign: 'center',
+            }}
+            variant="h5"
+          >
             Novo Jogo
           </Typography>
 
@@ -78,6 +84,7 @@ export function GameFormPage(): ReactNode {
                 label="Multiplicação pelo número de apostas"
                 value={ScoringMode.STANDARD}
               />
+
               <FormControlLabel
                 control={<Radio />}
                 label="Simplificada (+10 para acertos e -10 para erros)"
@@ -130,25 +137,25 @@ export function GameFormPage(): ReactNode {
             })}
           >
             <Button
-              type="submit"
               sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
                   width: '100%',
                 },
               })}
+              type="submit"
             >
               Próximo
             </Button>
 
             <Button
-              disabled={isSubmitting}
-              variant="text"
-              onClick={handleCancel}
               sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
                   width: '100%',
                 },
               })}
+              disabled={isSubmitting}
+              variant="text"
+              onClick={handleCancel}
             >
               Cancelar
             </Button>

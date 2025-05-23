@@ -62,8 +62,8 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps): 
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <Section fullWidth maxWidth="sm" title="Configurar a próxima partida" sx={{ my: 0 }}>
-        <Stack gap={3}>
+      <Section sx={{ my: 0 }} fullWidth maxWidth="sm" title="Configurar a próxima partida">
+        <Stack sx={{ gap: 3 }}>
           <TextField
             label="Primeiro jogador"
             select
@@ -118,25 +118,25 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps): 
             })}
           >
             <Button
-              disabled={hasErrors}
-              onClick={handleStartBets}
               sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
                   width: '100%',
                 },
               })}
+              disabled={hasErrors}
+              onClick={handleStartBets}
             >
               Registrar Apostas
             </Button>
 
             <Button
-              variant="text"
-              onClick={handleClose}
               sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
                   width: '100%',
                 },
               })}
+              variant="text"
+              onClick={handleClose}
             >
               Cancelar
             </Button>

@@ -16,10 +16,10 @@
     "lint": "eslint --fix src/ eslint.config.mjs vite.config.ts"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/icons-material": "^5.15.15",
-    "@mui/material": "^5.15.15",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.1.0",
     "firebase": "^10.10.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
@@ -42,7 +42,7 @@
     "lint-staged": "^16.0.0",
     "prettier": "^3.5.3",
     "rollup-plugin-analyzer": "^4.0.0",
-    "sass": "^1.74.1",
+    "sass": "^1.89.0",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"
   }

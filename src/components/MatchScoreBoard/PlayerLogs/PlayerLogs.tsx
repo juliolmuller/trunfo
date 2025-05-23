@@ -59,16 +59,20 @@ export function PlayerLogs({
         border: 'transparent solid 1px',
         px: 0.5,
         '&:hover': {
-          borderColor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.5)' : 'rgba(255, 155, 155, 0.7)',
-          bgcolor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.2)' : 'rgba(255, 155, 155, 0.4)',
+          borderColor: 'rgba(255, 155, 155, 0.7)',
+          bgcolor: 'rgba(255, 155, 155, 0.4)',
+          ...theme.applyStyles('dark', {
+            borderColor: 'rgba(222, 222, 222, 0.5)',
+            bgcolor: 'rgba(222, 222, 222, 0.2)',
+          }),
         },
         '&:focus-within': {
-          borderColor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.5)' : 'rgba(255, 155, 155, 0.7)',
-          bgcolor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.3)' : 'rgba(255, 155, 155, 0.5)',
+          borderColor: 'rgba(255, 155, 155, 0.7)',
+          bgcolor: 'rgba(255, 155, 155, 0.5)',
+          ...theme.applyStyles('dark', {
+            borderColor: 'rgba(222, 222, 222, 0.5)',
+            bgcolor: 'rgba(222, 222, 222, 0.3)',
+          }),
         },
       })}
     >
@@ -77,31 +81,30 @@ export function PlayerLogs({
       </ListItemAvatar>
 
       <Grid
-        container
         sx={{
           alignItems: 'center',
           gap: [0.5, 1, 2],
         }}
+        container
       >
-        <Grid item xs={false}>
+        <Grid size={false}>
           <Typography>{player.name}</Typography>
         </Grid>
 
         <Grid
-          item
-          xs
           sx={{
             height: 12,
             borderBottom: '1px dotted #999',
           }}
+          size="grow"
         />
 
-        <Grid item xs={false}>
+        <Grid size={false}>
           {status === 'observing' ? (
             <Chip
+              sx={{ color: 'common.white', fontSize: '1rem' }}
               color="info"
               label={log.betsCount}
-              sx={{ color: 'common.white', fontSize: '1rem' }}
             />
           ) : (
             <Counter max={maxBetsAndHits} value={log.betsCount} onChange={handleChange} />

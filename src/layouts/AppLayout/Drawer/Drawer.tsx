@@ -10,6 +10,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   Drawer as MuiDrawer,
@@ -40,16 +41,21 @@ export function Drawer({ open, onClose }: DrawerProps): ReactNode {
       <Divider />
 
       <List>
-        <ListItem button onClick={theme.toggleThemeMode}>
-          <ListItemIcon>{theme.isDark ? <LightModeIcon /> : <DarkModeIcon />}</ListItemIcon>
-          <ListItemText primary={theme.isDark ? 'Tema claro' : 'Tema escuro'} />
+        <ListItem>
+          <ListItemButton onClick={theme.toggleThemeMode}>
+            <ListItemIcon>{theme.isDark ? <LightModeIcon /> : <DarkModeIcon />}</ListItemIcon>
+            <ListItemText primary={theme.isDark ? 'Tema Claro' : 'Tema Escuro'} />
+          </ListItemButton>
         </ListItem>
+
         {isAuthenticated && (
-          <ListItem button onClick={signOut}>
-            <ListItemIcon>
-              <SignOutIcon />
-            </ListItemIcon>
-            <ListItemText primary="Sair" />
+          <ListItem>
+            <ListItemButton onClick={signOut}>
+              <ListItemIcon>
+                <SignOutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Sair" />
+            </ListItemButton>
           </ListItem>
         )}
       </List>

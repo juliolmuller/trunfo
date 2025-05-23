@@ -35,23 +35,21 @@ export function QRCode({ gameKey }: QRCodeProps): ReactNode {
       }}
     >
       <Box
-        component="img"
-        src={qrCode}
-        alt="código QR"
         sx={{
           width: '100%',
           maxWidth: 280,
           aspectRatio: 1 / 1,
         }}
+        component="img"
+        src={qrCode}
+        alt="código QR"
       />
 
-      <Typography variant="subtitle1" sx={{ mt: 4 }}>
+      <Typography sx={{ mt: 4 }} variant="subtitle1">
         Chave do Jogo:
       </Typography>
 
       <Typography
-        component="span"
-        variant="h4"
         sx={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -63,14 +61,16 @@ export function QRCode({ gameKey }: QRCodeProps): ReactNode {
           fontWeight: 700,
           letterSpacing: 4,
         }}
+        component="span"
+        variant="h4"
       >
         <code>{gameKey}</code>
 
         <IconButton
+          sx={{ color: 'black' }}
           disabled={isCopying}
           size="small"
           onClick={() => setCopying(true)}
-          sx={{ color: 'black' }}
         >
           {isCopying ? (
             <CircularProgress color="inherit" size={24} />

@@ -8,9 +8,9 @@ export interface AppBarProps {
 
 export function AppBar({ onOpenDrawer }: AppBarProps): ReactNode {
   return (
-    <MuiAppBar position="relative" sx={{ bgcolor: 'primary.main' }}>
+    <MuiAppBar sx={{ bgcolor: 'primary.main' }} position="relative">
       <Toolbar component={Container}>
-        <Typography component="div" noWrap variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography sx={{ flexGrow: 1 }} component="div" noWrap variant="h6">
           Trunfo
         </Typography>
 

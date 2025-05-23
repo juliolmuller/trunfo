@@ -12,7 +12,7 @@ export interface InProgressSpinnerProps {
 export function InProgressSpinner({ children, sx = [] }: InProgressSpinnerProps): ReactNode {
   return (
     <Box
-      sx={[
+      sx={mergeSx(
         {
           display: 'flex',
           alignItems: 'center',
@@ -20,13 +20,13 @@ export function InProgressSpinner({ children, sx = [] }: InProgressSpinnerProps)
           gap: 2,
           m: 2,
         },
-        ...mergeSx(sx),
-      ]}
+        sx,
+      )}
     >
       <Loading margin="none" size={40} />
 
       {children && (
-        <Typography variant="caption" sx={{ fontStyle: 'italic' }}>
+        <Typography sx={{ fontStyle: 'italic' }} variant="caption">
           {children}
         </Typography>
       )}

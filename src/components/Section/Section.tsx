@@ -19,7 +19,6 @@ export function Section({
 }: SectionProps): ReactNode {
   return (
     <Paper
-      elevation={6}
       sx={mergeSx(
         {
           width: fullWidth ? 1 : 'auto',
@@ -30,10 +29,17 @@ export function Section({
         },
         sx,
       )}
+      elevation={6}
       {...props}
     >
       {title && (
-        <Typography variant="h5" sx={{ mb: 4, textAlign: 'center' }}>
+        <Typography
+          sx={{
+            mb: 4,
+            textAlign: 'center',
+          }}
+          variant="h5"
+        >
           {title}
         </Typography>
       )}

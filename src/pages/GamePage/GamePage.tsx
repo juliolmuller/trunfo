@@ -60,8 +60,14 @@ export function GamePage(): ReactNode {
 
   return (
     <Container maxWidth={smallViews.includes(activeGame?.status as GameStatus) ? 'sm' : 'md'}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Typography variant="h4" fontWeight={700}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+        direction="row"
+      >
+        <Typography sx={{ fontWeight: 700 }} variant="h4">
           {activeGame?.name}
         </Typography>
 

@@ -77,18 +77,18 @@ export function Counter({
 
   return (
     <Box
-      sx={{
+      sx={(theme) => ({
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         gap: size === 'small' ? 0.5 : 2,
         '&:focus-within > .MuiPaper-root:not([role="button"])': {
-          outlineColor: (theme) => theme.palette.primary.main,
+          outlineColor: theme.palette.primary.main,
           outlineStyle: 'solid',
           outlineWidth: 2,
         },
-      }}
+      })}
     >
       <Input
         inputRef={inputRef}

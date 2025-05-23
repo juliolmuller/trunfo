@@ -1,13 +1,20 @@
 import { List } from '@mui/material';
-import { Children, type ReactNode, useEffect, useLayoutEffect, useState } from 'react';
+import {
+  Children,
+  type ReactElement,
+  type ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { usePrevious } from 'react-use';
 
 import { type AnimatableElement, calculateBoundingBoxes } from '~/helpers';
 
-type AnimatedChild = AnimatableElement & ReactNode;
+type AnimatedChild = AnimatableElement & ReactElement;
 
 export interface AnimatedListProps {
-  children: AnimatedChild[];
+  children: ReactNode;
 }
 
 type BoundingBox = ReturnType<typeof calculateBoundingBoxes>;
@@ -18,20 +25,23 @@ export function AnimatedList({ children }: AnimatedListProps): ReactNode {
   const prevChildren = usePrevious(children);
 
   useLayoutEffect(() => {
-    setBoundingBox(calculateBoundingBoxes(children));
+    const childrenArray = Children.toArray(children) as AnimatedChild[];
+    setBoundingBox(calculateBoundingBoxes(childrenArray));
   }, [children]);
 
   useLayoutEffect(() => {
     if (prevChildren) {
-      setPrevBoundingBox(calculateBoundingBoxes(prevChildren));
+      const prevChildrenArray = Children.toArray(prevChildren) as AnimatedChild[];
+      setPrevBoundingBox(calculateBoundingBoxes(prevChildrenArray));
     }
   }, [prevChildren]);
 
   useEffect(() => {
     const hasPrevBoundingBox = Object.keys(prevBoundingBox).length;
+    const childrenArray = Children.toArray(children) as AnimatedChild[];
 
     if (prevBoundingBox && hasPrevBoundingBox) {
-      Children.forEach(children, (child) => {
+      childrenArray.forEach((child) => {
         if (!child.ref.current) {
           return;
         }

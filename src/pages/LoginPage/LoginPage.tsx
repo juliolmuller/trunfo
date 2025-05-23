@@ -17,23 +17,28 @@ export function LoginPage(): ReactNode {
 
   return (
     <Section fullWidth maxWidth="sm">
-      <Stack alignItems="center" gap={3}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+          gap: 3,
+        }}
+      >
         <Button
+          sx={{ color: 'white' }}
           fullWidth
           startIcon={<img src="/img/google-logo.svg" alt="Google" height="20" />}
           onClick={handleGoogleSignIn}
-          sx={{ color: 'white' }}
         >
           Entrar com Google
         </Button>
 
         <Button
+          sx={{ color: 'white' }}
           color="info"
           fullWidth
           startIcon={<img src="/img/facebook-logo.svg" alt="Facebook" height="20" />}
           variant="contained"
           onClick={handleFacebookSignIn}
-          sx={{ color: 'white' }}
         >
           Entrar com Facebook
         </Button>
