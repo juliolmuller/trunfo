@@ -48,26 +48,26 @@ export function AwaitingView({ game }: AwaitingViewProps): ReactNode {
               })}
             >
               <Button
-                startIcon={<AddIcon />}
-                onClick={handlePrepareMatch}
                 sx={(theme) => ({
                   [theme.breakpoints.down('sm')]: {
                     width: '100%',
                   },
                 })}
+                startIcon={<AddIcon />}
+                onClick={handlePrepareMatch}
               >
                 Nova Partida
               </Button>
 
               <Button
-                startIcon={<EndIcon />}
-                variant="text"
-                onClick={handleEndGame}
                 sx={(theme) => ({
                   [theme.breakpoints.down('sm')]: {
                     width: '100%',
                   },
                 })}
+                startIcon={<EndIcon />}
+                variant="text"
+                onClick={handleEndGame}
               >
                 Encerrar Jogo
               </Button>

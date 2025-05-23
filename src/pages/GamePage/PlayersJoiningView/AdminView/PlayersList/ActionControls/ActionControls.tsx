@@ -74,15 +74,17 @@ export function ActionControls(): ReactNode {
               disabled={isSubmitting}
               fullWidth
               label="Nome do Jogador"
-              InputProps={{
-                endAdornment:
-                  newUserName.length === 0 ? undefined : (
-                    <InputAdornment position="end">
-                      <IconButton color="secondary" type="submit">
-                        <DoneIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+              slotProps={{
+                input: {
+                  endAdornment:
+                    newUserName.length === 0 ? undefined : (
+                      <InputAdornment position="end">
+                        <IconButton color="secondary" type="submit">
+                          <DoneIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                },
               }}
               required
               size="small"
@@ -92,7 +94,7 @@ export function ActionControls(): ReactNode {
 
             {!isGameOwnerParticipating && (
               <>
-                <Typography variant="caption" sx={{ textAlign: 'center' }}>
+                <Typography sx={{ textAlign: 'center' }} variant="caption">
                   ou
                 </Typography>
 
@@ -123,39 +125,39 @@ export function ActionControls(): ReactNode {
           })}
         >
           <Button
-            fullWidth
-            startIcon={<AddIcon />}
-            onClick={() => setAddingPlayer(true)}
             sx={(theme) => ({
               [theme.breakpoints.down('sm')]: {
                 width: '100%',
               },
             })}
+            fullWidth
+            startIcon={<AddIcon />}
+            onClick={() => setAddingPlayer(true)}
           >
             Adicionar {isDisplaySm ? null : 'novo '}jogador
           </Button>
 
           {isDisplaySm ? (
             <Button
-              color="secondary"
-              startIcon={<PlayIcon />}
-              onClick={handlePlay}
               sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
                   width: '100%',
                 },
               })}
+              color="secondary"
+              startIcon={<PlayIcon />}
+              onClick={handlePlay}
             >
               Iniciar jogo
             </Button>
           ) : (
             <Tooltip placement="right" title="Iniciar jogo">
               <IconButton
-                size="large"
-                onClick={handlePlay}
                 sx={{
                   bgcolor: 'secondary.main',
                 }}
+                size="large"
+                onClick={handlePlay}
               >
                 <PlayIcon fontSize="inherit" />
               </IconButton>

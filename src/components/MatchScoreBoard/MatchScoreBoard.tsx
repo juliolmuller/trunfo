@@ -140,17 +140,21 @@ export function MatchScoreBoard({
           <Tooltip
             open={isTooltipOpen}
             title={error || null}
-            PopperProps={{ disablePortal: true }}
+            slotProps={{
+              popper: {
+                disablePortal: true,
+              },
+            }}
             onClose={() => setTooltipOpen(false)}
           >
             <Button
-              startIcon={<PlayIcon />}
-              onClick={handleStartMatch}
               sx={(theme) => ({
                 [theme.breakpoints.down('sm')]: {
                   width: '100%',
                 },
               })}
+              startIcon={<PlayIcon />}
+              onClick={handleStartMatch}
             >
               Iniciar Partida
             </Button>
@@ -158,14 +162,14 @@ export function MatchScoreBoard({
         </ClickAwayListener>
 
         <Button
-          startIcon={<DeleteIcon />}
-          variant="text"
-          onClick={() => onCancel()}
           sx={(theme) => ({
             [theme.breakpoints.down('sm')]: {
               width: '100%',
             },
           })}
+          startIcon={<DeleteIcon />}
+          variant="text"
+          onClick={() => onCancel()}
         >
           Cancelar Partida
         </Button>

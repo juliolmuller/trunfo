@@ -108,7 +108,13 @@ export function OverallScoreBoard({ players }: OverallScoreBoardProps): ReactNod
 
   return (
     <Stack sx={{ gap: 3 }}>
-      <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
+      <Typography
+        sx={{
+          mb: 2,
+          textAlign: 'center',
+        }}
+        variant="h5"
+      >
         Placar Geral
       </Typography>
 
@@ -170,11 +176,6 @@ export function OverallScoreBoard({ players }: OverallScoreBoardProps): ReactNod
             <ListItemText>Trocar Avatar</ListItemText>
 
             <Box
-              component="input"
-              accept="image/*"
-              id="avatar-upload"
-              type="file"
-              onChange={handleUploadAvatar}
               sx={{
                 // technique to hide content visually but leave it available for screen readers
                 position: 'absolute',
@@ -184,6 +185,11 @@ export function OverallScoreBoard({ players }: OverallScoreBoardProps): ReactNod
                 height: 1,
                 overflow: 'hidden',
               }}
+              component="input"
+              accept="image/*"
+              id="avatar-upload"
+              type="file"
+              onChange={handleUploadAvatar}
             />
           </Stack>
         </MenuItem>
@@ -193,7 +199,6 @@ export function OverallScoreBoard({ players }: OverallScoreBoardProps): ReactNod
             <ListItemIcon>
               <DeleteForeverIcon fontSize="inherit" />
             </ListItemIcon>
-
             <ListItemText>Remover Jogador</ListItemText>
           </Stack>
         </MenuItem>

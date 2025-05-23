@@ -50,9 +50,11 @@ export function PromptModal({
       fullWidth
       maxWidth="sm"
       open={open}
-      PaperProps={{
-        component: 'form',
-        onSubmit: handleSubmit,
+      slotProps={{
+        paper: {
+          component: 'form',
+          onSubmit: handleSubmit,
+        },
       }}
       onClose={handleClose}
     >
@@ -83,7 +85,7 @@ export function PromptModal({
           Salvar
         </Button>
 
-        <Button onClick={handleClose} variant="text">
+        <Button variant="text" onClick={handleClose}>
           Cancelar
         </Button>
       </DialogActions>

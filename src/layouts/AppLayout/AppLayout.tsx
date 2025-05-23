@@ -27,7 +27,6 @@ export function AppLayout(): ReactNode {
       <Drawer open={isDrawerOpen} onClose={handleDrawerClose} />
 
       <Box
-        component="main"
         sx={{
           flexGrow: 1,
           display: 'flex',
@@ -38,6 +37,7 @@ export function AppLayout(): ReactNode {
           mt: 4,
           mb: [4, 6],
         }}
+        component="main"
       >
         <DrawerHeader />
         {isLoading ? <Loading /> : <Outlet />}

@@ -121,8 +121,11 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
         {(droppableProvider) => (
           <List
             ref={droppableProvider.innerRef}
+            sx={{
+              flex: 1,
+              overflowY: 'auto',
+            }}
             dense
-            sx={{ flex: 1, overflowY: 'auto' }}
             {...droppableProvider.droppableProps}
           >
             {players.map((player, index) => (
@@ -199,7 +202,6 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
             <ListItemIcon>
               <EditIcon fontSize="inherit" />
             </ListItemIcon>
-
             <ListItemText>Renomear Jogador</ListItemText>
           </Stack>
         </MenuItem>
@@ -213,11 +215,6 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
             <ListItemText>Trocar Avatar</ListItemText>
 
             <Box
-              component="input"
-              accept="image/*"
-              id="avatar-upload"
-              type="file"
-              onChange={handleUploadAvatar}
               sx={{
                 // technique to hide content visually but leave it available for screen readers
                 position: 'absolute',
@@ -227,6 +224,11 @@ export function SortablePlayersList({ players }: SortablePlayersListProps): Reac
                 height: 1,
                 overflow: 'hidden',
               }}
+              component="input"
+              accept="image/*"
+              id="avatar-upload"
+              type="file"
+              onChange={handleUploadAvatar}
             />
           </Stack>
         </MenuItem>

@@ -40,17 +40,20 @@ export function HomePage(): ReactNode {
               placeholder="Difite a Chave de acesso"
               size="medium"
               value={inputValue}
-              onChange={handleChangeInputValue}
-              inputProps={{
-                sx: {
-                  textAlign: 'center',
+              slotProps={{
+                input: {
+                  sx: {
+                    textAlign: 'center',
+                  },
                 },
               }}
+              onChange={handleChangeInputValue}
             />
           </form>
         </Collapse>
 
         <Button
+          sx={{ color: 'white' }}
           color="secondary"
           disabled={inputVisible && inputValue.length < GAME_KEY_LENGTH}
           form="access-game"
@@ -58,16 +61,15 @@ export function HomePage(): ReactNode {
           startIcon={<EnterIcon />}
           type={inputVisible ? 'submit' : undefined}
           onClick={inputVisible ? undefined : (): void => setInputVisible(true)}
-          sx={{ color: 'white' }}
         >
           {inputVisible ? 'Entrar' : 'Acessar um jogo'}
         </Button>
 
         <Button
+          sx={{ color: 'white' }}
           fullWidth
           startIcon={<AddIcon />}
           onClick={() => navigate('/new')}
-          sx={{ color: 'white' }}
         >
           Criar um novo jogo
         </Button>

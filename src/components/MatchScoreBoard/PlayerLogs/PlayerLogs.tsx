@@ -81,30 +81,30 @@ export function PlayerLogs({
       </ListItemAvatar>
 
       <Grid
-        container
         sx={{
           alignItems: 'center',
           gap: [0.5, 1, 2],
         }}
+        container
       >
         <Grid size={false}>
           <Typography>{player.name}</Typography>
         </Grid>
 
         <Grid
-          size="grow"
           sx={{
             height: 12,
             borderBottom: '1px dotted #999',
           }}
+          size="grow"
         />
 
         <Grid size={false}>
           {status === 'observing' ? (
             <Chip
+              sx={{ color: 'common.white', fontSize: '1rem' }}
               color="info"
               label={log.betsCount}
-              sx={{ color: 'common.white', fontSize: '1rem' }}
             />
           ) : (
             <Counter max={maxBetsAndHits} value={log.betsCount} onChange={handleChange} />

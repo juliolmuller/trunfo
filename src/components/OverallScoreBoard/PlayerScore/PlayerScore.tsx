@@ -42,9 +42,9 @@ export const PlayerScore = forwardRef<HTMLLIElement, PlayerScoreProps>(
         />
 
         <Chip
+          sx={{ color: 'common.white', fontSize: '1rem' }}
           color={getColor(score)}
           label={score > 0 ? `+${score}` : score}
-          sx={{ color: 'common.white', fontSize: '1rem' }}
         />
       </ListItem>
     );
