@@ -17,7 +17,12 @@ export function LoginPage(): ReactNode {
 
   return (
     <Section fullWidth maxWidth="sm">
-      <Stack alignItems="center" gap={3}>
+      <Stack
+        sx={{
+          alignItems: 'center',
+          gap: 3,
+        }}
+      >
         <Button
           fullWidth
           startIcon={<img src="/img/google-logo.svg" alt="Google" height="20" />}

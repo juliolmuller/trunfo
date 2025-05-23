@@ -28,7 +28,7 @@ export function AwaitingView({ game }: AwaitingViewProps): ReactNode {
 
   return (
     <Section fullWidth maxWidth="sm">
-      <Stack gap={3}>
+      <Stack sx={{ gap: 3 }}>
         <OverallScoreBoard players={game.players} />
 
         {isGameOwner && (

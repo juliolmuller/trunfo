@@ -52,7 +52,7 @@ export function GameFormPage(): ReactNode {
   return (
     <Section fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit}>
-        <Stack gap={3}>
+        <Stack sx={{ gap: 3 }}>
           <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
             Novo Jogo
           </Typography>

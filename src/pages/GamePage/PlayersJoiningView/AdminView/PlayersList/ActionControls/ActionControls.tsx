@@ -68,7 +68,7 @@ export function ActionControls(): ReactNode {
 
       {isAddingPlayer ? (
         <ClickAwayListener onClickAway={handleBlur}>
-          <Stack component="form" gap={2} onSubmit={handleSubmit}>
+          <Stack component="form" onSubmit={handleSubmit} sx={{ gap: 2 }}>
             <TextField
               autoFocus
               disabled={isSubmitting}

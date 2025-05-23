@@ -22,7 +22,7 @@ export function AppLayout(): ReactNode {
   }
 
   return (
-    <Stack height="inherit">
+    <Stack sx={{ height: 'inherit' }}>
       <AppBar onOpenDrawer={handleDrawerOpen} />
       <Drawer open={isDrawerOpen} onClose={handleDrawerClose} />
 

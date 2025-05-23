@@ -63,7 +63,7 @@ export function PrepareMatchDialog({ open, onClose }: PrepareMatchDialogProps): 
   return (
     <Dialog open={open} onClose={handleClose}>
       <Section fullWidth maxWidth="sm" title="Configurar a próxima partida" sx={{ my: 0 }}>
-        <Stack gap={3}>
+        <Stack sx={{ gap: 3 }}>
           <TextField
             label="Primeiro jogador"
             select

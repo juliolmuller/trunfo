@@ -30,7 +30,7 @@ export function HomePage(): ReactNode {
 
   return (
     <Section fullWidth maxWidth="sm">
-      <Stack gap={3}>
+      <Stack sx={{ gap: 3 }}>
         <Collapse in={inputVisible} unmountOnExit>
           <form id="access-game" noValidate onSubmit={handleSearchGame}>
             <TextField

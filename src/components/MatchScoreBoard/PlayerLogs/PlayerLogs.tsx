@@ -59,16 +59,20 @@ export function PlayerLogs({
         border: 'transparent solid 1px',
         px: 0.5,
         '&:hover': {
-          borderColor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.5)' : 'rgba(255, 155, 155, 0.7)',
-          bgcolor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.2)' : 'rgba(255, 155, 155, 0.4)',
+          borderColor: 'rgba(255, 155, 155, 0.7)',
+          bgcolor: 'rgba(255, 155, 155, 0.4)',
+          ...theme.applyStyles('dark', {
+            borderColor: 'rgba(222, 222, 222, 0.5)',
+            bgcolor: 'rgba(222, 222, 222, 0.2)',
+          }),
         },
         '&:focus-within': {
-          borderColor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.5)' : 'rgba(255, 155, 155, 0.7)',
-          bgcolor:
-            theme.palette.mode === 'dark' ? 'rgba(222, 222, 222, 0.3)' : 'rgba(255, 155, 155, 0.5)',
+          borderColor: 'rgba(255, 155, 155, 0.7)',
+          bgcolor: 'rgba(255, 155, 155, 0.5)',
+          ...theme.applyStyles('dark', {
+            borderColor: 'rgba(222, 222, 222, 0.5)',
+            bgcolor: 'rgba(222, 222, 222, 0.3)',
+          }),
         },
       })}
     >

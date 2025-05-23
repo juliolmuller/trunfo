@@ -100,7 +100,7 @@ export function MatchScoreBoard({
   }
 
   return (
-    <Stack gap={3}>
+    <Stack sx={{ gap: 3 }}>
       <Typography variant="h5" sx={{ textAlign: 'center' }}>
         {title}
       </Typography>

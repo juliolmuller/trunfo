@@ -107,7 +107,7 @@ export function OverallScoreBoard({ players }: OverallScoreBoardProps): ReactNod
   }
 
   return (
-    <Stack gap={3}>
+    <Stack sx={{ gap: 3 }}>
       <Typography variant="h5" sx={{ mb: 2, textAlign: 'center' }}>
         Placar Geral
       </Typography>
