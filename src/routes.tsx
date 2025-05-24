@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 import { GameProvider } from '~/contexts';
 import { useAuth } from '~/helpers';

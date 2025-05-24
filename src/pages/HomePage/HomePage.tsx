@@ -1,7 +1,7 @@
 import { Add as AddIcon, Login as EnterIcon } from '@mui/icons-material';
 import { Button, Collapse, Stack, TextField } from '@mui/material';
 import { type ChangeEvent, type FormEvent, type ReactNode, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { Section } from '~/components';
 import { useGame } from '~/helpers';

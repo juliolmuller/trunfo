@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { calculateSimplifiedScore, calculateStandardScore, useAuth } from '~/helpers';
 import {

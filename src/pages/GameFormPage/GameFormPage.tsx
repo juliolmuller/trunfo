@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import { type FormEvent, type ReactNode, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import { Section } from '~/components';
 import { useGame, useLocalStorage } from '~/helpers';
