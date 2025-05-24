@@ -1,6 +1,6 @@
 import { Container, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { type ChangeEvent, type FC, type ReactNode, useEffect, useMemo, useRef } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import { Loading } from '~/components/Loading';
 import { useAuth, useGame } from '~/helpers';

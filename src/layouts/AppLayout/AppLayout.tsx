@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { type ReactNode, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 import { Loading } from '~/components';
 import { useAuth } from '~/helpers';
