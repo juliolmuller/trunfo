@@ -17,32 +17,32 @@
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/icons-material": "^7.1.0",
-    "@mui/material": "^7.1.0",
-    "firebase": "^11.8.1",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/material": "^7.2.0",
+    "firebase": "^12.0.0",
     "react": "^19.1.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^19.1.0",
-    "react-router": "^7.6.0"
+    "react-router": "^7.7.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@commitlint/prompt-cli": "^19.8.1",
-    "@types/node": "^22.15.21",
-    "@types/react": "^19.1.5",
+    "@types/node": "^22.16.5",
+    "@types/react": "^19.1.8",
     "@types/react-beautiful-dnd": "^13.1.8",
-    "@types/react-dom": "^19.1.5",
-    "@vitejs/plugin-react-swc": "^3.10.0",
-    "eslint": "^9.27.0",
-    "eslint-config-any": "^1.1.0",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react-swc": "^3.11.0",
+    "eslint": "^9.31.0",
+    "eslint-config-any": "^2.1.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.0.0",
-    "prettier": "^3.5.3",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
     "rollup-plugin-analyzer": "^4.0.0",
-    "sass": "^1.89.0",
+    "sass": "^1.89.2",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^7.0.5"
   }
 }
